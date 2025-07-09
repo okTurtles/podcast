@@ -1,0 +1,22 @@
+---
+import { SITE_TITLE_COMMON, SITE_DESCRIPTION_COMMON } from '@/constants'
+const { generator } = Astro
+
+const title = SITE_TITLE_COMMON
+const description = SITE_DESCRIPTION_COMMON
+---
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+
+<meta name="generator" content={generator} />
+
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- TODO-1: Add SEO / Social related meta tags -->
+<!-- TODO-2: Add link tag related to rss.xml file eg: below -->
+<!-- TODO-3: Import global stylesheet in this file eg: import 'main.scss' -->
+<!-- <link rel="alternate" type="application/rss+xml" title={`${title} &raquo; Feed`} href="/rss.xml" /> -->
