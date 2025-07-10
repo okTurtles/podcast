@@ -1,0 +1,23 @@
+@use "variables" as *;
+
+.has-deep-box-shadow {
+  box-shadow: $drop-shadow_deep;
+}
+
+.has-medium-box-shadow {
+  box-shadow: $drop-shadow_medium;
+}
+
+.has-shallow-box-shadow {
+  box-shadow: $drop-shadow_shallow;
+}
+
+.has-inline-left-space {
+  display: inline-block;
+  margin-left: 0.25rem;
+}
+
+.has-inline-right-space {
+  display: inline-block;
+  margin-right: 0.25rem;
+}
