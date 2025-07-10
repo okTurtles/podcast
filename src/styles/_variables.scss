@@ -1,1 +1,11 @@
+// z-index
+$zindex-tooltip: 50;
+$zindex-modal: 40;
+
+// miscellaneous
+$radius: 3px;
+$radius-large: 5px;
+
 @forward "colors";
+@forward "mixins";
+@forward "icons" show icon;
