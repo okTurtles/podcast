@@ -1,5 +1,6 @@
 ---
 import BaseHead from "@/components/BaseHead.astro"
+import MainHeader from "@/components/MainHeader.astro"
 ---
 
 <html lang="en">
@@ -7,7 +8,11 @@ import BaseHead from "@/components/BaseHead.astro"
     <BaseHead />
   </head>
 
-  <body>
-    <slot />
+  <body class="l-page">
+    <MainHeader />
+
+    <main class="l-main">
+      <slot />
+    </main>
   </body>
 </html>

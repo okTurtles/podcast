@@ -1,0 +1,36 @@
+@use "variables" as *;
+
+.l-page {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "l-header"
+    "l-main";
+  width: 100%;
+}
+
+.l-header {
+  position: relative;
+  grid-area: l-header;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  background: $linear_green;
+
+  @include from ($tablet) {
+    padding-top: 3.625rem;
+    padding-bottom: 3.625rem;
+  }
+}
+
+.l-main {
+  position: relative;
+  grid-area: l-main;
+  @include width-constraint-common;
+}
+
+.content-wrapper-common {
+  position: relative;
+  @include width-constraint-common;
+}
