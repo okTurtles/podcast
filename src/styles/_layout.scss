@@ -14,9 +14,14 @@
 .l-header {
   position: relative;
   grid-area: l-header;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
-  background: $linear_green;
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+  background: linear-gradient(-32.5deg, #26AD31, #27AE60, #26A1AD);
+
+  @include from ($mobile) {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
 
   @include from ($tablet) {
     padding-top: 3.625rem;
@@ -33,4 +38,17 @@
 .content-wrapper-common {
   position: relative;
   @include width-constraint-common;
+}
+
+
+@keyframes gradient {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }

@@ -1,0 +1,52 @@
+<div class="c-hosted-by">
+  <div class="has-medium-box-shadow c-host-pic-container">
+    <img src="/images/host_pic.jpg" />
+  </div>
+  <span>Hosted by <a class="link c-hostname" href="https://x.com/taoeffect" target="_blank">Greg Slepak</a></span>
+</div>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-hosted-by {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-weight: 300;
+  font-size: 0.75rem;
+
+  @include from ($mobile) {
+    font-size: 1rem;
+    margin-top: 0.75rem;
+  }
+}
+
+.c-host-pic-container {
+  --l-pic-side: 1.75rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: var(--l-pic-side);
+  height: var(--l-pic-side);
+  overflow: hidden;
+  margin-right: 0.4rem;
+
+  @include from ($mobile) {
+    --l-pic-side: 2.25rem;
+  }
+
+  img {
+    display: inline-block;
+    width: var(--l-pic-side);
+    height: auto;
+  }
+}
+
+.c-hostname {
+  display: inline-block;
+  font-size: 1.125em;
+  margin-left: 0.25rem;
+}
+</style>

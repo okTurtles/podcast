@@ -1,0 +1,131 @@
+---
+import HostedBy from "./HostedBy.astro"
+---
+
+<header class="l-header">
+  <div class="content-wrapper-common c-header-wrapper">
+    <div class="c-podcast-cover has-deep-box-shadow">
+      <img src="/images/turtle.png" alt="okturtle" />
+    </div>
+
+    <div class="c-podcast-main-intro">
+      <h1 class="c-title is-thin-title-1">
+        <span class="c-logo-segment">
+          <img class="c-soundwave-icon" src="/images/soundwave.svg" alt="soundwave" />
+          <span><span class="has-color-black c-title-ok">ok</span><span>Turtles</span></span>
+        </span>
+        <span>Podcast</span>
+      </h1>
+
+      <p class="has-text-thin c-intro">Learn about cutting-edge decentralization technologies.</p>
+      
+      <HostedBy />
+    </div>
+  </div>
+</header>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1.25rem;
+
+  @include from ($tablet) {
+    column-gap: 2.5rem;
+  }
+}
+
+.c-podcast-cover {
+  position: relative;
+  border-radius: $radius-large;
+  width: 4.75rem;
+  height: 4.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: $dark_navy;
+  flex-shrink: 0;
+
+  img {
+    display: inline-block;
+    width: 2.5rem;
+    height: auto;
+    user-select: none;
+  }
+
+  @include from ($mobile) {
+    width: 8.75rem;
+    height: 8.75rem;
+
+    img {
+      width: 6.25rem;
+    }
+  }
+
+  @include from ($tablet) {
+    width: 17.25rem;
+    height: 17.25rem;
+    
+    img {
+      width: 11.75rem;
+    }
+  }
+}
+
+.c-podcast-main-intro {
+  position: relative;
+  display: block;
+  flex-grow: 1;
+  color: $text_white;
+
+  .c-intro {
+    font-size: 0.875rem;
+
+    @include from ($mobile) {
+      font-size: 1rem;
+    }
+
+    @include from ($tablet) {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+.c-title {
+  font-weight: 300;
+  font-size: 1.875rem;
+  line-height: 1.25;
+
+  @include from($mobile) {
+    font-size: 2.5rem;
+  }
+
+  @include from($tablet) {
+    font-size: 3.25rem;
+  }
+
+  .c-logo-segment {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .c-soundwave-icon {
+    display: inline-block;
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.4rem;
+    transform: translateY(4px);
+
+    @include from ($mobile) {
+      width: 1.875rem;
+    }
+
+    @include from($tablet) {
+      width: 2.25rem;
+    }
+  }
+}
+</style>

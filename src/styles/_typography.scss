@@ -102,3 +102,15 @@ $thin_headings_line_heights: 1.425 1.375;
     line-height: list.nth($thin_headings_line_heights, $i);
   }
 }
+
+.link {
+  font-weight: 700;
+  color: $navy;
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+    color: $dark_navy;
+  }
+}
