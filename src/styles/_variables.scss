@@ -2,6 +2,21 @@
 $zindex-tooltip: 50;
 $zindex-modal: 40;
 
+// font-sizes
+
+$font-xl: var(--size-body-xl);
+$font-lg: var(--size-body-lg);
+$font-semi-lg: var(--size-semi-lg);
+$font-md: var(--size-body-md);
+$font-sm: var(--size-body-sm);
+$font-xs: var(--size-body-xs);
+
+$font-heading-1: var(--size-heading-1);
+$font-heading-2: var(--size-heading-2);
+$font-heading-3: var(--size-heading-3);
+$font-heading-4: var(--size-heading-4);
+$font-heading-5: var(--size-heading-5);
+
 // miscellaneous
 $radius: 3px;
 $radius-large: 5px;

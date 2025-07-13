@@ -1,0 +1,73 @@
+---
+const { classes = '' } = Astro.props
+---
+
+<div class={`c-buttons-container ${classes}`}>
+  <button id="share-btn" class="button" type="button">
+    <i class="icon-share-alt pre-icon"></i>
+    <span class="button-text">Share</span>
+  </button>
+
+  <button id="rss-btn" class="button is-secondary" type="button">
+    <i class="icon-rss pre-icon"></i>
+    <span class="button-text">RSS</span>
+  </button>
+</div>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-buttons-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 0 1rem;
+
+  .button {
+    flex-grow: 1;
+  }
+
+  @include from ($mobile) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  @include from ($tablet) {
+    justify-content: flex-start;
+    padding: 0;
+
+    .button {
+      min-width: 11.25rem;
+      flex-grow: 0;
+    }
+  }
+
+  @include from ($desktop) {
+    .button {
+      min-width: 13.75rem;
+    }
+  }
+}
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded",() => {
+  const shareBtn = document.querySelector('#share-btn')
+  const rssBtn = document.querySelector('#rss-btn')
+
+  if (shareBtn) {
+    shareBtn.addEventListener('click', () => {
+      alert('TODO!')
+    })
+  }
+  if (rssBtn) {
+    rssBtn.addEventListener('click', () => {
+      alert('TODO!')
+    })
+  }
+})
+</script>

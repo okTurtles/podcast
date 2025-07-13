@@ -1,5 +1,6 @@
 ---
 import HostedBy from "./HostedBy.astro"
+import HeaderButtons from './HeaderButtons.astro'
 ---
 
 <header class="l-header">
@@ -20,8 +21,12 @@ import HostedBy from "./HostedBy.astro"
       <p class="has-text-thin c-intro">Learn about cutting-edge decentralization technologies.</p>
       
       <HostedBy />
+
+      <HeaderButtons classes="hide-when-st-tablet" />
     </div>
   </div>
+
+  <HeaderButtons classes="hide-when-gt-tablet" />
 </header>
 
 <style lang="scss">
@@ -82,29 +87,29 @@ import HostedBy from "./HostedBy.astro"
   color: $text_white;
 
   .c-intro {
-    font-size: 0.875rem;
+    font-size: $font-sm;
 
     @include from ($mobile) {
-      font-size: 1rem;
+      font-size: $font-semi-lg;
     }
 
     @include from ($tablet) {
-      font-size: 1.25rem;
+      font-size: $font-xl;
     }
   }
 }
 
 .c-title {
   font-weight: 300;
-  font-size: 1.875rem;
+  font-size: $font-heading-4;
   line-height: 1.25;
 
   @include from($mobile) {
-    font-size: 2.5rem;
+    font-size: $font-heading-2;
   }
 
   @include from($tablet) {
-    font-size: 3.25rem;
+    font-size: $font-heading-1;
   }
 
   .c-logo-segment {

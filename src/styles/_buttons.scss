@@ -1,0 +1,66 @@
+@use "variables" as *;
+
+$button_transition_common: 150ms cubic-bezier(0.645, 0.045, 0.355, 1);
+
+.button {
+  position: relative;
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  min-width: 7.5rem;
+  min-height: 2rem;
+  padding: 0 1rem;
+  border-radius: 10rem;
+  font-size: $font-md;
+  font-weight: 500;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0);
+  cursor: pointer;
+  transition:
+    background-color $button_transition_common,
+    border-color $button_transition_common,
+    box-shadow $button_transition_common,
+    color $button_transition_common;
+  user-select: none;
+  touch-action: manipulation;
+  box-shadow: $drop-shadow_shallow;
+
+  // primary-style
+  background-color: $dark_navy;
+  color: $text_white;
+
+  &:hover,
+  &:focus,
+  &:focus-within {
+    background-color: $navy;
+
+    .button-text {
+      text-decoration: underline;
+    }
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &.is-secondary {
+    background-color: rgba(0, 0, 0, 0);
+    border-color: $dark_navy;
+    color: $dark_navy;
+    box-shadow: none;
+  
+    &:hover,
+    &:focus,
+    &:focus-within {
+      border-color: $navy;
+      color: $navy;
+      box-shadow: 0 0 2px 0 $navy;
+    }
+  }
+
+  .pre-icon {
+    font-size: 0.875em;
+    transform: translateY(1px);
+  }
+}

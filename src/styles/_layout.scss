@@ -16,8 +16,8 @@
   grid-area: l-header;
   padding-top: 1.75rem;
   padding-bottom: 1.75rem;
-  background: linear-gradient(-32.5deg, #26AD31, #27AE60, #26A1AD);
-
+  background: linear-gradient(-32.5deg, #26AD31, #27AE60, #26A1AD 90%);
+  
   @include from ($mobile) {
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;

@@ -61,7 +61,7 @@ body {
   font-family: "proxima_nova";
   font-weight: 500;
   font-style: normal;
-  font-size: 16px;
+  font-size: $font-md;
   line-height: 1.5;
 }
 
@@ -91,11 +91,12 @@ body {
   color: $text_white;
 }
 
-$thin_headings: 3.25rem 2.25rem;
-$thin_headings_line_heights: 1.425 1.375;
+$thin_headings: 3rem 2.5rem;
+$thin_headings_line_heights: 1.35 1.325;
 
 @each $font_size in $thin_headings {
   $i: list.index($thin_headings, $font_size);
+
   .is-thin-title-#{$i} {
     font-weight: 100;
     font-size: $font_size;

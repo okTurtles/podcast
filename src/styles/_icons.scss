@@ -47,6 +47,7 @@ $icons: (
   poll: "\f681",
   question: "\f128",
   question-circle: "\f059",
+  rss: "\f09e",
   share-alt: "\f1e0",
   search: "\f002",
   sort-down: "\f0dd",
@@ -109,11 +110,11 @@ $icons: (
   }
 
   &.is-prefix {
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
   }
 
   &.is-suffix {
-    margin-left: 0.5rem;
+    margin-left: 0.25rem;
   }
 }
 
