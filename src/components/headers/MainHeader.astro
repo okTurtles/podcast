@@ -1,6 +1,8 @@
 ---
 import HostedBy from "./HostedBy.astro"
 import HeaderButtons from './HeaderButtons.astro'
+
+const displayHost = false
 ---
 
 <header class="l-header">
@@ -19,8 +21,8 @@ import HeaderButtons from './HeaderButtons.astro'
       </h1>
 
       <p class="has-text-thin c-intro">Learn about cutting-edge decentralization technologies.</p>
-      
-      <HostedBy />
+
+      {displayHost && <HostedBy hostname="Greg Slepak" hostSocialLink="https://x.com/taoeffect" imgSrc="/images/host_pic.jpg" />}
 
       <HeaderButtons classes="hide-when-st-tablet" />
     </div>
@@ -37,7 +39,7 @@ import HeaderButtons from './HeaderButtons.astro'
   flex-direction: row;
   column-gap: 1.25rem;
 
-  @include from ($tablet) {
+  @include from ($mobile) {
     column-gap: 2.5rem;
     align-items: center;
   }

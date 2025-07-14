@@ -1,8 +1,17 @@
+---
+interface Props {
+  hostname: string,
+  imgSrc: string,
+  hostSocialLink?: string
+}
+const { hostname, hostSocialLink = '', imgSrc } = Astro.props
+---
+
 <div class="c-hosted-by">
   <div class="has-medium-box-shadow c-host-pic-container">
-    <img src="/images/host_pic.jpg" />
+    <img src={imgSrc} />
   </div>
-  <span>Hosted by <a class="link c-hostname" href="https://x.com/taoeffect" target="_blank">Greg Slepak</a></span>
+  <span>Hosted by <a class="link c-hostname" href={hostSocialLink} target="_blank">{hostname}</a></span>
 </div>
 
 <style lang="scss">
