@@ -1,13 +1,20 @@
 ---
 import HostedBy from "./HostedBy.astro"
 import HeaderButtons from './HeaderButtons.astro'
+import { classNames } from "@/helpers"
+
+interface Props {
+  variant: 'default' | 'episode'
+}
+
+const { variant = 'default' } = Astro.props
 
 const displayHost = false
 ---
 
-<header class="l-header">
+<header class={classNames('l-header', { 'is-in-episode-page': variant === 'episode' })}>
   <div class="content-wrapper-common c-header-wrapper">
-    <div class="c-podcast-cover has-deep-box-shadow">
+    <div class='c-podcast-cover has-deep-box-shadow'>
       <img src="/images/turtle.png" alt="okturtle" />
     </div>
 
@@ -46,10 +53,12 @@ const displayHost = false
 }
 
 .c-podcast-cover {
+  --l-cover-size: 4.75rem;
+
   position: relative;
   border-radius: $radius-large;
-  width: 4.75rem;
-  height: 4.75rem;
+  width: var(--l-cover-size);
+  height: var(--l-cover-size);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -59,26 +68,20 @@ const displayHost = false
 
   img {
     display: inline-block;
-    width: 2.5rem;
+    width: calc(var(--l-cover-size) * 0.675);
     height: auto;
     user-select: none;
   }
 
   @include from ($mobile) {
-    width: 8.75rem;
-    height: 8.75rem;
-
-    img {
-      width: 6.25rem;
-    }
+    --l-cover-size: 8.75rem;
   }
 
   @include from ($tablet) {
-    width: 17.25rem;
-    height: 17.25rem;
-    
-    img {
-      width: 11.75rem;
+    --l-cover-size: 17.25rem;
+
+    &.is-smaller {
+      --l-cover-size: 12.25rem;
     }
   }
 }
@@ -133,6 +136,25 @@ const displayHost = false
 
     @include from($tablet) {
       width: 2.25rem;
+    }
+  }
+}
+
+.l-header.is-in-episode-page {
+  @include from ($tablet) {
+    padding-top: 2.875rem;
+    padding-bottom: 2.875rem;
+
+    .c-podcast-cover {
+      --l-cover-size: 9.5rem;
+    }
+
+    .c-title {
+      font-size: $font-heading-2;
+    }
+
+    .c-intro {
+      font-size: $font-semi-lg;
     }
   }
 }

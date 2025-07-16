@@ -1,6 +1,12 @@
 ---
 import BaseHead from "@/components/BaseHead.astro"
-import MainHeader from "@/components/headers/MainHeader.astro"
+import Header from "@/components/header/Header.astro"
+
+interface Props {
+  pageType?: 'default' | 'episode'
+}
+
+const { pageType = 'default' } = Astro.props
 ---
 
 <html lang="en">
@@ -8,8 +14,8 @@ import MainHeader from "@/components/headers/MainHeader.astro"
     <BaseHead />
   </head>
 
-  <body class="l-page">
-    <MainHeader />
+  <body class={`l-page ${'is-' + pageType}`}>
+    <Header variant={pageType} />
 
     <main class="l-main">
       <slot />
