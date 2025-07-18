@@ -16,7 +16,7 @@ $text_black: var(--text_black);
 $text_white: var(--text_white);
 
 // linear-gradients
-$linear_green: linear-gradient(150deg, #2CBA68 20%, #1b9958 90%);
+$linear_green: var(--linear_green);
 $linear_navy: linear-gradient(-150deg, #2B3044 20%, #3E4462 90%);
 
 // drop-shadows

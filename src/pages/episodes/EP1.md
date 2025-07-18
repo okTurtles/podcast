@@ -1,14 +1,12 @@
 ---
 episode: 1
 title: Big Tech Lies
-subtitle: In this episode Digital Security expert, Greg Slepak, talks about how Big Tech lies to us and how vulnerable our personal information really is when we interreact with companies that sell our data. He talks about how centralized apps can be easily manipulated and how strange is is to own a home virtual assistant device like Alexa or Echo We go into ways to protect your privacy online as well as finding developers and apps who value your privacy by making end-to-end encrypted apps that are decentralized.
 permalink: /episodes/1
 file: /media/audios/episodes/1.mp3
 filetype: audio
+coverImage: ep1.jpg
 duration: 00:32:53
 pubDate: 2025-07-16T11:30:00-07:00
-hostedby:
-  - Greg slepak
 tags:
   - infosec
   - decentralization

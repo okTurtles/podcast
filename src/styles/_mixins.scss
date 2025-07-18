@@ -3,6 +3,9 @@ $mobile: 431px;
 $tablet: 769px;
 $desktop: 1200px;
 
+// misc breakpoints
+$episode-card-narrow: 580px;
+
 
 @mixin overflow-touch {
   -webkit-overflow-scrolling: touch;

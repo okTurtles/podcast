@@ -107,20 +107,12 @@ $thin_headings_line_heights: 1.35 1.325;
 a,
 .link {
   font-weight: 500;
-  color: $green;
+  color: $navy;
   cursor: pointer;
-  background-image: linear-gradient(-32.5deg, #26AD31, #27AE60, #26A1AD 90%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 
   &:hover,
   &:focus {
     text-decoration: underline;
-    color: $green;
-    -webkit-text-fill-color: $green;
-    background-image: none;
-    background-clip: none;
-    -webkit-background-clip: none;
+    color: $dark_navy;
   }
 }
