@@ -11,4 +11,5 @@ export interface Episode {
   duration: string;
   pubDate: string;
   tags: string[];
+  epContent?: string;
 }

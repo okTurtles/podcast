@@ -18,8 +18,19 @@ export function classNames(
   return `${defaultClasses} ${filteredClasses}`.trim()
 }
 
-export function getAllEpisodes ({ sortBy = 'latest' } = {}): Array<any> {
-  const allPosts = Object.values(import.meta.glob('./pages/episodes/*.{md,mdx}', { eager: true })) 
+export async function getAllEpisodes ({ sortBy = 'latest' } = {}): Promise<Array<any>> {
+  const allFetched = Object.values(import.meta.glob('./pages/episodes/*.{md,mdx}', { eager: true }))
+  const allPosts = []
+  for (const post of allFetched) {
+    allPosts.push({
+      ...(post as any),
+      details: {
+        ...(post as any).frontmatter,
+        epContent: await (post as any).compiledContent(),
+      }
+    })
+  }
+
   const sorter = (a: any, b: any) => {
     const aEpisode = a.frontmatter.episode
     const bEpisode = b.frontmatter.episode

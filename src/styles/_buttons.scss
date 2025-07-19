@@ -59,6 +59,10 @@ $button_transition_common: 150ms cubic-bezier(0.645, 0.045, 0.355, 1);
     }
   }
 
+  &.is-unstyled {
+    @include reset-button;
+  }
+
   .pre-icon {
     font-size: 0.875em;
     transform: translateY(1px);

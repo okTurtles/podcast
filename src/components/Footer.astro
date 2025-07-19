@@ -1,0 +1,35 @@
+<footer class="l-footer">
+  <div class="content-wrapper-common c-footer-container">
+    <img class="c-footer-logo" src='/images/turtle.png' alt="okTurtles logo" />
+    <p class="c-copyright-text">Copyright © 2015-2025 okTurtles Foundation</p>
+  </div>
+</footer>
+
+<style lang="scss">
+@use '@/styles/variables' as *;
+
+.c-footer-logo {
+  display: block;
+  width: 2rem;
+  height: auto;
+  margin-bottom: 0.5rem;
+  box-shadow: $drop-shadow_medium;
+
+  @include from($tablet) {
+    width: 2.5rem;
+  }
+}
+
+.c-footer-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.7rem;
+
+  @include from($tablet) {
+    font-size: $font-xs;
+  }
+}
+</style>

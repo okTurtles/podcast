@@ -59,3 +59,14 @@
     display: none !important;
   }
 }
+
+// utility classes for easy spacing
+@for $i from 1 through 5 {
+  .mt-#{$i} {
+    margin-top: #{$i}rem;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: #{$i}rem;
+  }
+}

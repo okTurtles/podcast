@@ -107,12 +107,22 @@ $thin_headings_line_heights: 1.35 1.325;
 a,
 .link {
   font-weight: 500;
-  color: $navy;
+  color: $green;
   cursor: pointer;
 
   &:hover,
   &:focus {
     text-decoration: underline;
-    color: $dark_navy;
+    color: $dark_green;
+  }
+}
+
+@for $n from 2 through 4 {
+  .line-clamp-#{$n} {
+    display: -webkit-box;
+    -webkit-line-clamp: $n;
+    line-clamp: $n;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
