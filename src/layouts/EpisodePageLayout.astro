@@ -3,14 +3,15 @@ import '@/styles/plyr/_plyr_override.scss'
 import PageLayout from "./PageLayout.astro"
 import AudioPlayer from '@/components/AudioPlayer.vue'
 import { formatPubDate, formatDuration } from '@/helpers'
+import { classNames } from "@/helpers"
 
 const { frontmatter } = Astro.props
 const { title, showName, duration, coverImage, pubDate, tags, episode, src, filetype } = frontmatter
 
-console.log('frontmatter:', frontmatter)
 const combinedTitle = `${showName} | ${title}`
 const formattedPubDate = formatPubDate(pubDate)
 const formattedDuration = formatDuration(duration)
+const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/images/turtle.png'
 ---
 
 <PageLayout pageType="episode">
@@ -22,29 +23,37 @@ const formattedDuration = formatDuration(duration)
     <span class="c-ep-number">Episode {episode}.</span>
     <h2 class="episode-title c-ep-title">{combinedTitle}</h2>
 
-    <hr class="section-divider mt-1 mb-2" />
+    <hr class="section-divider c-divider" />
 
-    <div class="c-audio-player-container">
-      <AudioPlayer client:load src={src} mimeType={filetype} />
-    </div>
+    <div class="c-ep-details-flex-container">
+      <div class="c-cover-image-container">
+        <img class={classNames('c-cover-image', { 'is-default': !coverImage })} src={coverImagePath} alt={title} />
+      </div>
 
-    <div class="c-ep-meta">
-      <span class="c-pub-date">
-        <span class="c-label-common">Published on:</span> {formattedPubDate}
-      </span>
-      <span class="c-slash">/</span>
-      <span class="c-duration">
-        <span class="c-label-common">Duration:</span> {formattedDuration}
-      </span>
-    </div>
-
-    <div class="c-ep-tags">
-      <span class="c-label-common">Tags:</span>
-      <ul class="tags-list">
-        {
-          tags.map((tag: string) => (<li class="tag-item">{tag}</li>))
-        }
-      </ul>
+      <div class="c-ep-details">
+        <div class="c-audio-player-container">
+          <AudioPlayer client:load src={src} mimeType={filetype} />
+        </div>
+    
+        <div class="c-ep-meta">
+          <span class="c-pub-date">
+            <span class="c-label-common">Published on:</span> {formattedPubDate}
+          </span>
+          <span class="c-slash">/</span>
+          <span class="c-duration">
+            <span class="c-label-common">Duration:</span> {formattedDuration}
+          </span>
+        </div>
+    
+        <div class="c-ep-tags">
+          <span class="c-label-common">Tags:</span>
+          <ul class="tags-list">
+            {
+              tags.map((tag: string) => (<li class="tag-item">{tag}</li>))
+            }
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -97,6 +106,70 @@ const formattedDuration = formatDuration(duration)
   margin-top: 0.5rem;
 }
 
+.c-divider {
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.c-ep-details-flex-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 1.5rem;
+
+  @include from($episode-card-narrow) {
+    flex-direction: row;
+    column-gap: 1.5rem;
+  }
+}
+
+.c-cover-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: $radius-large;
+  background-color: $background_light_grey_2;
+  border: 1px solid $grey_3;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: $drop-shadow_medium;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    &.is-default {
+      width: 67.5%;
+    }
+  }
+
+  @include from($episode-card-narrow) {
+    width: 12rem;
+    margin-bottom: 0;
+    box-shadow: none;
+  }
+
+  @include from($tablet) {
+    width: 18rem;
+  }
+}
+
+.c-ep-details {
+  position: relative;
+  width: 100%;
+
+  @include from($tablet) {
+    flex-grow: 1;
+  }
+}
+
 .c-ep-meta {
   display: flex;
   flex-direction: column;
@@ -137,5 +210,6 @@ const formattedDuration = formatDuration(duration)
 .c-audio-player-container {
   position: relative;
   width: 100%;
+  margin-bottom: 1.5rem;
 }
 </style>

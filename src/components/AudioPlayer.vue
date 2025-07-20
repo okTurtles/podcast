@@ -1,5 +1,5 @@
 <template>
-<div class='audio-wrapper plyr_override'>
+<div class='audio-wrapper plyr_override is-audio'>
   <audio controls ref="audio-el">
     <source :src="src" :type="mimeType" />
   </audio>

@@ -149,7 +149,8 @@ const navigateToEpisode = (): void => {
   height: 5rem;
   overflow: hidden;
   border-radius: $radius-large;
-  background-color: $grey_3;
+  background-color: $background_light_grey_2;
+  border: 1px solid $grey_3;
   flex-shrink: 0;
 
   @include from($mobile) {
@@ -163,8 +164,13 @@ const navigateToEpisode = (): void => {
   }
 
   img {
+    display: block;
     width: 100%;
     height: auto;
+
+    &.c-episode-card__cover-default {
+      width: 67.5%;
+    }
   }
 }
 
