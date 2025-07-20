@@ -70,3 +70,12 @@ export function formatDuration (duration: string): string {
   }
   return `${h ? `${h}h` : ''} ${m}m ${s}s`.trim()
 }
+
+export function randomHexString (length: number) {
+  let result = ''
+  while (result.length < length) {
+    result += Math.floor(Math.random() * 16).toString(16)
+  }
+
+  return result
+}

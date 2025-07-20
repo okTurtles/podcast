@@ -1,7 +1,9 @@
 ---
 import HostedBy from "./HostedBy.astro"
 import HeaderButtons from './HeaderButtons.astro'
+import Toast from "./Toast.vue"
 import { classNames } from "@/helpers"
+import type { loadRenderers } from "astro:container"
 
 interface Props {
   variant: 'default' | 'episode'
@@ -40,6 +42,8 @@ const displayHost = false
   </div>
 
   <HeaderButtons classes="hide-when-gt-tablet" />
+
+  <Toast client:load />
 </header>
 
 <style lang="scss">

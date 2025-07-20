@@ -55,15 +55,39 @@ const { classes = '' } = Astro.props
 </style>
 
 <script>
+import { SITE_URL } from '@/constants'
+import { addToastItem } from '@/store/toast'
+import { randomHexString } from '@/helpers'
+
+function copyOrShareSiteUrl () {
+  const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
+
+  if (isTouchDevice && navigator.share) {
+    navigator.share({
+      title: 'okTurtles Podcast',
+      url: SITE_URL
+    }).catch((error) => console.error('navigator.share failed with:', error))
+
+    return
+  }
+
+  navigator.clipboard.writeText(SITE_URL)
+  addToastItem({
+    id: randomHexString(16),
+    content: 'Site URL copied to clipboard!'
+  })
+}
+
 document.addEventListener("DOMContentLoaded",() => {
   const shareBtn = document.querySelector('#share-btn')
   const rssBtn = document.querySelector('#rss-btn')
 
   if (shareBtn) {
-    shareBtn.addEventListener('click', () => {
-      alert('TODO!')
+    shareBtn.addEventListener('click', (e) => {
+      copyOrShareSiteUrl()
     })
   }
+
   if (rssBtn) {
     rssBtn.addEventListener('click', () => {
       window.location.href = window.location.origin + '/rss.xml'

@@ -51,6 +51,14 @@
   }
 }
 
+.l-toast {
+  position: fixed;
+  z-index: $zindex-toast;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .content-wrapper-common {
   position: relative;
   @include width-constraint-common;
