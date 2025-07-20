@@ -12,7 +12,7 @@
   </div>
 
   <div class='c-episode-card__details'>
-    <h3 class='c-episode-card__title' @click.stop="navigateToEpisode">EP {{ zeroPad(episode) }} | {{ title }}</h3>
+    <h3 class='episode-title c-episode-card__title' @click.stop="navigateToEpisode">{{ showName }} EP {{ zeroPad(episode) }} | {{ title }}</h3>
     <div class='c-episode-card__meta'>
       <span class='c-pub-date'>
         <span class="c-card-label-common">Published on:</span> {{ formattedPubDate }}
@@ -39,10 +39,10 @@
   <div class='c-tags-container'>
     <span class="c-card-label-common">Tags:</span>
 
-    <ul class='c-tags-list'>
+    <ul class='tags-list'>
       <li v-for="(tag, index) in sortedTags"
         :key="index"
-        class='c-tag'>
+        class='tag-item'>
         {{ tag }}
       </li>
     </ul>
@@ -64,7 +64,7 @@ interface ComponentPros {
 // local-state
 const { tag = 'div', episodeDetails } = defineProps<ComponentPros>()
 const {
-  episode, title, permalink, duration, pubDate, 
+  episode, title, showName, permalink, duration, pubDate, 
   tags = [], coverImage = ''
 } = episodeDetails
 const isContentExpanded = ref(false)
@@ -187,26 +187,11 @@ const navigateToEpisode = (): void => {
 }
 
 .c-episode-card__title {
-  font-size: $font-lg;
-  font-weight: 900;
-  color: $text_black;
-  width: auto;
   cursor: pointer;
-  margin-bottom: 0.25rem;
-  padding-right: 3rem;
 
-  &:hover {
+  &:hover,
+  &:focus {
     text-decoration: underline;
-  }
-
-  @include from($episode-card-narrow) {
-    padding-right: 4.5rem;
-    font-size: $font-heading-5;
-  }
-
-  @include from($tablet) {
-    font-size: $font-heading-4;
-    margin-bottom: 0.5rem;
   }
 }
 
@@ -240,27 +225,6 @@ const navigateToEpisode = (): void => {
   position: relative;
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-
-.c-tags-list {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.25rem;
-}
-
-.c-tag {
-  display: inline-block;
-  font-size: 0.625rem;
-  color: $text_white;
-  background-color: $dark_navy;
-  padding: 0.2em 0.875em;
-  border-radius: 10rem;
-
-  @include from($episode-card-narrow) {
-    font-size: 0.7rem;
-  }
 }
 
 .c-ep-description-container {

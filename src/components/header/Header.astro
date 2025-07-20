@@ -19,13 +19,17 @@ const displayHost = false
     </div>
 
     <div class="c-podcast-main-intro">
-      <h1 class="c-title is-thin-title-1">
-        <span class="c-logo-segment">
-          <img class="c-soundwave-icon" src="/images/soundwave.svg" alt="soundwave" />
-          <span><span class="has-color-black c-title-ok">ok</span><span>Turtles</span></span>
-        </span>
-        <span>Podcast</span>
+      
+      <h1 class="c-title">
+        <a href="/" class="is-thin-title-1">
+          <span class="c-logo-segment">
+            <img class="c-soundwave-icon" src="/images/soundwave.svg" alt="soundwave" />
+            <span><span class="has-color-black c-title-ok">ok</span><span>Turtles</span></span>
+          </span>
+          <span>Podcast</span>
+        </a>
       </h1>
+      
 
       <p class="has-text-thin c-intro">Learn about cutting-edge decentralization technologies.</p>
 
@@ -105,10 +109,16 @@ const displayHost = false
   }
 }
 
-.c-title {
+.c-title a {
   font-weight: 300;
   font-size: $font-heading-4;
   line-height: 1.25;
+  color: inherit;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
 
   @include from($mobile) {
     font-size: $font-heading-2;

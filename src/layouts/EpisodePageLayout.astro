@@ -1,7 +1,121 @@
 ---
 import PageLayout from "./PageLayout.astro"
+import { formatPubDate, formatDuration } from '@/helpers'
+
+const { frontmatter } = Astro.props
+const { title, showName, duration, coverImage, pubDate, tags, episode } = frontmatter
+
+const combinedTitle = `${showName} | ${title}`
+const formattedPubDate = formatPubDate(pubDate)
+const formattedDuration = formatDuration(duration)
 ---
 
 <PageLayout pageType="episode">
-  <slot />
+  <div class="c-ep-header mb-4">
+    <span class="c-ep-number">Episode {episode}.</span>
+    <h2 class="episode-title c-ep-title">{combinedTitle}</h2>
+
+    <hr class="section-divider mt-1 mb-2" />
+
+    <div class="c-ep-meta">
+      <span class="c-pub-date">
+        <span class="c-label-common">Published on:</span> {formattedPubDate}
+      </span>
+      <span class="c-slash">/</span>
+      <span class="c-duration">
+        <span class="c-label-common">Duration:</span> {formattedDuration}
+      </span>
+    </div>
+
+    <div class="c-ep-tags mt-1">
+      <span class="c-label-common">Tags:</span>
+      <ul class="tags-list">
+        {
+          tags.map((tag: string) => (<li class="tag-item">{tag}</li>))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="c-ep-content">
+    <slot />
+  </div>
 </PageLayout>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-ep-header {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid $grey_3;
+}
+
+.c-ep-number {
+  position: relative;
+  display: inline-block;
+  font-size: $font-xs;
+  font-weight: 900;
+  color: $dark_navy;
+  padding: 0.125rem 0.5rem 0.125rem 0.75rem;
+  background-color: $grey_3;
+  border-radius: 0 $radius $radius 0;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: currentColor;
+  }
+
+  @include from($tablet) {
+    font-size: $font-sm;
+  }
+}
+
+.c-ep-title {
+  margin-top: 0.5rem;
+}
+
+.c-ep-meta {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+  color: $grey_1;
+  font-size: $font-sm;
+
+  .c-slash {
+    display: none;
+  }
+
+  @include from($tablet) {
+    flex-direction: row;
+    column-gap: 1.25rem;
+    font-size: $font-md;
+
+    .c-slash {
+      display: inline-block;
+    }
+  }
+}
+
+.c-label-common {
+  font-size: $font-sm;
+  font-weight: 900;
+  color: $dark_navy;
+  margin-right: 0.25rem;
+}
+
+.c-ep-content {
+  padding-bottom: 4rem;
+}
+</style>

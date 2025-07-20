@@ -1,0 +1,41 @@
+@use "../variables" as *;
+
+.episode-title {
+  font-size: $font-lg;
+  font-weight: 900;
+  color: $text_black;
+  width: auto;
+  margin-bottom: 0.25rem;
+  padding-right: 3rem;
+
+  @include from($episode-card-narrow) {
+    padding-right: 4.5rem;
+    font-size: $font-heading-5;
+  }
+
+  @include from($tablet) {
+    font-size: $font-heading-4;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.tags-list {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.tag-item {
+  display: inline-block;
+  font-size: 0.625rem;
+  color: $text_white;
+  background-color: $dark_navy;
+  padding: 0.2em 0.875em;
+  border-radius: 10rem;
+
+  @include from($episode-card-narrow) {
+    font-size: 0.7rem;
+  }
+}
