@@ -12,7 +12,7 @@
   </div>
 
   <div class='c-episode-card__details'>
-    <h3 class='episode-title c-episode-card__title' @click.stop="navigateToEpisode">{{ showName }} EP {{ zeroPad(episode) }} | {{ title }}</h3>
+    <h3 class='episode-title c-episode-card__title' @click.stop="navigateToEpisode">EP {{ zeroPad(episode) }} | {{ title }}</h3>
     <div class='c-episode-card__meta'>
       <span class='c-pub-date'>
         <span class="c-card-label-common">Published on:</span> {{ formattedPubDate }}
@@ -64,7 +64,7 @@ interface ComponentPros {
 // local-state
 const { tag = 'div', episodeDetails } = defineProps<ComponentPros>()
 const {
-  episode, title, showName, permalink, duration, pubDate, 
+  episode, title, permalink, duration, pubDate, 
   tags = [], coverImage = ''
 } = episodeDetails
 const isContentExpanded = ref(false)

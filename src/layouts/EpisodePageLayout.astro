@@ -6,9 +6,8 @@ import { formatPubDate, formatDuration } from '@/helpers'
 import { classNames } from "@/helpers"
 
 const { frontmatter } = Astro.props
-const { title, showName, duration, coverImage, pubDate, tags, episode, src, filetype } = frontmatter
+const { title, duration, coverImage, pubDate, tags, episode, src, filetype } = frontmatter
 
-const combinedTitle = `${showName} | ${title}`
 const formattedPubDate = formatPubDate(pubDate)
 const formattedDuration = formatDuration(duration)
 const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/images/turtle.png'
@@ -21,7 +20,7 @@ const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/i
 
   <div class="c-ep-header mb-3">
     <span class="c-ep-number">Episode {episode}.</span>
-    <h2 class="episode-title c-ep-title">{combinedTitle}</h2>
+    <h2 class="episode-title c-ep-title">{title}</h2>
 
     <hr class="section-divider c-divider" />
 
