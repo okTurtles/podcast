@@ -1,0 +1,34 @@
+<template>
+<div class='audio-wrapper plyr_override'>
+  <audio controls ref="audio-el">
+    <source :src="src" :type="mimeType" />
+  </audio>
+</div>
+</template>
+
+<script setup lang="ts">
+import { useTemplateRef, ref, onMounted } from 'vue'
+
+interface ComponentProps {
+  src: string,
+  mimeType: string
+}
+
+const props = defineProps<ComponentProps>()
+
+const audioEl = useTemplateRef<HTMLAudioElement>('audio-el')
+const player = ref<any>(null)
+
+// methods
+const initPlayer = () => {
+  const opts = {
+    debug: false
+  }
+  player.value = new Plyr(audioEl.value, opts)
+}
+
+onMounted(() => {
+  initPlayer()
+})
+
+</script>

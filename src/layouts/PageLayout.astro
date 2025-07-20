@@ -13,6 +13,7 @@ const { pageType = 'default' } = Astro.props
 <html lang="en">
   <head>
     <BaseHead />
+    <slot name="head-append" />
   </head>
 
   <body class={`l-page ${'is-' + pageType}`}>

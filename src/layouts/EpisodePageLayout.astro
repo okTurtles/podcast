@@ -1,21 +1,32 @@
 ---
+import '@/styles/plyr/_plyr_override.scss'
 import PageLayout from "./PageLayout.astro"
+import AudioPlayer from '@/components/AudioPlayer.vue'
 import { formatPubDate, formatDuration } from '@/helpers'
 
 const { frontmatter } = Astro.props
-const { title, showName, duration, coverImage, pubDate, tags, episode } = frontmatter
+const { title, showName, duration, coverImage, pubDate, tags, episode, src, filetype } = frontmatter
 
+console.log('frontmatter:', frontmatter)
 const combinedTitle = `${showName} | ${title}`
 const formattedPubDate = formatPubDate(pubDate)
 const formattedDuration = formatDuration(duration)
 ---
 
 <PageLayout pageType="episode">
-  <div class="c-ep-header mb-4">
+  <Fragment slot='head-append'>
+    <script src="/third-party/plyr.3.7.8.min.js" is:inline></script>
+  </Fragment>
+
+  <div class="c-ep-header mb-3">
     <span class="c-ep-number">Episode {episode}.</span>
     <h2 class="episode-title c-ep-title">{combinedTitle}</h2>
 
     <hr class="section-divider mt-1 mb-2" />
+
+    <div class="c-audio-player-container">
+      <AudioPlayer client:load src={src} mimeType={filetype} />
+    </div>
 
     <div class="c-ep-meta">
       <span class="c-pub-date">
@@ -27,7 +38,7 @@ const formattedDuration = formatDuration(duration)
       </span>
     </div>
 
-    <div class="c-ep-tags mt-1">
+    <div class="c-ep-tags">
       <span class="c-label-common">Tags:</span>
       <ul class="tags-list">
         {
@@ -115,7 +126,16 @@ const formattedDuration = formatDuration(duration)
   margin-right: 0.25rem;
 }
 
+.c-ep-tags {
+  margin-top: 0.5rem;
+}
+
 .c-ep-content {
   padding-bottom: 4rem;
+}
+
+.c-audio-player-container {
+  position: relative;
+  width: 100%;
 }
 </style>

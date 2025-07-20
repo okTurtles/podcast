@@ -6,7 +6,7 @@ export interface Episode {
   title: string;
   subtitle?: string;
   permalink: string;
-  file: string;
+  src: string;
   filetype: FileType;
   coverImage?: string;
   duration: string;
