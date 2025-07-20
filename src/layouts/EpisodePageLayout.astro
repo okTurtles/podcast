@@ -58,6 +58,7 @@ const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/i
   </div>
 
   <div class="c-ep-content">
+    <h2 class="c-ep-content-title">About this episode</h2>
     <slot />
   </div>
 </PageLayout>
@@ -104,6 +105,7 @@ const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/i
 
 .c-ep-title {
   margin-top: 0.5rem;
+  color: $dark_navy;
 }
 
 .c-divider {
@@ -203,13 +205,73 @@ const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/i
   margin-top: 0.5rem;
 }
 
-.c-ep-content {
-  padding-bottom: 4rem;
-}
-
 .c-audio-player-container {
   position: relative;
   width: 100%;
   margin-bottom: 1.5rem;
+}
+</style>
+
+<style is:global lang="scss">
+@use "@/styles/variables" as *;
+
+.c-ep-content-title {
+  font-size: $font-lg;
+  color: $dark_navy;
+  margin-bottom: 1.25rem;
+
+  @include from($tablet) {
+    font-size: $font-heading-5;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.c-ep-content {
+  padding-bottom: 4rem;
+  color: $grey_0;
+
+  > p,
+  > ul {
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  > p {
+    white-space: pre-wrap;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+
+    li:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $dark_navy;
+    margin-bottom: 1rem;
+  }
+
+  h1,
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  iframe {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 42rem;
+    aspect-ratio: 16 / 9;
+    margin: 2rem auto;
+  }
 }
 </style>
