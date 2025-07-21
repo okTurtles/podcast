@@ -1,17 +1,22 @@
 ---
-const { classes = '' } = Astro.props
+interface Props {
+  classes?: string,
+  variant?: 'default' | 'episode'
+}
+const { classes = '', variant = 'default' } = Astro.props
+const isEpPage = variant === 'episode'
 ---
 
 <div class={`c-buttons-container ${classes}`}>
   <button id="share-btn" class="button" type="button">
     <i class="icon-share-alt pre-icon"></i>
-    <span class="button-text">Share</span>
+    <span class="button-text">{ isEpPage ? 'Share episode' : 'Share' }</span>
   </button>
 
-  <button id="rss-btn" class="button is-secondary" type="button">
+  <a class="button is-secondary" target="_blank" href="/rss.xml">
     <i class="icon-rss pre-icon"></i>
     <span class="button-text">RSS</span>
-  </button>
+  </a>
 </div>
 
 <style lang="scss">
@@ -60,37 +65,35 @@ import { addToastItem } from '@/store/toast'
 import { randomHexString } from '@/helpers'
 
 function copyOrShareSiteUrl () {
+  const episodeNumber = document.body.dataset.episode
+  const isCopyingEpisodeUrl = Boolean(episodeNumber)
+  const url = episodeNumber ? `${SITE_URL}/episodes/${episodeNumber}` : SITE_URL
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
 
   if (isTouchDevice && navigator.share) {
     navigator.share({
-      title: 'okTurtles Podcast',
-      url: SITE_URL
+      title: isCopyingEpisodeUrl ? `okTurtles Podcast Episode ${episodeNumber}.` : 'okTurtles Podcast',
+      url
     }).catch((error) => console.error('navigator.share failed with:', error))
 
     return
   }
 
-  navigator.clipboard.writeText(SITE_URL)
+  navigator.clipboard.writeText(url)
   addToastItem({
     id: randomHexString(16),
-    content: 'Site URL copied to clipboard!'
+    content: isCopyingEpisodeUrl
+      ? 'Episode URL copied to clipboard!'
+      : 'Site URL copied to clipboard!'
   })
 }
 
 document.addEventListener("DOMContentLoaded",() => {
   const shareBtn = document.querySelector('#share-btn')
-  const rssBtn = document.querySelector('#rss-btn')
 
   if (shareBtn) {
     shareBtn.addEventListener('click', (e) => {
       copyOrShareSiteUrl()
-    })
-  }
-
-  if (rssBtn) {
-    rssBtn.addEventListener('click', () => {
-      window.location.href = window.location.origin + '/rss.xml'
     })
   }
 })

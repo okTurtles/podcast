@@ -21,8 +21,10 @@ const player = ref<any>(null)
 
 // methods
 const initPlayer = () => {
+  const urlSearch = new URLSearchParams(window.location.search)
   const opts = {
-    debug: false
+    debug: false,
+    autoplay: urlSearch.has('play')
   }
   player.value = new Plyr(audioEl.value, opts)
 }

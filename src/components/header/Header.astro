@@ -3,7 +3,6 @@ import HostedBy from "./HostedBy.astro"
 import HeaderButtons from './HeaderButtons.astro'
 import Toast from "./Toast.vue"
 import { classNames } from "@/helpers"
-import type { loadRenderers } from "astro:container"
 
 interface Props {
   variant: 'default' | 'episode'
@@ -31,17 +30,16 @@ const displayHost = false
           <span>Podcast</span>
         </a>
       </h1>
-      
 
       <p class="has-text-thin c-intro">Learn about cutting-edge decentralization technologies.</p>
 
       {displayHost && <HostedBy hostname="Greg Slepak" hostSocialLink="https://x.com/taoeffect" imgSrc="/images/host_pic.jpg" />}
 
-      <HeaderButtons classes="hide-when-st-tablet" />
+      <HeaderButtons classes="hide-when-st-tablet" variant={variant} />
     </div>
   </div>
 
-  <HeaderButtons classes="hide-when-gt-tablet" />
+  <HeaderButtons classes="hide-when-gt-tablet" variant={variant} />
 
   <Toast client:load />
 </header>

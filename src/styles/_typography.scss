@@ -104,7 +104,7 @@ $thin_headings_line_heights: 1.35 1.325;
   }
 }
 
-a,
+a:not(.button),
 .link {
   font-weight: 500;
   color: $green;

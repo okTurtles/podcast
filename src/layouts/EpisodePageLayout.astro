@@ -6,14 +6,19 @@ import { formatPubDate, formatDuration } from '@/helpers'
 import { classNames } from "@/helpers"
 
 const { frontmatter } = Astro.props
-const { title, duration, coverImage, pubDate, tags, episode, src, filetype } = frontmatter
+const { title, duration, coverImage, pubDate, tags, episode, src, filetype, permalink } = frontmatter
 
 const formattedPubDate = formatPubDate(pubDate)
 const formattedDuration = formatDuration(duration)
 const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/images/turtle.png'
+
+const getFileName = () => {
+  const segs = src.split('/') 
+  return segs[segs.length - 1]
+}
 ---
 
-<PageLayout pageType="episode">
+<PageLayout pageType="episode" epNumber={episode}>
   <Fragment slot='head-append'>
     <script src="/third-party/plyr.3.7.8.min.js" is:inline></script>
   </Fragment>
@@ -51,6 +56,13 @@ const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/i
               tags.map((tag: string) => (<li class="tag-item">{tag}</li>))
             }
           </ul>
+        </div>
+
+        <div class="c-ep-ctas">
+          <a class="button is-small is-secondary" target="_parent" href={src} download={getFileName()}>
+            <i class="icon-download pre-icon"></i>
+            <span class="button-text">Download MP3</span>
+          </a>
         </div>
       </div>
     </div>
@@ -202,6 +214,14 @@ const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/i
 
 .c-ep-tags {
   margin-top: 0.5rem;
+}
+
+.c-ep-ctas {
+  display: flex;
+  width: 100%;
+  column-gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
 }
 
 .c-audio-player-container {

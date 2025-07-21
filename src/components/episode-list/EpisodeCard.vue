@@ -12,7 +12,7 @@
   </div>
 
   <div class='c-episode-card__details'>
-    <h3 class='episode-title c-episode-card__title' @click.stop="navigateToEpisode">EP {{ zeroPad(episode) }} | {{ title }}</h3>
+    <h3 class='episode-title c-episode-card__title' @click.stop="navigateToEpisode(false)">EP {{ zeroPad(episode) }} | {{ title }}</h3>
     <div class='c-episode-card__meta'>
       <span class='c-pub-date'>
         <span class="c-card-label-common">Published on:</span> {{ formattedPubDate }}
@@ -23,7 +23,7 @@
     </div>
 
     <div class='c-episode-card__play-button'>
-      <PlayButton @click="navigateToEpisode" />
+      <PlayButton @click="navigateToEpisode(true)" />
     </div>
   </div>
 
@@ -81,8 +81,9 @@ const getCoverImagePath = (fileName: string): string => {
 const zeroPad = (value: number): string => {
   return value.toString().padStart(2, '0')
 }
-const navigateToEpisode = (): void => {
+const navigateToEpisode = (autoPlay: boolean = false): void => {
   window.location.href = window.location.origin + permalink
+    + (autoPlay ? '?play=true' : '')
 }
 
 </script>

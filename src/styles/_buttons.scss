@@ -30,6 +30,13 @@ $button_transition_common: 150ms cubic-bezier(0.645, 0.045, 0.355, 1);
   background-color: $dark_navy;
   color: $text_white;
 
+  &.is-small {
+    min-width: 6rem;
+    min-height: 1.5rem;
+    padding: 0 0.75rem;
+    font-size: $font-sm;
+  }
+
   &:hover,
   &:focus,
   &:focus-within {
@@ -64,7 +71,7 @@ $button_transition_common: 150ms cubic-bezier(0.645, 0.045, 0.355, 1);
   }
 
   .pre-icon {
-    font-size: 0.875em;
+    font-size: 0.825em;
     transform: translateY(1px);
   }
 }
