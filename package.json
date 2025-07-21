@@ -18,6 +18,7 @@
     "vue": "^3.5.17"
   },
   "devDependencies": {
+    "sanitize-html": "^2.17.0",
     "sass": "^1.89.2"
   }
 }
