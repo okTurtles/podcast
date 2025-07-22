@@ -3,7 +3,7 @@ import rss from '@astrojs/rss'
 import sanitizeHtml from 'sanitize-html'
 import {
   SITE_TITLE_COMMON, SITE_SUBTITLE_COMMON, SITE_DESCRIPTION_COMMON,
-  SITE_AUTHOR, PODCAST_SUMMARY, SITE_URL
+  SITE_AUTHOR, PODCAST_SUMMARY, SITE_URL, PODCAST_CATEGORIES
 } from '@/constants'
 
 // NOTE - This RSS feed generator script was written based on the guidelines in the following resources:
@@ -51,6 +51,7 @@ export async function GET (context) {
       content: xmlPostContent,
       customData: [
         // custom data for the episode.
+        `<guid isPermaLink="false">${post.frontmatter.guid}</guid>`,
         objIntoItunesTag({
           episodeType: 'full',
           author: SITE_AUTHOR,
@@ -96,9 +97,7 @@ export async function GET (context) {
         })
       }),
       writeItunesTag('image', '', { href: joinWithBaseUrl('/images/show-cover.jpg') }),
-      writeItunesTag('category', '', { text: 'Technology' }),
-      writeItunesTag('category', '', { text: 'Society &amp; Culture' }),
-      writeItunesTag('category', '', { text: 'Education' })
+      ...PODCAST_CATEGORIES.map(category => writeItunesTag('category', '', { text: category }))
     ].join('\n'),
     items
   })
