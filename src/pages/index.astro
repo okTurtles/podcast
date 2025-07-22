@@ -1,0 +1,45 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro"
+import EpisodeList from "@/components/episode-list/EpisodeList.vue"
+---
+
+<PageLayout>
+	<div class="c-home-content-container">
+		<div class="c-home-about mt-4">
+			<h2 class="c-home-title mb-1">About the show</h2>
+			<p>
+				okTurtles Podcast explores all the latest decentralization technologies, with a focus on security and privacy.
+			</p>
+		</div>
+
+		<hr class="section-divider is-full-width mt-4" />
+		
+		<h2 class="c-home-title mt-4 mb-2">Episodes</h2>
+
+		<EpisodeList client:load />
+	</div>
+</PageLayout>
+
+<style lang="scss">
+@use '@/styles/variables' as *;
+
+.c-home-content-container {
+  position: relative;
+  display: block;
+  margin: 0 auto;
+	padding-bottom: 7rem;
+
+	@include from($tablet) {
+		padding-bottom: 10rem;
+	}
+}
+
+.c-home-title {
+  font-size: $font-lg;
+  font-weight: 600;
+
+	@include from($tablet) {
+		font-size: $font-heading-5;
+	}
+}
+</style>
