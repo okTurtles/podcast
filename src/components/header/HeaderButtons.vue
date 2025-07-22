@@ -4,7 +4,7 @@
     @click.stop="copyOrShareSiteUrl">
     <i class="icon-share-alt pre-icon"></i>
     <span class="button-text">
-      {{ isInEpisodePage ? 'Share episode' : 'Share' }}
+      {{ isInEpisodePage ? 'Share this episode' : 'Share' }}
     </span>
   </button>
 
