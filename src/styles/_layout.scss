@@ -1,0 +1,65 @@
+@use "variables" as *;
+
+.l-page {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  grid-template-areas:
+    "l-header"
+    "l-main"
+    "l-footer";
+  width: 100%;
+  min-height: 100%;
+}
+
+.l-header {
+  position: relative;
+  grid-area: l-header;
+  padding-top: 2.25rem;
+  padding-bottom: 2.25rem;
+  background: $linear_green;
+  
+  @include from ($mobile) {
+    padding-top: 2.75rem;
+    padding-bottom: 2.75rem;
+  }
+
+  @include from ($tablet) {
+    padding-top: 3.625rem;
+    padding-bottom: 3.625rem;
+  }
+}
+
+.l-main {
+  position: relative;
+  grid-area: l-main;
+  @include width-constraint-common;
+}
+
+.l-footer {
+  position: relative;
+  grid-area: l-footer;
+  padding-top: 2.5rem;
+  padding-bottom: 1.25rem;
+  background-color: $dark_navy;
+  color: $text_white;
+
+  @include from($tablet) {
+    padding-top: 3rem;
+  padding-bottom: 1.5rem;
+  }
+}
+
+.l-toast {
+  position: fixed;
+  z-index: $zindex-toast;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.content-wrapper-common {
+  position: relative;
+  @include width-constraint-common;
+}

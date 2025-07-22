@@ -1,0 +1,173 @@
+---
+import HostedBy from "./HostedBy.astro"
+import HeaderButtons from './HeaderButtons.vue'
+import Toast from "./Toast.vue"
+import { classNames } from "@/helpers"
+
+interface Props {
+  variant: 'default' | 'episode'
+}
+
+const { variant = 'default' } = Astro.props
+
+const displayHost = false
+---
+
+<header class={classNames('l-header', { 'is-in-episode-page': variant === 'episode' })}>
+  <div class="content-wrapper-common c-header-wrapper">
+    <div class='c-podcast-cover has-deep-box-shadow'>
+      <img src="/images/turtle.png" alt="okturtle" />
+    </div>
+
+    <div class="c-podcast-main-intro">
+      
+      <h1 class="c-title">
+        <a href="/" class="is-thin-title-1">
+          <span class="c-logo-segment">
+            <img class="c-soundwave-icon" src="/images/soundwave.svg" alt="soundwave" />
+            <span><span class="has-color-black c-title-ok">ok</span><span>Turtles</span></span>
+          </span>
+          <span>Podcast</span>
+        </a>
+      </h1>
+
+      <p class="has-text-thin c-intro">Learn about cutting-edge decentralization technologies.</p>
+
+      {displayHost && <HostedBy hostname="Greg Slepak" hostSocialLink="https://x.com/taoeffect" imgSrc="/images/host_pic.jpg" />}
+
+      <HeaderButtons client:load classes="hide-when-st-tablet" variant={variant} />
+    </div>
+  </div>
+
+  <HeaderButtons client:load classes="hide-when-gt-tablet" variant={variant} />
+
+  <Toast client:load />
+</header>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-header-wrapper {
+  display: flex;
+  flex-direction: row;
+  column-gap: 1.25rem;
+
+  @include from ($mobile) {
+    column-gap: 2.5rem;
+    align-items: center;
+  }
+}
+
+.c-podcast-cover {
+  --l-cover-size: 4.75rem;
+
+  position: relative;
+  border-radius: $radius-large;
+  width: var(--l-cover-size);
+  height: var(--l-cover-size);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-color: $dark_navy;
+  flex-shrink: 0;
+
+  img {
+    display: inline-block;
+    width: calc(var(--l-cover-size) * 0.675);
+    height: auto;
+    user-select: none;
+  }
+
+  @include from ($mobile) {
+    --l-cover-size: 8.75rem;
+  }
+
+  @include from ($tablet) {
+    --l-cover-size: 17.25rem;
+
+    &.is-smaller {
+      --l-cover-size: 12.25rem;
+    }
+  }
+}
+
+.c-podcast-main-intro {
+  position: relative;
+  display: block;
+  flex-grow: 1;
+  color: $text_white;
+
+  .c-intro {
+    font-size: $font-sm;
+
+    @include from ($mobile) {
+      font-size: $font-semi-lg;
+    }
+
+    @include from ($tablet) {
+      font-size: $font-xl;
+    }
+  }
+}
+
+.c-title a {
+  font-weight: 300;
+  font-size: $font-heading-4;
+  line-height: 1.25;
+  color: inherit;
+
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+
+  @include from($mobile) {
+    font-size: $font-heading-2;
+  }
+
+  @include from($tablet) {
+    font-size: $font-heading-1;
+  }
+
+  .c-logo-segment {
+    display: inline-flex;
+    align-items: baseline;
+  }
+
+  .c-soundwave-icon {
+    display: inline-block;
+    width: 1.5rem;
+    height: auto;
+    margin-right: 0.4rem;
+    transform: translateY(4px);
+
+    @include from ($mobile) {
+      width: 1.875rem;
+    }
+
+    @include from($tablet) {
+      width: 2.25rem;
+    }
+  }
+}
+
+.l-header.is-in-episode-page {
+  @include from ($tablet) {
+    padding-top: 2.875rem;
+    padding-bottom: 2.875rem;
+
+    .c-podcast-cover {
+      --l-cover-size: 9.5rem;
+    }
+
+    .c-title {
+      font-size: $font-heading-2;
+    }
+
+    .c-intro {
+      font-size: $font-semi-lg;
+    }
+  }
+}
+</style>

@@ -1,0 +1,97 @@
+@use "../variables" as *;
+@use "./plyr_default";
+
+.plyr_override {
+  position: relative;
+  // To override default colors of the player, refer to this css color variable table:
+  // https://www.npmjs.com/package/plyr#customizing-the-css
+  --plyr-color-main: #{$green};
+  
+  // Video player override
+  &.is-video {
+    aspect-ratio: 16/9;
+
+    // background placeholder
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(12, 97, 48, 0.25);
+      z-index: 0;
+    }
+
+    .plyr {
+      z-index: 1;
+      aspect-ratio: inherit;
+    }
+
+    // NOTE: When the screen size is narrow, there is an issue where the play/resume button and the progress-bar UI becomes too small
+    //       (Even smaller than the volume-control UI). To get more space for the play progess bar, we hide some buttons that are not absolutely essential
+    //       when compared to others.
+    //       (eg.) Essential -  play button / progress-bar / mute button / volume-control / full-screen button.
+    //             Not absolutely essential - play-speed control menu / PIP (picture-in-picture) button.
+    .plyr__controls {
+      @include until($mobile) {
+        .plyr__controls__item[data-plyr="pip"],
+        .plyr__controls__item.plyr__menu {
+          display: none;
+        }
+      }
+
+      @include until ($tablet) {
+        input[data-plyr="volume"] {
+          min-width: 0px;
+          max-width: 60px;
+        }
+      }
+    }
+  }
+
+  // Audio player override
+  &.is-audio {
+    --plyr-color-main: var(--dark_navy);
+    --plyr-audio-controls-background: var(--background_light_grey_2);
+    --plyr-audio-control-color: var(--dark_navy);
+    --plyr-audio-progress-buffered-background: #c1c1c1;
+    --plyr-range-thumb-background: var(--background_white);
+    --plyr-range-thumb-shadow: 0 0 0 1px var(--grey_3);
+    --plyr-tooltip-background: var(--background_white);
+    --plyr-menu-background: var(--background_white);
+
+    .plyr__controls {
+      border-radius: 10rem;
+      border: 1px solid var(--grey_3);
+      padding: 0.5rem 0.75rem;
+
+      .plyr__controls__item.plyr__menu {
+        display: none;
+      }
+
+      input[data-plyr="volume"] {
+        min-width: 0px;
+        max-width: 60px;
+      }
+
+      @include from ($episode-card-narrow) {
+        .plyr__controls__item.plyr__menu {
+          display: block;
+        }
+      }
+
+      @include from ($tablet) {
+        padding: 0.75rem 1rem;
+
+        input[data-plyr="volume"] {
+          max-width: 90px;
+        }
+      }
+    }
+
+    .plyr__menu__container .plyr__control[role=menuitemradio]:hover:before {
+      background-color: var(--grey_2);
+    }
+  }
+}

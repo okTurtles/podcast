@@ -1,0 +1,61 @@
+---
+interface Props {
+  hostname: string,
+  imgSrc: string,
+  hostSocialLink?: string
+}
+const { hostname, hostSocialLink = '', imgSrc } = Astro.props
+---
+
+<div class="c-hosted-by">
+  <div class="has-medium-box-shadow c-host-pic-container">
+    <img src={imgSrc} />
+  </div>
+  <span>Hosted by <a class="link c-hostname" href={hostSocialLink} target="_blank">{hostname}</a></span>
+</div>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-hosted-by {
+  display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-weight: 300;
+  font-size: $font-xs;
+
+  @include from ($mobile) {
+    font-size: $font-md;
+    margin-top: 0.75rem;
+  }
+}
+
+.c-host-pic-container {
+  --l-pic-side: 1.75rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: var(--l-pic-side);
+  height: var(--l-pic-side);
+  overflow: hidden;
+  margin-right: 0.4rem;
+
+  @include from ($mobile) {
+    --l-pic-side: 2.25rem;
+  }
+
+  img {
+    display: inline-block;
+    width: var(--l-pic-side);
+    height: auto;
+  }
+}
+
+.c-hostname {
+  display: inline-block;
+  font-size: 1.125em;
+  margin-left: 0.25rem;
+}
+</style>

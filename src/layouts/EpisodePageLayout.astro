@@ -1,0 +1,307 @@
+---
+import '@/styles/plyr/_plyr_override.scss'
+import PageLayout from "./PageLayout.astro"
+import AudioPlayer from '@/components/AudioPlayer.vue'
+import { formatPubDate, formatDuration } from '@/helpers'
+import { classNames } from "@/helpers"
+
+const { frontmatter } = Astro.props
+const { title, subtitle, duration, coverImage, pubDate, tags, episode, src, filetype, permalink } = frontmatter
+
+const formattedPubDate = formatPubDate(pubDate)
+const formattedDuration = formatDuration(duration)
+const coverImagePath = coverImage ? `/images/episode-covers/${coverImage}` : '/images/turtle.png'
+
+const getFileName = () => {
+  const segs = src.split('/') 
+  return segs[segs.length - 1]
+}
+---
+
+<PageLayout pageType="episode"
+  pageTitle={title}
+  pageDescription={subtitle || ''}
+  image={coverImagePath}
+  epNumber={episode}>
+  <Fragment slot='head-append'>
+    <script src="/third-party/plyr.3.7.8.min.js" is:inline></script>
+  </Fragment>
+
+  <div class="c-ep-header mb-3">
+    <span class="c-ep-number">Episode {episode}.</span>
+    <h2 class="episode-title c-ep-title">{title}</h2>
+
+    <hr class="section-divider c-divider" />
+
+    <div class="c-ep-details-flex-container">
+      <div class="c-cover-image-container">
+        <img class={classNames('c-cover-image', { 'is-default': !coverImage })} src={coverImagePath} alt={title} />
+      </div>
+
+      <div class="c-ep-details">
+        <div class="c-audio-player-container">
+          <AudioPlayer client:load src={src} mimeType={filetype} />
+        </div>
+    
+        <div class="c-ep-meta">
+          <span class="c-pub-date">
+            <span class="c-label-common">Published on:</span> {formattedPubDate}
+          </span>
+          <span class="c-slash">/</span>
+          <span class="c-duration">
+            <span class="c-label-common">Duration:</span> {formattedDuration}
+          </span>
+        </div>
+    
+        <div class="c-ep-tags">
+          <span class="c-label-common">Tags:</span>
+          <ul class="tags-list">
+            {
+              tags.map((tag: string) => (<li class="tag-item">{tag}</li>))
+            }
+          </ul>
+        </div>
+
+        <div class="c-ep-ctas">
+          <a class="button is-small is-secondary" target="_parent" href={src} download={getFileName()}>
+            <i class="icon-download pre-icon"></i>
+            <span class="button-text">Download MP3</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="c-ep-content">
+    <h2 class="c-ep-content-title">About this episode</h2>
+    <slot />
+  </div>
+</PageLayout>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-ep-header {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid $grey_3;
+}
+
+.c-ep-number {
+  position: relative;
+  display: inline-block;
+  font-size: $font-xs;
+  font-weight: 900;
+  color: $dark_navy;
+  padding: 0.125rem 0.5rem 0.125rem 0.75rem;
+  background-color: $grey_3;
+  border-radius: 0 $radius $radius 0;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: currentColor;
+  }
+
+  @include from($tablet) {
+    font-size: $font-sm;
+  }
+}
+
+.c-ep-title {
+  margin-top: 0.5rem;
+  color: $dark_navy;
+}
+
+.c-divider {
+  margin-top: 1.5rem;
+  margin-bottom: 2.5rem;
+  display: none;
+
+  @include from ($episode-card-narrow) {
+    display: block;
+  }
+}
+
+.c-ep-details-flex-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  row-gap: 1.5rem;
+
+  @include from($episode-card-narrow) {
+    flex-direction: row;
+    column-gap: 1.5rem;
+  }
+}
+
+.c-cover-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: $radius-large;
+  background-color: $background_light_grey_2;
+  border: 1px solid $grey_3;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: $drop-shadow_medium;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    &.is-default {
+      width: 67.5%;
+    }
+  }
+
+  @include from($episode-card-narrow) {
+    width: 12rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    box-shadow: none;
+  }
+
+  @include from($tablet) {
+    width: 18rem;
+  }
+}
+
+.c-ep-details {
+  position: relative;
+  width: 100%;
+
+  @include from($tablet) {
+    flex-grow: 1;
+  }
+}
+
+.c-ep-meta {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.25rem;
+  color: $grey_1;
+  font-size: $font-sm;
+
+  .c-slash {
+    display: none;
+  }
+
+  @include from($tablet) {
+    flex-direction: row;
+    column-gap: 1.25rem;
+    font-size: $font-md;
+
+    .c-slash {
+      display: inline-block;
+    }
+  }
+}
+
+.c-label-common {
+  font-size: $font-sm;
+  font-weight: 900;
+  color: $dark_navy;
+  margin-right: 0.25rem;
+}
+
+.c-ep-tags {
+  margin-top: 0.5rem;
+}
+
+.c-ep-ctas {
+  display: flex;
+  width: 100%;
+  column-gap: 1rem;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+
+.c-audio-player-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+</style>
+
+<style is:global lang="scss">
+@use "@/styles/variables" as *;
+
+.c-ep-content-title {
+  font-size: $font-lg;
+  color: $dark_navy;
+  margin-bottom: 1.25rem;
+
+  @include from($tablet) {
+    font-size: $font-heading-5;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.c-ep-content {
+  padding-bottom: 4rem;
+  color: $grey_0;
+
+  > p,
+  > ul {
+    &:not(:last-child) {
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  > p {
+    white-space: pre-wrap;
+  }
+
+  ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+
+    li:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: $dark_navy;
+    margin-bottom: 1rem;
+  }
+
+  h1,
+  h2 {
+    margin-bottom: 2rem;
+  }
+
+  iframe {
+    position: relative;
+    display: block;
+    width: 100%;
+    max-width: 42rem;
+    aspect-ratio: 16 / 9;
+    margin: 2rem auto;
+  }
+}
+</style>
