@@ -1,0 +1,86 @@
+@use "variables" as *;
+
+.has-deep-box-shadow {
+  box-shadow: $drop-shadow_deep;
+}
+
+.has-medium-box-shadow {
+  box-shadow: $drop-shadow_medium;
+}
+
+.has-shallow-box-shadow {
+  box-shadow: $drop-shadow_shallow;
+}
+
+.has-inline-left-space {
+  display: inline-block;
+  margin-left: 0.25rem;
+}
+
+.has-inline-right-space {
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+// media-query related classes
+// NOTE: gt - Greater Than, st - Smaller Than
+.hide-when-gt-mobile {
+  @include from ($mobile) {
+    display: none !important;
+  }
+}
+
+.hide-when-st-mobile {
+  @include until ($mobile) {
+    display: none !important;
+  }
+}
+
+.hide-when-gt-tablet {
+  @include from ($tablet) {
+    display: none !important;
+  }
+}
+
+.hide-when-st-tablet {
+  @include until ($tablet) {
+    display: none !important;
+  }
+}
+
+.hide-when-gt-desktop {
+  @include from ($desktop) {
+    display: none !important;
+  }
+}
+
+.hide-when-st-desktop {
+  @include until ($desktop) {
+    display: none !important;
+  }
+}
+
+// utility classes for easy spacing
+@for $i from 1 through 5 {
+  .mt-#{$i} {
+    margin-top: #{$i}rem;
+  }
+
+  .mb-#{$i} {
+    margin-bottom: #{$i}rem;
+  }
+}
+
+// misc
+.section-divider {
+	position: relative;
+  display: block;
+  width: 8rem;
+  border: none;
+  height: 1px;
+  background-color: $grey_3;
+
+  &.is-full-width {
+    width: 100%;
+  }
+}
