@@ -1,6 +1,6 @@
 ---
 import HostedBy from "./HostedBy.astro"
-import HeaderButtons from './HeaderButtons.astro'
+import HeaderButtons from './HeaderButtons.vue'
 import Toast from "./Toast.vue"
 import { classNames } from "@/helpers"
 
@@ -35,11 +35,11 @@ const displayHost = false
 
       {displayHost && <HostedBy hostname="Greg Slepak" hostSocialLink="https://x.com/taoeffect" imgSrc="/images/host_pic.jpg" />}
 
-      <HeaderButtons classes="hide-when-st-tablet" variant={variant} />
+      <HeaderButtons client:load classes="hide-when-st-tablet" variant={variant} />
     </div>
   </div>
 
-  <HeaderButtons classes="hide-when-gt-tablet" variant={variant} />
+  <HeaderButtons client:load classes="hide-when-gt-tablet" variant={variant} />
 
   <Toast client:load />
 </header>

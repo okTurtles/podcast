@@ -126,6 +126,11 @@ const getFileName = () => {
 .c-divider {
   margin-top: 1.5rem;
   margin-bottom: 2.5rem;
+  display: none;
+
+  @include from ($episode-card-narrow) {
+    display: block;
+  }
 }
 
 .c-ep-details-flex-container {
@@ -154,6 +159,7 @@ const getFileName = () => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  margin-top: 1.5rem;
   margin-bottom: 1.5rem;
   box-shadow: $drop-shadow_medium;
 
@@ -169,6 +175,7 @@ const getFileName = () => {
 
   @include from($episode-card-narrow) {
     width: 12rem;
+    margin-top: 0;
     margin-bottom: 0;
     box-shadow: none;
   }
