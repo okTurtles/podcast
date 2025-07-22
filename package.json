@@ -9,16 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.0",
-    "@astrojs/rss": "^4.0.12",
-    "@astrojs/vue": "^5.1.0",
-    "@nanostores/vue": "^1.0.1",
-    "astro": "^5.11.0",
-    "nanostores": "^1.0.1",
-    "vue": "^3.5.17"
+    "@astrojs/mdx": "4.3.1",
+    "@astrojs/rss": "4.0.12",
+    "@astrojs/vue": "5.1.0",
+    "@nanostores/vue": "1.0.1",
+    "astro": "5.12.1",
+    "nanostores": "1.0.1",
+    "vue": "3.5.17"
   },
   "devDependencies": {
-    "sanitize-html": "^2.17.0",
-    "sass": "^1.89.2"
+    "sanitize-html": "2.17.0",
+    "sass": "1.89.2"
   }
 }

@@ -6,7 +6,7 @@ import { formatPubDate, formatDuration } from '@/helpers'
 import { classNames } from "@/helpers"
 
 const { frontmatter } = Astro.props
-const { title, duration, coverImage, pubDate, tags, episode, src, filetype, permalink } = frontmatter
+const { title, subtitle, duration, coverImage, pubDate, tags, episode, src, filetype, permalink } = frontmatter
 
 const formattedPubDate = formatPubDate(pubDate)
 const formattedDuration = formatDuration(duration)
@@ -18,7 +18,11 @@ const getFileName = () => {
 }
 ---
 
-<PageLayout pageType="episode" epNumber={episode}>
+<PageLayout pageType="episode"
+  pageTitle={title}
+  pageDescription={subtitle || ''}
+  image={coverImagePath}
+  epNumber={episode}>
   <Fragment slot='head-append'>
     <script src="/third-party/plyr.3.7.8.min.js" is:inline></script>
   </Fragment>

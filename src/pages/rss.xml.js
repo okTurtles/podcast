@@ -3,7 +3,7 @@ import rss from '@astrojs/rss'
 import sanitizeHtml from 'sanitize-html'
 import {
   SITE_TITLE_COMMON, SITE_SUBTITLE_COMMON, SITE_DESCRIPTION_COMMON,
-  SITE_AUTHOR, PODCAST_SUMMARY
+  SITE_AUTHOR, PODCAST_SUMMARY, SITE_URL
 } from '@/constants'
 
 // NOTE - This RSS feed generator script was written based on the guidelines in the following resources:
@@ -27,10 +27,7 @@ const objIntoItunesTag = (obj) => {
 export async function GET (context) {
   const epPosts = Object.values(import.meta.glob('./episodes/*.{md,mdx}', { eager: true }))
   const joinWithBaseUrl = (...url) => {
-    const baseUrl = context.site.toString()
-    return baseUrl.endsWith('/')
-      ? baseUrl.slice(0, -1) + path.join(...url)
-      : baseUrl + path.join(...url)
+    return new URL(path.join(...url), SITE_URL).toString()
   }
   const items = []
 
