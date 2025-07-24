@@ -12,7 +12,11 @@ import {
 
 const sanitizePostHTML = (content) => {
   return sanitizeHtml(content, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img'])
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'iframe']),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      iframe: ['id', 'style', 'src', 'allowfullscreen', 'width', 'height']
+    }
   })
 }
 
@@ -34,12 +38,13 @@ export async function GET (context) {
   for (const post of epPosts) {
     const compiledPostContent = await post.compiledContent()
     const sanitizedPostContent = sanitizePostHTML(compiledPostContent)
+    // For content:encoded, wrap in CDATA
     const xmlPostContent = `<![CDATA[ ${sanitizedPostContent} ]]>`
 
     items.push({
       title: post.frontmatter.title,
       link: post.frontmatter.permalink,
-      pubDate: new Date(post.frontmatter.pubDate).toISOString(),
+      pubDate: new Date(post.frontmatter.pubDate), // Let rss library handle date formatting
       category: post.frontmatter.tags || [],
       author: SITE_AUTHOR,
       enclosure: {
@@ -47,8 +52,8 @@ export async function GET (context) {
         type: post.frontmatter.filetype,
         length: post.frontmatter.filesize,
       },
-      description: xmlPostContent,
-      content: xmlPostContent,
+      description: sanitizedPostContent,  // Don't wrap description in CDATA
+      content: xmlPostContent,  // Keep CDATA for content:encoded
       customData: [
         // custom data for the episode.
         `<guid isPermaLink="false">${post.frontmatter.guid}</guid>`,
@@ -85,6 +90,7 @@ export async function GET (context) {
       // custom data for the show.
       '<language>en-us</language>',
       `<copyright>${SITE_AUTHOR}</copyright>`,
+      '<generator>Astro RSS</generator>',  // Add generator tag
       objIntoItunesTag({
         type: 'episodic',
         subtitle: SITE_SUBTITLE_COMMON,
