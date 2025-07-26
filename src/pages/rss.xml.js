@@ -1,5 +1,6 @@
 import path from 'node:path'
 import rss, { getRssString } from '@astrojs/rss'
+import { outerMostXMLTemplate, generateXMLTag } from '@/utils/rss-generation'
 import sanitizeHtml from 'sanitize-html'
 import {
   SITE_TITLE_COMMON, SITE_SUBTITLE_COMMON, SITE_DESCRIPTION_COMMON,
@@ -109,11 +110,40 @@ export async function GET (context) {
   }
   const rssString = await getRssString(rssOptions)
 
-  const output = new Response(rssString, {
-		headers: {
-			'Content-Type': 'application/xml',
-		}
-	})
+  // ----------------- UNDER CONSTRUCTION ----------------- //
+  // Manually generating XML tags string here.
+  const channelContent = [
+    generateXMLTag('generator', {}, 'Astro RSS'),
+    generateXMLTag('title', {}, SITE_TITLE_COMMON),
+    generateXMLTag('link', {}, SITE_URL),
+    generateXMLTag('pubDate', {}, new Date().toISOString()),
+    generateXMLTag('description', {}, SITE_DESCRIPTION_COMMON),
+    generateXMLTag('language', {}, 'en-us'),
+    generateXMLTag('copyright', {}, `© ${new Date().getFullYear()} ${SITE_AUTHOR} Inc.`),
+    objIntoItunesTag({
+      type: 'episodic',
+      subtitle: SITE_SUBTITLE_COMMON,
+      author: SITE_AUTHOR,
+      summary: PODCAST_SUMMARY,
+      explicit: 'no',
+      owner: objIntoItunesTag({
+        name: SITE_AUTHOR,
+        email: SITE_AUTHOR_EMAIL
+      })
+    }),
+    writeItunesTag('image', '', { href: joinWithBaseUrl('/images/show-cover.jpg') }),
+    ...PODCAST_CATEGORIES.map(category => writeItunesTag('category', '', { text: category }))
+  ].join('\n')
+
+  const output = new Response(
+    outerMostXMLTemplate.replace('@@channel_content@@', channelContent), 
+    {
+      headers: {
+        'Content-Type': 'application/xml',
+      }
+    }
+  )
+  // ------------------------------------------------------ //
 
   return output
 }
