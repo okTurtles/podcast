@@ -108,6 +108,7 @@ export async function GET (context) {
     items
   }
   const rssString = await getRssString(rssOptions)
+  console.log('!@# rssString: ', rssString)
 
   const output = new Response(rssString, {
 		headers: {
