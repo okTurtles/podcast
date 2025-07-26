@@ -3,7 +3,7 @@ import rss from '@astrojs/rss'
 import sanitizeHtml from 'sanitize-html'
 import {
   SITE_TITLE_COMMON, SITE_SUBTITLE_COMMON, SITE_DESCRIPTION_COMMON,
-  SITE_AUTHOR, PODCAST_SUMMARY, SITE_URL, PODCAST_CATEGORIES
+  SITE_AUTHOR, SITE_AUTHOR_EMAIL, PODCAST_SUMMARY, SITE_URL, PODCAST_CATEGORIES
 } from '@/constants'
 
 // NOTE - This RSS feed generator script was written based on the guidelines in the following resources:
@@ -52,11 +52,11 @@ export async function GET (context) {
         type: post.frontmatter.filetype,
         length: post.frontmatter.filesize,
       },
-      description: sanitizedPostContent,  // Don't wrap description in CDATA
       content: xmlPostContent,  // Keep CDATA for content:encoded
       customData: [
         // custom data for the episode.
         `<guid isPermaLink="false">${post.frontmatter.guid}</guid>`,
+        `<description>${sanitizedPostContent}</description>`,
         objIntoItunesTag({
           episodeType: 'full',
           author: SITE_AUTHOR,
@@ -99,7 +99,7 @@ export async function GET (context) {
         explicit: 'no',
         owner: objIntoItunesTag({
           name: SITE_AUTHOR,
-          email: 'hi@okturtles.org'
+          email: SITE_AUTHOR_EMAIL
         })
       }),
       writeItunesTag('image', '', { href: joinWithBaseUrl('/images/show-cover.jpg') }),
