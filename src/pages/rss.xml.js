@@ -21,7 +21,7 @@ const sanitizePostHTML = (content) => {
   })
 }
 
-const flattenMarkdown = (markdown) => {
+const mdToPlainText = (markdown) => {
   const md = markdown.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)') // [text](url) -> text (url)
 
   return removeMd(md, {
@@ -61,7 +61,7 @@ export async function GET (context) {
 
     // For <description> tag, convert markdown to plain text.
     const rawPostContent = await post.rawContent()
-    const plainTextContent = flattenMarkdown(rawPostContent)
+    const plainTextContent = mdToPlainText(rawPostContent)
 
     const currentItemContent = [
       generateXMLTag('title', {}, post.frontmatter.title),
