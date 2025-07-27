@@ -1,8 +1,7 @@
 import path from 'node:path'
 import rss from '@astrojs/rss'
-import { outerMostXMLTemplate, generateXMLTag } from '@/utils/rss-generation'
-import sanitizeHtml from 'sanitize-html'
-import removeMd from 'remove-markdown'
+import { outerMostXMLTemplate, generateXMLTag, writeItunesTag,
+  objIntoItunesTag, sanitizePostHTML, mdToPlainText } from '@/utils/rss-generation'
 import {
   SITE_TITLE_COMMON, SITE_SUBTITLE_COMMON, SITE_DESCRIPTION_COMMON,
   SITE_AUTHOR, SITE_AUTHOR_EMAIL, PODCAST_SUMMARY, SITE_URL, PODCAST_CATEGORIES
@@ -12,38 +11,7 @@ import {
 // Required tags in RSS feed of a podcast: https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 // Podcast RSS feed requirements for Apple Podcasts: https://podcasters.apple.com/support/823-podcast-requirements
 
-const sanitizePostHTML = (content) => {
-  return sanitizeHtml(content, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
-    allowedAttributes: {
-      ...sanitizeHtml.defaults.allowedAttributes
-    }
-  })
-}
-
-const mdToPlainText = (markdown) => {
-  const md = markdown.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)') // [text](url) -> text (url)
-
-  return removeMd(md, {
-    stripListLeaders: true,
-    listUnicodeChar: '',
-    gfm: true,
-    useImgAltText: false
-  }).trim()
-}
-
-const writeItunesTag = (tag,  attrs = {}, value = '') => {
-  return generateXMLTag(`itunes:${tag}`, attrs, value)
-}
-
-const objIntoItunesTag = (obj) => {
-  return Object.entries(obj)
-    .map(([tagName, props]) => writeItunesTag(tagName, props.attrs || {}, props.value || ''))
-    .join('\n')
-}
-
 export async function GET (context) {
-  // helper functions
   const joinWithBaseUrl = (...url) => {
     return new URL(path.join(...url), SITE_URL).toString()
   }
