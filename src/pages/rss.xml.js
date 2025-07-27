@@ -1,5 +1,5 @@
 import path from 'node:path'
-import rss, { getRssString } from '@astrojs/rss'
+import rss from '@astrojs/rss'
 import { outerMostXMLTemplate, generateXMLTag } from '@/utils/rss-generation'
 import sanitizeHtml from 'sanitize-html'
 import removeMd from 'remove-markdown'
