@@ -9,7 +9,7 @@ const generateXMLTags = (tags) => {
   return tags.map(tag => generateXMLTag(tag.name, tag.attrs, tag.content)).join('\n')
 }
 
-const xmlRoot = generateXMLTag(
+const rssRoot = generateXMLTag(
   'rss', 
   {
     version: '2.0',
@@ -19,5 +19,6 @@ const xmlRoot = generateXMLTag(
     'xmlns:podcast': 'https://podcastindex.org/namespace/1.0'
   },
   generateXMLTag('channel', {}, '@@channel_content@@'))
-const outerMostXMLTemplate = `<?xml version="1.0" encoding="UTF-8"?>${xmlRoot}`
+const outerMostXMLTemplate = `<?xml version="1.0" encoding="UTF-8"?>${rssRoot}`
+
 export { outerMostXMLTemplate, generateXMLTag, generateXMLTags }

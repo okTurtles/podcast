@@ -2,6 +2,7 @@ import path from 'node:path'
 import rss, { getRssString } from '@astrojs/rss'
 import { outerMostXMLTemplate, generateXMLTag } from '@/utils/rss-generation'
 import sanitizeHtml from 'sanitize-html'
+import removeMd from 'remove-markdown'
 import {
   SITE_TITLE_COMMON, SITE_SUBTITLE_COMMON, SITE_DESCRIPTION_COMMON,
   SITE_AUTHOR, SITE_AUTHOR_EMAIL, PODCAST_SUMMARY, SITE_URL, PODCAST_CATEGORIES
@@ -13,12 +14,22 @@ import {
 
 const sanitizePostHTML = (content) => {
   return sanitizeHtml(content, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'iframe']),
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img']),
     allowedAttributes: {
-      ...sanitizeHtml.defaults.allowedAttributes,
-      iframe: ['id', 'style', 'src', 'width', 'height']
+      ...sanitizeHtml.defaults.allowedAttributes
     }
   })
+}
+
+const flattenMarkdown = (markdown) => {
+  const md = markdown.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)') // [text](url) -> text (url)
+
+  return removeMd(md, {
+    stripListLeaders: true,
+    listUnicodeChar: '',
+    gfm: true,
+    useImgAltText: false
+  }).trim()
 }
 
 const writeItunesTag = (tag,  attrs = {}, value = '') => {
@@ -44,8 +55,13 @@ export async function GET (context) {
   for (const post of epPosts) {
     const compiledPostContent = await post.compiledContent()
     const sanitizedPostContent = sanitizePostHTML(compiledPostContent)
+
     // For content:encoded, wrap in CDATA
     const xmlPostContent = `<![CDATA[ ${sanitizedPostContent} ]]>`
+
+    // For <description> tag, convert markdown to plain text.
+    const rawPostContent = await post.rawContent()
+    const plainTextContent = flattenMarkdown(rawPostContent)
 
     const currentItemContent = [
       generateXMLTag('title', {}, post.frontmatter.title),
@@ -58,7 +74,7 @@ export async function GET (context) {
         type: post.frontmatter.filetype,
         length: post.frontmatter.filesize,
       }, ''),
-      generateXMLTag('description', {}, sanitizedPostContent),
+      generateXMLTag('description', {}, plainTextContent),
       generateXMLTag('content:encoded', {}, xmlPostContent),
       objIntoItunesTag({
         episodeType: { value: 'full' },
@@ -67,7 +83,8 @@ export async function GET (context) {
         author: { value: SITE_AUTHOR },
         duration: { value: post.frontmatter.duration },
         explicit: { value: 'no' },
-        keywords: { value: post.frontmatter.tags.join(', ') }
+        keywords: { value: post.frontmatter.tags.join(', ') },
+        summary: { value: xmlPostContent }
       }),
       writeItunesTag('image', { href: post.frontmatter.coverImage
         ? joinWithBaseUrl('/images/episode-covers/', post.frontmatter.coverImage)
