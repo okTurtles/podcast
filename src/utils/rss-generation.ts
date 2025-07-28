@@ -4,13 +4,15 @@ import removeMd from 'remove-markdown'
 type TagEntry = {
   name: string,
   attrs?: Record<string, any>,
-  content?: string
+  content?: string,
+  noEscape?: boolean
 }
 
 type ItunesTagEntry = {
   tagName: string,
   attrs?: Record<string, any>,
-  value?: string
+  value?: string,
+  noEscape?: boolean
 }
 
 const escapeXML = (content: string): string => {
@@ -31,27 +33,31 @@ const escapeXML = (content: string): string => {
   return content
 }
 
-const generateXMLTag = (tag: string, attrs: Record<string, any> = {}, content: string = ''): string => {
+const generateXMLTag = (tag: string, attrs: Record<string, any> = {}, content: string = '', noEscape: boolean = false): string => {
   const attrsStr = Object.entries(attrs)
-    .map(([key, value]) => `${key}="${escapeXML(value)}"`)
+    .map(([key, value]) => `${key}="${noEscape ? value : escapeXML(value)}"`)
     .join(' ').trim()
 
   // Don't escape content if it contains CDATA
-  const escapedContent = content.includes('<![CDATA[') ? content : escapeXML(content)
+  const escapedContent = content.includes('<![CDATA[')
+    ? content
+    : noEscape
+      ? content
+      : escapeXML(content)
   return `<${tag}${attrsStr ? ` ${attrsStr}` : ''}>${escapedContent}</${tag}>`
 }
 
 const generateXMLTags = (tags: TagEntry[]): string => {
-  return tags.map(tag => generateXMLTag(tag.name, tag.attrs, tag.content)).join('\n')
+  return tags.map(tag => generateXMLTag(tag.name, tag.attrs, tag.content, tag.noEscape)).join('\n')
 }
 
-const writeItunesTag = (tag: string,  attrs: Record<string, any> = {}, value: string = ''): string => {
-  return generateXMLTag(`itunes:${tag}`, attrs, value)
+const writeItunesTag = (tag: string,  attrs: Record<string, any> = {}, value: string = '', noEscape: boolean = false): string => {
+  return generateXMLTag(`itunes:${tag}`, attrs, value, noEscape)
 }
 
 const objIntoItunesTag = (obj: Record<string, ItunesTagEntry>): string => {
   return Object.entries(obj)
-    .map(([tagName, props]) => writeItunesTag(tagName, props.attrs || {}, props.value || ''))
+    .map(([tagName, props]) => writeItunesTag(tagName, props.attrs || {}, props.value || '', props.noEscape))
     .join('\n')
 }
 

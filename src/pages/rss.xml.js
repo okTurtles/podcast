@@ -82,7 +82,8 @@ export async function GET (context) {
         value: objIntoItunesTag({
           name: { value: SITE_AUTHOR },
           email: { value: SITE_AUTHOR_EMAIL }
-        })
+        }),
+        noEscape: true
       }
     }),
     writeItunesTag('image', { href: joinWithBaseUrl('/images/show-cover.jpg') }, ''),
