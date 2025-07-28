@@ -31,11 +31,10 @@ const isInEpisodePage = variant === 'episode'
 const copyOrShareSiteUrl = () => {
   const episodeNumber = document.body.dataset.episode
   const isCopyingEpisodeUrl = Boolean(episodeNumber)
-  const url = episodeNumber ? `${SITE_URL}/episodes/${episodeNumber}` : SITE_URL
+  const url = episodeNumber ? new URL(`/episodes/${episodeNumber}`, SITE_URL).toString() : SITE_URL
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
 
   if (isTouchDevice && navigator.share) {
-    console.log('!@# here - aaa')
     navigator.share({
       title: isCopyingEpisodeUrl ? `okTurtles Podcast Episode ${episodeNumber}.` : 'okTurtles Podcast',
       url

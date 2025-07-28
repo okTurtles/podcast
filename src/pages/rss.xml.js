@@ -1,11 +1,10 @@
 import path from 'node:path'
-import rss from '@astrojs/rss'
-import { outerMostXMLTemplate, generateXMLTag, writeItunesTag,
-  objIntoItunesTag, sanitizePostHTML, mdToPlainText } from '@/utils/rss-generation'
+import { rssXMLWrapper, generateXMLTag, writeItunesTag,
+  objIntoItunesTag, sanitizePostHTML, mdToPlainText } from '@/utils/rss-generation.ts'
 import {
   SITE_TITLE_COMMON, SITE_SUBTITLE_COMMON, SITE_DESCRIPTION_COMMON,
   SITE_AUTHOR, SITE_AUTHOR_EMAIL, PODCAST_SUMMARY, SITE_URL, PODCAST_CATEGORIES
-} from '@/constants'
+} from '@/constants.ts'
 
 // NOTE - This RSS feed generator script was written based on the guidelines in the following resources:
 // Required tags in RSS feed of a podcast: https://help.apple.com/itc/podcasts_connect/#/itcb54353390
@@ -19,6 +18,7 @@ export async function GET (context) {
   // 1. Generate the <item /> tags from the episode posts and their content.
   const items = []
   const epPosts = Object.values(import.meta.glob('./episodes/*.{md,mdx}', { eager: true }))
+    .sort((a, b) => b.frontmatter.episode - a.frontmatter.episode)
 
   for (const post of epPosts) {
     const compiledPostContent = await post.compiledContent()
@@ -91,7 +91,7 @@ export async function GET (context) {
   ].join('\n')
 
   const output = new Response(
-    outerMostXMLTemplate.replace('@@channel_content@@', channelContent), 
+    rssXMLWrapper(channelContent), 
     {
       headers: {
         'Content-Type': 'application/xml',

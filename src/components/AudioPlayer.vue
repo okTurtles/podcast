@@ -1,6 +1,6 @@
 <template>
 <div class='audio-wrapper plyr_override is-audio'>
-  <audio controls ref="audio-el">
+  <audio controls playsinline ref="audio-el">
     <source :src="src" :type="mimeType" />
   </audio>
 </div>
@@ -22,11 +22,17 @@ const player = ref<any>(null)
 // methods
 const initPlayer = () => {
   const urlSearch = new URLSearchParams(window.location.search)
-  const opts = {
-    debug: false,
-    autoplay: urlSearch.has('play')
-  }
+  const shouldAutoplay = urlSearch.has('play')
+
+  // https://www.npmjs.com/package/plyr#options
+  const opts = { debug: false, autoplay: shouldAutoplay }
   player.value = new Plyr(audioEl.value, opts)
+
+  player.value.on('ready', () => {
+    if (shouldAutoplay && !player.value.playing) {
+      player.value.play()
+    }
+  })
 }
 
 onMounted(() => {
