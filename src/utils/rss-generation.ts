@@ -17,20 +17,13 @@ type ItunesTagEntry = {
 
 const escapeXML = (content: string): string => {
   if (typeof content !== 'string') return content
-
-  const escapeDict = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&apos;'
-  }
-
-  for (const [key, value] of Object.entries(escapeDict)) {
-    content = content.replace(new RegExp(key, 'g'), value)
-  }
-
+  // Order matters! Replace & first to avoid double-escaping
   return content
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
 }
 
 const generateXMLTag = (tag: string, attrs: Record<string, any> = {}, content: string = '', noEscape: boolean = false): string => {
@@ -83,7 +76,7 @@ const mdToPlainText = (markdown: string): string => {
 
 const rssXMLWrapper = (content: string): string => {
   const rssRoot = generateXMLTag(
-    'rss', 
+    'rss',
     {
       version: '2.0',
       'xmlns:content': 'http://purl.org/rss/1.0/modules/content/',

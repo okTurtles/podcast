@@ -18,7 +18,7 @@ export async function GET (context) {
   // 1. Generate the <item /> tags from the episode posts and their content.
   const items = []
   const epPosts = Object.values(import.meta.glob('./episodes/*.{md,mdx}', { eager: true }))
-    .sort((a, b) => b.frontmatter.episode - a.frontmatter.episode)
+    .sort((a, b) => Number(b.frontmatter.episode) - Number(a.frontmatter.episode))
 
   for (const post of epPosts) {
     const compiledPostContent = await post.compiledContent()
@@ -65,10 +65,11 @@ export async function GET (context) {
 
   // 2. Generate the <channel /> tag and its content.
   const channelContent = [
-    generateXMLTag('generator', {}, 'Astro RSS'),
+    generateXMLTag('generator', {}, 'okTurtles RSS'),
     generateXMLTag('title', {}, SITE_TITLE_COMMON),
     generateXMLTag('link', {}, SITE_URL),
     generateXMLTag('pubDate', {}, new Date().toUTCString()),
+    generateXMLTag('lastBuildDate', {}, new Date().toUTCString()),
     generateXMLTag('description', {}, SITE_DESCRIPTION_COMMON),
     generateXMLTag('language', {}, 'en-us'),
     generateXMLTag('copyright', {}, `© ${new Date().getFullYear()} ${SITE_AUTHOR} Inc.`),
@@ -92,7 +93,7 @@ export async function GET (context) {
   ].join('\n')
 
   const output = new Response(
-    rssXMLWrapper(channelContent), 
+    rssXMLWrapper(channelContent),
     {
       headers: {
         'Content-Type': 'application/xml',

@@ -30,7 +30,9 @@ const initPlayer = () => {
 
   player.value.on('ready', () => {
     if (shouldAutoplay && !player.value.playing) {
-      player.value.play()
+      player.value.play().catch(e => {
+        console.warn('Autoplay was prevented:', e)
+      })
     }
   })
 }
