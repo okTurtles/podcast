@@ -1,7 +1,21 @@
 {
+  "nodeModulesDir": "auto",
+  "vendor": true,
   "tasks": {
     "dev": "deno run --allow-all npm:astro dev",
     "build": "deno run --allow-all npm:astro build",
     "preview": "deno run --allow-all npm:astro preview"
+  },
+  "imports": {
+    "@astrojs/mdx": "npm:@astrojs/mdx@4.3.1",
+    "@astrojs/rss": "npm:@astrojs/rss@4.0.12",
+    "@astrojs/vue": "npm:@astrojs/vue@5.1.0",
+    "@nanostores/vue": "npm:@nanostores/vue@1.0.1",
+    "astro": "npm:astro@5.12.8",
+    "nanostores": "npm:nanostores@1.0.1",
+    "vue": "npm:vue@3.5.17",
+    "remove-markdown": "npm:remove-markdown@0.6.2",
+    "sanitize-html": "npm:sanitize-html@2.17.0",
+    "sass-embedded": "npm:sass-embedded@^1.89.2" // dev
   }
 }
