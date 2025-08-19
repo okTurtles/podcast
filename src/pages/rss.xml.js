@@ -71,7 +71,7 @@ export async function GET (context) {
     generateXMLTag('pubDate', {}, new Date().toUTCString()),
     generateXMLTag('lastBuildDate', {}, new Date().toUTCString()),
     generateXMLTag('description', {}, SITE_DESCRIPTION_COMMON),
-    generateXMLTag('language', {}, 'en-us'),
+    generateXMLTag('language', {}, 'en'),
     generateXMLTag('copyright', {}, `© ${new Date().getFullYear()} ${SITE_AUTHOR} Inc.`),
     objIntoItunesTag({
       type: { value: 'episodic' },
