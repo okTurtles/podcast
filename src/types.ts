@@ -13,3 +13,5 @@ export interface Episode {
   tags: string[];
   epContent?: string;
 }
+
+export type TagDictionary = Record<string, Record<string, number>>

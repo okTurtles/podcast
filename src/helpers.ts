@@ -1,3 +1,5 @@
+import type { TagDictionary } from './types'
+
 export function classNames(
   defaultClasses: string,
   classMap: Record<string, boolean>
@@ -46,11 +48,23 @@ export async function getAllEpisodes ({ sortBy = 'latest' } = {}): Promise<Array
   return allPosts.sort(sorter)
 }
 
-export async function getAllEpisodeTags (): Promise<string[]> {
-  const allEpisodes = await getAllEpisodes()
-  return allEpisodes.map(ep => ep.frontmatter.tags || [])
-    .reduce((allTags, tags) => uniqArray([...allTags, ...tags]), [])
-    .sort()
+export async function getAllEpisodeTags (forDict: boolean = false): Promise<string[] | TagDictionary> {
+  const allEpisodesTags = (await getAllEpisodes()).map(ep => ep.frontmatter.tags || [])
+
+  if (forDict) {
+    const flattenedTags = allEpisodesTags.flat()
+    const dict: TagDictionary = {}
+    for (const tag of flattenedTags) {
+      const firstLetter = tag.charAt(0).toUpperCase()
+      if (!dict[firstLetter]) {
+        dict[firstLetter] = {}
+      }
+      dict[firstLetter][tag] = (dict[firstLetter][tag] || 0) + 1
+    }
+    return dict
+  } else {
+    return allEpisodesTags.reduce((allTags, tags) => uniqArray([...allTags, ...tags]), []).sort()
+  }
 }
 
 export function formatPubDate (dateStr: string): string {
