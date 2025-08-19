@@ -78,7 +78,7 @@ export async function GET (context) {
       subtitle: { value: SITE_SUBTITLE_COMMON },
       author: { value: SITE_AUTHOR },
       summary: { value: PODCAST_SUMMARY },
-      explicit: { value: 'no' },
+      explicit: { value: 'false' },
       owner: {
         value: objIntoItunesTag({
           name: { value: SITE_AUTHOR },
