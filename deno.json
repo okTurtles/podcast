@@ -2,9 +2,9 @@
   "nodeModulesDir": "auto",
   "vendor": true,
   "tasks": {
-    "dev": "deno run --allow-all npm:astro dev",
-    "build": "deno run --allow-all npm:astro build",
-    "preview": "deno run --allow-all npm:astro preview"
+    "dev": "deno run --allow-all npm:astro@5.12.8 dev",
+    "build": "deno run --allow-all npm:astro@5.12.8 build",
+    "preview": "deno run --allow-all npm:astro@5.12.8 preview"
   },
   "imports": {
     "@astrojs/mdx": "npm:@astrojs/mdx@4.3.1",
