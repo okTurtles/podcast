@@ -50,7 +50,7 @@ export async function GET (context) {
         subtitle: { value: post.frontmatter.subtitle || '' },
         author: { value: SITE_AUTHOR },
         duration: { value: post.frontmatter.duration },
-        explicit: { value: 'no' },
+        explicit: { value: 'false' },
         keywords: { value: post.frontmatter.tags.join(', ') },
         summary: { value: xmlPostContent }
       }),
@@ -71,14 +71,20 @@ export async function GET (context) {
     generateXMLTag('pubDate', {}, new Date().toUTCString()),
     generateXMLTag('lastBuildDate', {}, new Date().toUTCString()),
     generateXMLTag('description', {}, SITE_DESCRIPTION_COMMON),
-    generateXMLTag('language', {}, 'en-us'),
+    generateXMLTag('language', {}, 'en'),
     generateXMLTag('copyright', {}, `© ${new Date().getFullYear()} ${SITE_AUTHOR} Inc.`),
+    // https://github.com/Podcast-Standards-Project/PSP-1-Podcast-RSS-Specification?tab=readme-ov-file#atomlink-relself
+    generateXMLTag('atom:link', {
+      href: `${SITE_URL}rss.xml`,
+      rel: 'self',
+      type: 'application/rss+xml'
+    }),
     objIntoItunesTag({
       type: { value: 'episodic' },
       subtitle: { value: SITE_SUBTITLE_COMMON },
       author: { value: SITE_AUTHOR },
       summary: { value: PODCAST_SUMMARY },
-      explicit: { value: 'no' },
+      explicit: { value: 'false' },
       owner: {
         value: objIntoItunesTag({
           name: { value: SITE_AUTHOR },

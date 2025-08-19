@@ -74,19 +74,21 @@ const mdToPlainText = (markdown: string): string => {
   }).trim()
 }
 
+// https://github.com/Podcast-Standards-Project/PSP-1-Podcast-RSS-Specification?tab=readme-ov-file#required-rss-namespace-declarations
 const rssXMLWrapper = (content: string): string => {
   const rssRoot = generateXMLTag(
     'rss',
     {
       version: '2.0',
-      'xmlns:content': 'http://purl.org/rss/1.0/modules/content/',
       'xmlns:itunes': 'http://www.itunes.com/dtds/podcast-1.0.dtd',
-      'xmlns:podcast': 'https://podcastindex.org/namespace/1.0'
+      'xmlns:podcast': 'https://podcastindex.org/namespace/1.0',
+      'xmlns:atom': 'http://www.w3.org/2005/Atom',
+      'xmlns:content': 'http://purl.org/rss/1.0/modules/content/'
     },
     generateXMLTag('channel', {}, content)
   )
 
-  return `<?xml version="1.0" encoding="UTF-8"?>${rssRoot}`
+  return `<?xml version="1.0" encoding="UTF-8"?>\n${rssRoot}`
 }
 
 export {
