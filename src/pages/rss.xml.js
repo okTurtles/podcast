@@ -50,7 +50,7 @@ export async function GET (context) {
         subtitle: { value: post.frontmatter.subtitle || '' },
         author: { value: SITE_AUTHOR },
         duration: { value: post.frontmatter.duration },
-        explicit: { value: 'no' },
+        explicit: { value: 'false' },
         keywords: { value: post.frontmatter.tags.join(', ') },
         summary: { value: xmlPostContent }
       }),
