@@ -73,6 +73,12 @@ export async function GET (context) {
     generateXMLTag('description', {}, SITE_DESCRIPTION_COMMON),
     generateXMLTag('language', {}, 'en'),
     generateXMLTag('copyright', {}, `© ${new Date().getFullYear()} ${SITE_AUTHOR} Inc.`),
+    // https://github.com/Podcast-Standards-Project/PSP-1-Podcast-RSS-Specification?tab=readme-ov-file#atomlink-relself
+    generateXMLTag('atom:link', {
+      href: `${SITE_URL}rss.xml`,
+      rel: 'self',
+      type: 'application/rss+xml'
+    }),
     objIntoItunesTag({
       type: { value: 'episodic' },
       subtitle: { value: SITE_SUBTITLE_COMMON },
