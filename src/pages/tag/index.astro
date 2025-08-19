@@ -1,9 +1,36 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro"
+import { getAllEpisodeTags } from '@/helpers'
 
-const pageTitle = 'Tags' 
+const pageTitle = 'Tags'
+const allTags = await getAllEpisodeTags()
+const tagsByAlphabet: Record<string, string[]> = {}
+
+for (const tag of allTags) {
+  const firstLetter = tag[0]
+  if (!tagsByAlphabet[firstLetter]) {
+    tagsByAlphabet[firstLetter] = []
+  }
+  tagsByAlphabet[firstLetter].push(tag)
+  tagsByAlphabet[firstLetter].sort()
+}
 ---
 
 <PageLayout pageTitle={pageTitle} pageType='episode'>
-  TODO!
+  <ul class="c-tag-list">
+    {
+      Object.entries(tagsByAlphabet).map(([letter, tags]) => {
+        return (
+          <div>
+            <p>{letter}</p>
+            <ul>
+              {tags.map(tag => {
+                return (<li>{tag}</li>)
+              })}
+            </ul>
+          </div>
+        )
+      })
+    }
+  </ul>
 </PageLayout>

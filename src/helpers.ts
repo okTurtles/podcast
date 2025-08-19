@@ -18,6 +18,10 @@ export function classNames(
   return `${defaultClasses} ${filteredClasses}`.trim()
 }
 
+export function uniqArray (arr: Array<any>): Array<any> {
+  return Array.from(new Set(arr))
+}
+
 export async function getAllEpisodes ({ sortBy = 'latest' } = {}): Promise<Array<any>> {
   const allFetched = Object.values(import.meta.glob('./pages/episodes/*.{md,mdx}', { eager: true }))
   const allPosts = []
@@ -40,6 +44,13 @@ export async function getAllEpisodes ({ sortBy = 'latest' } = {}): Promise<Array
   }
 
   return allPosts.sort(sorter)
+}
+
+export async function getAllEpisodeTags (): Promise<string[]> {
+  const allEpisodes = await getAllEpisodes()
+  return allEpisodes.map(ep => ep.frontmatter.tags || [])
+    .reduce((allTags, tags) => uniqArray([...allTags, ...tags]), [])
+    .sort()
 }
 
 export function formatPubDate (dateStr: string): string {
