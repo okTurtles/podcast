@@ -262,8 +262,6 @@ const getFileName = () => {
 
   > p,
   > ul {
-    white-space: pre-wrap;
-
     &:not(:last-child) {
       margin-bottom: 1.5rem;
     }
@@ -271,6 +269,10 @@ const getFileName = () => {
     a {
       word-break: break-word;
     }
+  }
+
+  p {
+    white-space: pre-wrap;
   }
 
   ul {
