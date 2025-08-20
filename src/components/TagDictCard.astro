@@ -1,0 +1,134 @@
+---
+const { letter, tagCountsMap } = Astro.props
+---
+
+<div class="c-tag-dict-card">
+  <span class='c-tag-dict-letter'>{letter}</span>
+  <div class="c-divider"></div>
+  <ul class="c-tag-list">
+    {
+      Object.entries(tagCountsMap as any).map(([tag, count]) => {
+        return (
+          <li class="c-tag-item">
+            <a class="c-tag-link" href={`/tag/${tag}`}>{tag}</a>
+            <span class="c-tag-count">({count})</span>
+          </li>
+        )
+      })
+    }
+  </ul>
+</div>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-tag-dict-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: $radius-large;
+  border: 1px solid $grey_3;
+  padding: 1.25rem;
+
+  @include from($tablet) {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: auto;
+    min-height: 9.5rem;
+  }
+}
+
+.c-divider {
+  display: block;
+  height: 1px;
+  width: 100%;
+  border-top: 1px solid $grey_3;
+  margin: 1.5rem 0;
+
+  @include from($tablet) {
+    height: 100%;
+    width: 1px;
+    border-left: 1px solid $grey_3;
+    border-top: none;
+    margin: 0 2rem;
+    align-self: stretch;
+  }
+}
+
+.c-tag-dict-letter {
+  position: relative;
+  display: block;
+  font-size: $font-heading-3;
+  font-weight: 900;
+  color: $dark_navy;
+  flex-shrink: 0;
+  padding: 0.35rem 1rem 0.25rem;
+  line-height: 1;
+  border-radius: $radius;
+  background-color: $grey_3;
+  overflow: hidden;
+  width: fit-content;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: currentColor;
+  }
+
+  @include from($tablet) {
+    font-size: $font-heading-2;
+  }
+}
+
+.c-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 100%;
+  gap: 0.75rem;
+
+  @include from($tablet) {
+    flex-grow: 1;
+  }
+}
+
+.c-tag-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.175rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 10rem;
+  background-color: $grey_3;
+  font-size: $font-sm;
+  font-weight: 700;
+  color: $dark_navy;
+  line-height: 1;
+  border: 1px solid rgba(0, 0, 0, 0);
+
+  @include from($mobile) {
+    font-size: 0.925rem;
+  }
+
+  &:hover,
+  &:focus,
+  &:focus-within {
+    border-color: $dark_navy;
+    background-color: rgba(0, 0, 0, 0);
+
+    .c-tag-link {
+      text-decoration: underline;
+    }
+  }
+
+  .c-tag-link {
+    color: inherit;
+    font-weight: inherit;
+    text-decoration: none;
+  }
+}
+</style>

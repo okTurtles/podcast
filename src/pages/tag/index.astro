@@ -1,27 +1,67 @@
 ---
 import PageLayout from "@/layouts/PageLayout.astro"
+import TagDictCard from "@/components/TagDictCard.astro"
 import { getAllEpisodeTags } from '@/helpers'
 
-const pageTitle = 'Tags'
+const pageTitle = 'All episode tags'
 const tagDict = await getAllEpisodeTags(true) as TagDictionary
+  const tagDictAsList = Object.entries(tagDict).map(([letter, tagCountsMap]) => ({ letter, tagCountsMap }))
+    .sort((a, b) => a.letter.localeCompare(b.letter))
 
 ---
 
 <PageLayout pageTitle={pageTitle} pageType='episode'>
-  <ul class="c-tag-list">
+  <h2 class="c-page-title">{pageTitle}</h2>
+
+  <hr class="section-divider c-divider" />
+
+  <div class="c-tag-dict-container mb-5">
     {
-      Object.entries(tagDict).map(([letter, tagCounts]) => {
+      tagDictAsList.map(({ letter, tagCountsMap }) => {
         return (
-          <div>
-            <p>{letter}</p>
-            <ul>
-              {Object.entries(tagCounts as any).map(([tag, count]) => {
-                return (<li>{tag} ({count})</li>)
-              })}
-            </ul>
-          </div>
+          <TagDictCard letter={letter} tagCountsMap={tagCountsMap} />
         )
       })
     }
-  </ul>
+  </div>
 </PageLayout>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-page-title {
+  font-size: $font-lg;
+  font-weight: 900;
+  color: $text_black;
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+
+  @include from($episode-card-narrow) {
+    font-size: $font-heading-4;
+    margin-top: 4rem;
+    margin-bottom: 2rem;
+  }
+}
+
+.c-divider {
+  margin-bottom: 2.5rem;
+  display: none;
+
+  @include from($episode-card-narrow) {
+    display: block;
+    margin-bottom: 4rem;
+  }
+}
+
+.c-tag-dict-container {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+
+  @include from($episode-card-narrow) {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+}
+</style>
