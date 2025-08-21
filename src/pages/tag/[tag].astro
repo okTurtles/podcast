@@ -1,0 +1,45 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+import { getAllEpisodes } from '@/helpers'
+
+interface Props {
+  epLinks: string[]
+}
+
+export async function getStaticPaths() {
+  const allEpisodes = await getAllEpisodes({ sortBy: 'oldest' })
+  const tagToEpisodesMap: any = {}
+
+  for (const episode of allEpisodes) {
+    for (const tag of episode.frontmatter.tags) {
+      if (!tagToEpisodesMap[tag]) {
+        tagToEpisodesMap[tag] = []
+      }
+      tagToEpisodesMap[tag].push(episode)
+    }
+  }
+
+  const paths = Object.entries(tagToEpisodesMap).map(([tag, episodes]) => ({
+    params: { tag },
+    props: { episodes }
+  }))
+
+  return paths
+}
+
+const { tag } = Astro.params
+const { epLinks } = Astro.props
+const pageTitle = `Tag | ${tag}`
+
+const episodes = await getAllEpisodes()
+
+---
+
+<PageLayout pageType="episode" pageTitle={pageTitle}>
+  <h1>Tag | {tag}</h1>
+  <ul class="c-ep-card-container">
+    {
+      episodes.map((ep: any) => <li><a href={ep.frontmatter.permalink}>{ep.frontmatter.title}</a></li>)
+    }
+  </ul>
+</PageLayout>

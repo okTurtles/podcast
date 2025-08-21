@@ -48,10 +48,10 @@ export async function getAllEpisodes ({ sortBy = 'latest' } = {}): Promise<Array
   return allPosts.sort(sorter)
 }
 
-export async function getAllEpisodeTags (forDict: boolean = false): Promise<string[] | TagDictionary> {
+export async function getAllEpisodeTags (asDictionary: boolean = false): Promise<string[] | TagDictionary> {
   const allEpisodesTags = (await getAllEpisodes()).map(ep => ep.frontmatter.tags || [])
 
-  if (forDict) {
+  if (asDictionary) {
     const flattenedTags = allEpisodesTags.flat()
     const dict: TagDictionary = {}
     for (const tag of flattenedTags) {
