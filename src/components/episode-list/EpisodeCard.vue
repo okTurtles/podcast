@@ -43,7 +43,7 @@
       <li v-for="(tag, index) in sortedTags"
         :key="index"
         class='tag-item'>
-        {{ tag }}
+        <a :href="getTagLink(tag)" class="tag-item-link">{{ tag }}</a>
       </li>
     </ul>
   </div>
@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { Episode } from '@/types'
-import { formatPubDate, formatDuration } from '@/helpers'
+import { formatPubDate, formatDuration, whiteSpaceToUnderscore } from '@/helpers'
 import PlayButton from '@/components/Playbutton.vue'
 
 interface ComponentPros {
@@ -84,6 +84,9 @@ const zeroPad = (value: number): string => {
 const navigateToEpisode = (autoPlay: boolean = false): void => {
   window.location.href = window.location.origin + permalink
     + (autoPlay ? '?play=true' : '')
+}
+const getTagLink = (tag: string): string => {
+  return `/tag/${whiteSpaceToUnderscore(tag)}`
 }
 
 </script>

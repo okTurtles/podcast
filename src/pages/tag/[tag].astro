@@ -1,9 +1,10 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro'
-import { getAllEpisodes } from '@/helpers'
+import { getAllEpisodes, whiteSpaceToUnderscore } from '@/helpers'
 
 interface Props {
-  epLinks: string[]
+  episodes: any[],
+  tag: string
 }
 
 export async function getStaticPaths() {
@@ -20,26 +21,65 @@ export async function getStaticPaths() {
   }
 
   const paths = Object.entries(tagToEpisodesMap).map(([tag, episodes]) => ({
-    params: { tag },
-    props: { episodes }
+    params: { tag: whiteSpaceToUnderscore(tag) },
+    props: { episodes, tag }
   }))
 
   return paths
 }
 
-const { tag } = Astro.params
-const { epLinks } = Astro.props
+const { episodes, tag } = Astro.props
 const pageTitle = `Tag | ${tag}`
-
-const episodes = await getAllEpisodes()
 
 ---
 
 <PageLayout pageType="episode" pageTitle={pageTitle}>
-  <h1>Tag | {tag}</h1>
-  <ul class="c-ep-card-container">
-    {
-      episodes.map((ep: any) => <li><a href={ep.frontmatter.permalink}>{ep.frontmatter.title}</a></li>)
-    }
-  </ul>
+  <div class="c-page-container">
+    <h2 class="c-page-title">
+      <span>Episode(s) tagged with:</span>
+      <span class="c-title-tag-name">{tag}</span>
+    </h2>
+
+    <hr class="section-divider c-divider" />
+
+    <ul class="c-ep-card-container">
+      {
+        episodes.map((ep: any) => <li><a href={ep.frontmatter.permalink}>{ep.frontmatter.title}</a></li>)
+      }
+    </ul>
+  </div>
 </PageLayout>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-page-container {
+  position: relative;
+  width: 100%;
+  margin-top: 4rem;
+}
+
+.c-page-title {
+  font-size: $font-heading-5;
+
+  .c-title-tag-name {
+    display: inline-block;
+    font-size: 0.85em;
+    padding: 0.125em 0.625em;
+    border-radius: 5rem;
+    background-color: $grey_3;
+    color: $dark_navy;
+    line-height: 1.25;
+    transform: translateY(-0.125em);
+  }
+
+  @include from($tablet) {
+    font-size: $font-heading-4;
+  }
+}
+
+.c-divider {
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+</style>

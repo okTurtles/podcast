@@ -1,4 +1,5 @@
 ---
+import { whiteSpaceToUnderscore } from '@/helpers'
 const { letter, tagCountsMap } = Astro.props
 ---
 
@@ -10,7 +11,7 @@ const { letter, tagCountsMap } = Astro.props
       Object.entries(tagCountsMap as any).map(([tag, count]) => {
         return (
           <li class="c-tag-item">
-            <a class="c-tag-link" href={`/tag/${tag}`}>{tag}</a>
+            <a class="c-tag-link" href={`/tag/${whiteSpaceToUnderscore(tag)}`}>{tag}</a>
             <span class="c-tag-count">({count})</span>
           </li>
         )
