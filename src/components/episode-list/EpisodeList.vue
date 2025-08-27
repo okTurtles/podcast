@@ -1,14 +1,20 @@
 <template>
   <div class="c-ep-list-section-wrapper">
-    <div v-if="showToolbar" class="c-table-toolbar">
-      <h2 v-if="listTitle" class="c-ep-section-title">{{ listTitle }}</h2>
+    <h2 v-if="listTitle" class="c-ep-section-title">{{ listTitle }}</h2>
+
+    <div class="c-toolbar-container">
+      <div class="c-total-num">
+        <i class="icon-list"></i>
+        <span>{{ episodes.length }} items</span>
+      </div>
     </div>
 
     <ul class="c-episode-list">
       <EpisodeCard v-for="episode in episodes"
         tag="li"
         :key="episode.frontmatter.permalink"
-        :episode-details="episode.details" />
+        :episode-details="episode.details"
+        :hide-episode-tags="hideEpisodeTags" />
     </ul>
   </div>
 </template>
@@ -20,16 +26,13 @@ import EpisodeCard from './EpisodeCard.vue'
 
 interface ComponentProps {
   listTitle?: string,
-  epList?: Array<any>
+  hideEpisodeTags?: boolean,
+  episodeList?: Array<any>
 }
 
 const props = defineProps<ComponentProps>()
 
-const showToolbar = computed<boolean>(() => {
-  return Boolean(props.listTitle)
-})
-
-const episodes = ref(Array.isArray(props.epList) ? props.epList : await getAllEpisodes())
+const episodes = ref(Array.isArray(props.episodeList) ? props.episodeList : await getAllEpisodes())
 </script>
 
 <style scope lang="scss">
@@ -41,18 +44,45 @@ const episodes = ref(Array.isArray(props.epList) ? props.epList : await getAllEp
   display: block;
 }
 
-.c-table-toolbar {
-  position: relative;
-  margin-bottom: 2rem;
-}
-
 .c-ep-section-title {
+  position: relative;
   font-size: $font-lg;
   font-weight: 600;
+  margin-bottom: 2rem;
 
 	@include from($tablet) {
 		font-size: $font-heading-5;
 	}
+}
+
+.c-toolbar-container {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+
+  .c-total-num {
+    display: inline-flex;
+    align-items: center;
+    font-size: $font-xs;
+    font-weight: 700;
+    column-gap: 0.325rem;
+    color: $grey_2;
+
+    i {
+      font-size: 0.85em;
+      transform: translateY(0.5px);
+    }
+  }
+
+  @include from($tablet) {
+    margin-bottom: 1rem;
+
+    .c-total-num {
+      font-size: $font-sm;
+    }
+  }
 }
 
 .c-episode-list {

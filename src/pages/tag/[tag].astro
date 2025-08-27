@@ -1,5 +1,6 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro'
+import EpisodeList from "@/components/episode-list/EpisodeList.vue"
 import { getAllEpisodes, whiteSpaceToUnderscore } from '@/helpers'
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 }
 
 export async function getStaticPaths() {
-  const allEpisodes = await getAllEpisodes({ sortBy: 'oldest' })
+  const allEpisodes = await getAllEpisodes({ sortBy: 'latest' })
   const tagToEpisodesMap: any = {}
 
   for (const episode of allEpisodes) {
@@ -30,23 +31,27 @@ export async function getStaticPaths() {
 
 const { episodes, tag } = Astro.props
 const pageTitle = `Tag | ${tag}`
-
 ---
 
 <PageLayout pageType="episode" pageTitle={pageTitle}>
   <div class="c-page-container">
-    <h2 class="c-page-title">
-      <span>Episode(s) tagged with:</span>
-      <span class="c-title-tag-name">{tag}</span>
-    </h2>
+    <div class="c-title-container">
+      <h2 class="c-page-title">
+        <span>Episode(s) tagged with:</span>
+        <span class="c-title-tag-name">{tag}</span>
+      </h2>
+
+      <a class="c-see-all-tags" href="/tag">
+        <i class="icon-chevron-left"></i>
+        <span>See all tags</span>
+      </a>
+    </div>
 
     <hr class="section-divider c-divider" />
 
-    <ul class="c-ep-card-container">
-      {
-        episodes.map((ep: any) => <li><a href={ep.frontmatter.permalink}>{ep.frontmatter.title}</a></li>)
-      }
-    </ul>
+    <EpisodeList client:load
+      episodeList={episodes}
+      hideEpisodeTags={true} />
   </div>
 </PageLayout>
 
@@ -57,10 +62,19 @@ const pageTitle = `Tag | ${tag}`
   position: relative;
   width: 100%;
   margin-top: 4rem;
+  padding-bottom: 6rem;
+
+  @include from($tablet) {
+    padding-bottom: 8.2rem;
+  }
+}
+
+.c-title-container {
+  margin-bottom: 2rem;
 }
 
 .c-page-title {
-  font-size: $font-heading-5;
+  font-size: $font-lg;
 
   .c-title-tag-name {
     display: inline-block;
@@ -78,8 +92,24 @@ const pageTitle = `Tag | ${tag}`
   }
 }
 
+.c-see-all-tags {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  font-size: $font-sm;
+  margin-top: 0.25rem;
+
+  i {
+    font-size: 0.85em;
+  }
+}
+
 .c-divider {
-  margin-top: 2rem;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
+
+  @include from ($episode-card-narrow) {
+    display: block;
+    margin-bottom: 4rem;
+  }
 }
 </style>

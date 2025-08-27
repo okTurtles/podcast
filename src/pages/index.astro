@@ -12,7 +12,7 @@ import EpisodeList from "@/components/episode-list/EpisodeList.vue"
 			</p>
 		</div>
 
-		<hr class="section-divider is-full-width mt-4 mb-4" />
+		<hr class="section-divider is-full-width c-section-divider" />
 
 		<EpisodeList client:load listTitle='Episodes' />
 	</div>
@@ -29,6 +29,24 @@ import EpisodeList from "@/components/episode-list/EpisodeList.vue"
 
 	@include from($tablet) {
 		padding-bottom: 10rem;
+	}
+}
+
+.c-section-divider {
+	margin-top: 3rem;
+	margin-bottom: 3rem;
+	
+	@include from($tablet) {
+		margin-top: 4rem;
+		margin-bottom: 4rem;
+	}
+}
+
+.c-home-title {
+	font-size: $font-lg;
+
+	@include from($tablet) {
+		font-size: $font-heading-5;
 	}
 }
 </style>
