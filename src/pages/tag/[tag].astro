@@ -1,0 +1,115 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro'
+import EpisodeList from "@/components/episode-list/EpisodeList.vue"
+import { getAllEpisodes, whiteSpaceToUnderscore } from '@/helpers'
+
+interface Props {
+  episodes: any[],
+  tag: string
+}
+
+export async function getStaticPaths() {
+  const allEpisodes = await getAllEpisodes({ sortBy: 'latest' })
+  const tagToEpisodesMap: any = {}
+
+  for (const episode of allEpisodes) {
+    for (const tag of episode.frontmatter.tags) {
+      if (!tagToEpisodesMap[tag]) {
+        tagToEpisodesMap[tag] = []
+      }
+      tagToEpisodesMap[tag].push(episode)
+    }
+  }
+
+  const paths = Object.entries(tagToEpisodesMap).map(([tag, episodes]) => ({
+    params: { tag: whiteSpaceToUnderscore(tag) },
+    props: { episodes, tag }
+  }))
+
+  return paths
+}
+
+const { episodes, tag } = Astro.props
+const pageTitle = `Tag | ${tag}`
+---
+
+<PageLayout pageType="episode" pageTitle={pageTitle}>
+  <div class="c-page-container">
+    <div class="c-title-container">
+      <h2 class="c-page-title">
+        <span>Episode(s) tagged with:</span>
+        <span class="c-title-tag-name">{tag}</span>
+      </h2>
+
+      <a class="c-see-all-tags" href="/tag">
+        <i class="icon-chevron-left"></i>
+        <span>See all tags</span>
+      </a>
+    </div>
+
+    <hr class="section-divider c-divider" />
+
+    <EpisodeList client:load
+      episodeList={episodes}
+      hideEpisodeTags={true} />
+  </div>
+</PageLayout>
+
+<style lang="scss">
+@use "@/styles/variables" as *;
+
+.c-page-container {
+  position: relative;
+  width: 100%;
+  margin-top: 4rem;
+  padding-bottom: 6rem;
+
+  @include from($tablet) {
+    padding-bottom: 8.2rem;
+  }
+}
+
+.c-title-container {
+  margin-bottom: 2rem;
+}
+
+.c-page-title {
+  font-size: $font-lg;
+
+  .c-title-tag-name {
+    display: inline-block;
+    font-size: 0.85em;
+    padding: 0.125em 0.625em;
+    border-radius: 5rem;
+    background-color: $grey_3;
+    color: $dark_navy;
+    line-height: 1.25;
+    transform: translateY(-0.125em);
+  }
+
+  @include from($tablet) {
+    font-size: $font-heading-4;
+  }
+}
+
+.c-see-all-tags {
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  font-size: $font-sm;
+  margin-top: 0.25rem;
+
+  i {
+    font-size: 0.85em;
+  }
+}
+
+.c-divider {
+  margin-bottom: 2.5rem;
+
+  @include from ($episode-card-narrow) {
+    display: block;
+    margin-bottom: 4rem;
+  }
+}
+</style>

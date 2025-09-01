@@ -3,9 +3,7 @@
   <button id="share-btn" class="button" type="button"
     @click.stop="copyOrShareSiteUrl">
     <i class="icon-share-alt pre-icon"></i>
-    <span class="button-text">
-      {{ isInEpisodePage ? 'Share this episode' : 'Share' }}
-    </span>
+    <span class="button-text">{{ btnText }}</span>
   </button>
 
   <a class="button is-secondary" target="_blank" href="/rss.xml">
@@ -16,6 +14,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref, onMounted } from 'vue'
 import { SITE_URL } from '@/constants'
 import { addToastItem } from '@/store/toast'
 import { randomHexString } from '@/helpers'
@@ -26,17 +25,25 @@ interface ComponentProps {
 }
 
 const { variant, classes = '' } = defineProps<ComponentProps>()
-const isInEpisodePage = variant === 'episode'
+
+const epNumber = ref<number>(-1)
+const btnText = computed<string>(() => {
+  return variant === 'episode' && epNumber.value > 0
+    ? 'Share this episode'
+    : 'Share'
+})
+
 
 const copyOrShareSiteUrl = () => {
-  const episodeNumber = document.body.dataset.episode
-  const isCopyingEpisodeUrl = Boolean(episodeNumber)
-  const url = episodeNumber ? new URL(`/episodes/${episodeNumber}`, SITE_URL).toString() : SITE_URL
+  const isCopyingEpisodeUrl = epNumber.value > 0
+  const url = isCopyingEpisodeUrl
+    ? new URL(`/episodes/${epNumber.value}`, SITE_URL).toString()
+    : SITE_URL
   const isTouchDevice = window.matchMedia('(pointer: coarse)').matches
 
   if (isTouchDevice && navigator.share) {
     navigator.share({
-      title: isCopyingEpisodeUrl ? `okTurtles Podcast Episode ${episodeNumber}.` : 'okTurtles Podcast',
+      title: isCopyingEpisodeUrl ? `okTurtles Podcast Episode ${epNumber.value}.` : 'okTurtles Podcast',
       url
     }).catch((error) => console.error('navigator.share failed with:', error))
 
@@ -51,6 +58,11 @@ const copyOrShareSiteUrl = () => {
       : 'Site URL copied to clipboard!'
   })
 }
+
+onMounted(() => {
+  const epNumberInDOM = document.body.dataset.episode
+  epNumber.value = epNumberInDOM ? parseInt(epNumberInDOM) : -1
+})
 </script>
 
 <style lang="scss" scoped>

@@ -27,7 +27,7 @@
     </div>
   </div>
 
-  <div class="c-ep-description-container" :class="{ 'is-expanded': isContentExpanded }">
+  <div class="c-ep-description-container" :class="{ 'has-bottom-margin': hideEpisodeTags }">
     <span class="c-card-label-common">About this episode:</span>
     <div class="c-ep-description" :class="{ 'line-clamp-3': !isContentExpanded }" v-html="episodeDetails.epContent" />
     <button type="button" class="is-unstyled c-show-more-btn" @click="isContentExpanded = !isContentExpanded">
@@ -36,14 +36,14 @@
     </button>
   </div>
 
-  <div class='c-tags-container'>
+  <div v-if="!hideEpisodeTags" class='c-tags-container'>
     <span class="c-card-label-common">Tags:</span>
 
     <ul class='tags-list'>
       <li v-for="(tag, index) in sortedTags"
         :key="index"
         class='tag-item'>
-        {{ tag }}
+        <a :href="getTagLink(tag)" class="tag-item-link">{{ tag }}</a>
       </li>
     </ul>
   </div>
@@ -53,16 +53,17 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { Episode } from '@/types'
-import { formatPubDate, formatDuration } from '@/helpers'
+import { formatPubDate, formatDuration, whiteSpaceToUnderscore } from '@/helpers'
 import PlayButton from '@/components/Playbutton.vue'
 
-interface ComponentPros {
+interface ComponentProps {
   tag?: string,
+  hideEpisodeTags?: boolean,
   episodeDetails: Episode
 }
 
 // local-state
-const { tag = 'div', episodeDetails } = defineProps<ComponentPros>()
+const { tag = 'div', episodeDetails, hideEpisodeTags = false } = defineProps<ComponentProps>()
 const {
   episode, title, permalink, duration, pubDate, 
   tags = [], coverImage = ''
@@ -84,6 +85,9 @@ const zeroPad = (value: number): string => {
 const navigateToEpisode = (autoPlay: boolean = false): void => {
   window.location.href = window.location.origin + permalink
     + (autoPlay ? '?play=true' : '')
+}
+const getTagLink = (tag: string): string => {
+  return `/tag/${whiteSpaceToUnderscore(tag)}`
 }
 
 </script>
@@ -243,12 +247,16 @@ const navigateToEpisode = (autoPlay: boolean = false): void => {
   font-size: $font-xs;
   line-height: 1.325;
 
+  &.has-bottom-margin {
+    margin-bottom: 0.75rem;
+  }
+
   @include from($episode-card-narrow) {
     font-size: $font-sm;
   }
 
-  &.is-expanded {
-    margin-top: 1rem;
+  @include from ($tablet) {
+    margin-top: 0.5rem;
   }
 
   .c-ep-description:not(.line-clamp-3) {
@@ -268,10 +276,6 @@ const navigateToEpisode = (autoPlay: boolean = false): void => {
     iframe {
       display: none !important;
     }
-  }
-
-  @include from($tablet) {
-    margin-top: 0;
   }
 }
 
