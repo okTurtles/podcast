@@ -106,5 +106,5 @@ export function randomHexString (length: number) {
 }
 
 export function whiteSpaceToUnderscore (str: string): string {
-  return str.replace(/\s+/g, '_')
+  return str.trim().replace(/\s+/g, '_')
 }

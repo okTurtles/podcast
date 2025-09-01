@@ -2,11 +2,12 @@
 import PageLayout from "@/layouts/PageLayout.astro"
 import TagDictCard from "@/components/TagDictCard.astro"
 import { getAllEpisodeTags } from '@/helpers'
+import type { TagDictionary } from '@/types'
 
 const pageTitle = 'All episode tags'
 const tagDict = await getAllEpisodeTags(true) as TagDictionary
-  const tagDictAsList = Object.entries(tagDict).map(([letter, tagCountsMap]) => ({ letter, tagCountsMap }))
-    .sort((a, b) => a.letter.localeCompare(b.letter))
+const tagDictAsList = Object.entries(tagDict).map(([letter, tagCountsMap]) => ({ letter, tagCountsMap }))
+  .sort((a, b) => a.letter.localeCompare(b.letter))
 
 ---
 
