@@ -108,3 +108,7 @@ export function randomHexString (length: number) {
 export function whiteSpaceToUnderscore (str: string): string {
   return str.trim().replace(/\s+/g, '_')
 }
+
+export function getTagLink (tag: string): string {
+  return `/tag/${whiteSpaceToUnderscore(tag)}`
+}

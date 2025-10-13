@@ -2,7 +2,7 @@
 import '@/styles/plyr/_plyr_override.scss'
 import PageLayout from "./PageLayout.astro"
 import AudioPlayer from '@/components/AudioPlayer.vue'
-import { formatPubDate, formatDuration } from '@/helpers'
+import { formatPubDate, formatDuration, getTagLink } from '@/helpers'
 import { classNames } from "@/helpers"
 
 const { frontmatter } = Astro.props
@@ -57,7 +57,11 @@ const getFileName = () => {
           <span class="c-label-common">Tags:</span>
           <ul class="tags-list">
             {
-              tags.map((tag: string) => (<li class="tag-item">{tag}</li>))
+              tags.map((tag: string) => (
+                <li class="tag-item">
+                  <a class="tag-item-link" href={getTagLink(tag)}>{tag}</a>
+                </li>
+              ))
             }
           </ul>
         </div>

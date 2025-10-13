@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { Episode } from '@/types'
-import { formatPubDate, formatDuration, whiteSpaceToUnderscore } from '@/helpers'
+import { formatPubDate, formatDuration, getTagLink } from '@/helpers'
 import PlayButton from '@/components/Playbutton.vue'
 
 interface ComponentProps {
@@ -85,9 +85,6 @@ const zeroPad = (value: number): string => {
 const navigateToEpisode = (autoPlay: boolean = false): void => {
   window.location.href = window.location.origin + permalink
     + (autoPlay ? '?play=true' : '')
-}
-const getTagLink = (tag: string): string => {
-  return `/tag/${whiteSpaceToUnderscore(tag)}`
 }
 
 </script>
