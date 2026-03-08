@@ -64,6 +64,10 @@ const emit = defineEmits<{
     border-color: none;
   }
 
+  &:focus-within {
+    border-width: 2px;
+  }
+
   /* Play triangle */
   &::before {
     content: "";
