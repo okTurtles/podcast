@@ -12,7 +12,7 @@
   </div>
 
   <div class='c-episode-card__details'>
-    <a :href='`/episodes/${episode}`' class="c-episode-card__title-link">
+    <a :href='permalink' class="c-episode-card__title-link">
       <h3 class='episode-title'>EP {{ zeroPad(episode) }} | {{ title }}</h3>
     </a>
     <div class='c-episode-card__meta'>
