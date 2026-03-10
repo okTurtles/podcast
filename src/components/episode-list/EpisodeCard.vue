@@ -12,7 +12,9 @@
   </div>
 
   <div class='c-episode-card__details'>
-    <h3 class='episode-title c-episode-card__title' @click.stop="navigateToEpisode(false)">EP {{ zeroPad(episode) }} | {{ title }}</h3>
+    <a :href='permalink' class="c-episode-card__title-link">
+      <h3 class='episode-title'>EP {{ zeroPad(episode) }} | {{ title }}</h3>
+    </a>
     <div class='c-episode-card__meta'>
       <span class='c-pub-date'>
         <span class="c-card-label-common">Published on:</span> {{ formattedPubDate }}
@@ -29,7 +31,9 @@
 
   <div class="c-ep-description-container" :class="{ 'has-bottom-margin': hideEpisodeTags }">
     <span class="c-card-label-common">About this episode:</span>
-    <div class="c-ep-description" :class="{ 'line-clamp-3': !isContentExpanded }" v-html="episodeDetails.epContent" />
+    <div class="c-ep-description" :class="{ 'line-clamp-2': !isContentExpanded }"
+      :inert="!isContentExpanded"
+      v-html="episodeDetails.epContent" />
     <button type="button" class="is-unstyled c-show-more-btn" @click="isContentExpanded = !isContentExpanded">
       <i :class="isContentExpanded ? 'icon-chevron-up' : 'icon-chevron-bottom'"></i>
       <span class="button-text">{{ isContentExpanded ? 'Show less' : 'Show more' }}</span>
@@ -103,6 +107,16 @@ const navigateToEpisode = (autoPlay: boolean = false): void => {
   column-gap: 0.75rem;
   padding: 1rem;
   border-top: 1px solid $grey_3;
+
+  a.c-episode-card__title-link {
+    color: $text_black;
+
+    &:hover,
+    &:focus,
+    &:focus-within {
+      color: $text_black;
+    }
+  }
 
   @include from($episode-card-narrow) {
     padding: 1.25rem;
@@ -194,15 +208,6 @@ const navigateToEpisode = (autoPlay: boolean = false): void => {
   }
 }
 
-.c-episode-card__title {
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    text-decoration: underline;
-  }
-}
-
 .c-episode-card__meta {
   display: flex;
   flex-direction: column;
@@ -256,7 +261,7 @@ const navigateToEpisode = (autoPlay: boolean = false): void => {
     margin-top: 0.5rem;
   }
 
-  .c-ep-description:not(.line-clamp-3) {
+  .c-ep-description:not(.line-clamp-2) {
     > p:not(:last-child) {
       margin-bottom: 0.75rem;
     }
