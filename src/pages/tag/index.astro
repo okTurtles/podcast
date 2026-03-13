@@ -8,7 +8,6 @@ const pageTitle = 'All episode tags'
 const tagDict = await getAllEpisodeTags(true) as TagDictionary
 const tagDictAsList = Object.entries(tagDict).map(([letter, tagCountsMap]) => ({ letter, tagCountsMap }))
   .sort((a, b) => a.letter.localeCompare(b.letter))
-
 ---
 
 <PageLayout pageTitle={pageTitle} pageType='episode'>
