@@ -13,3 +13,4 @@ npm-debug.log*
 # macOS-specific files
 .DS_Store
 /.crush/
+/.claude/
