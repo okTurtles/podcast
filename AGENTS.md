@@ -4,7 +4,7 @@ This file provides guidance to AI coding agents when working with code in this r
 
 ## Project
 
-Static site for the okTurtles Podcast (https://podcast.okturtles.org/), built with Astro 5, Vue 3 islands and SCSS. The site's main outputs are the episode pages and the podcast RSS feed at `/rss.xml`.
+Static site for the okTurtles Podcast (https://podcast.okturtles.org/), built with Astro 7, Vue 3 islands and SCSS. The site's main outputs are the episode pages and the podcast RSS feed at `/rss.xml`.
 
 ## Commands
 
@@ -13,13 +13,16 @@ deno install        # install dependencies into node_modules/ (after cloning or 
 deno task dev       # dev server
 deno task build     # static build into dist/
 deno task preview   # serve the built dist/
+deno task stop-preview   # stop a running preview server
 ```
 
 There is no lint, type-check or test script. `deno task build` is the only automated check; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
 
-- The project runs on Deno, with no `package.json`. Dependencies are npm packages pinned to exact versions in the `imports` map of `deno.json` and locked in `deno.lock`. The Astro version appears in both the `imports` map and the three task commands; keep them in sync.
-- Tasks run Astro with an explicit permission list rather than `--allow-all` (network is limited to localhost) and set `ASTRO_TELEMETRY_DISABLED=1`; without it Astro tries to write its telemetry config outside the project, which the write permission denies.
-- `vite.ssr.noExternal: ['@astrojs/vue']` in `astro.config.mjs` is required for the build: without a `package.json`, `@astrojs/vue` is otherwise left external and its `virtual:` import fails at runtime.
+- The project runs on Deno, with no `package.json`. Dependencies are npm packages pinned to exact versions in the `imports` map of `deno.json` and locked in `deno.lock`. The tasks run `deno run -P astro ...`; `astro` there is resolved through the `imports` map, so the version is set in one place.
+- Tasks run Astro with restricted permissions rather than `--allow-all`. The permissions live in the `permissions` block of `deno.json` and tasks select a set with `-P` (`default` for `build` and `stop-preview`, `serve` for `dev` and `preview`). This Deno feature is experimental and prints a warning on every run. Network access is limited to localhost; `serve` also allows `0.0.0.0` and `[::]`, which Astro probes to check the port is free before listening on `127.0.0.1`.
+- Tasks set `ASTRO_TELEMETRY_DISABLED=1`; without it Astro tries to write its telemetry config outside the project, which the write permission denies.
+- Two `vite.resolve` settings in `astro.config.mjs` are required for the build. `noExternal: ['@astrojs/vue']`: without a `package.json`, `@astrojs/vue` is otherwise left external and its `virtual:` import fails at runtime. `alias` for `@`: the `tsconfig.json` path alias alone does not resolve `@use '@/styles/...'` in SCSS.
+- Astro 7 needs a recent Deno: the build works on Deno 2.9.7 and fails on 2.4.2 (run `deno upgrade`).
 - Episode MP3s (`public/media/audios/episodes/*.mp3`) are stored in Git LFS (`.gitattributes`); `git lfs` is needed to fetch or add them.
 
 ## Architecture
@@ -54,7 +57,7 @@ Frontmatter fields that feed the RSS `<enclosure>` and `<guid>` must be accurate
 
 ### Styles
 
-Global styles are loaded once via `src/styles/main.scss` (imported in `BaseHead.astro`). Component `<style lang="scss">` blocks pull in variables, colors and mixins with `@use '@/styles/variables' as *;` (e.g. the `from($tablet)` breakpoint mixin). Class naming: `c-` for component-scoped classes, `l-` for layout, `is-` for state modifiers. `@/` aliases `src/` (`tsconfig.json`).
+Global styles are loaded once via `src/styles/main.scss` (imported in `BaseHead.astro`). Component `<style lang="scss">` blocks pull in variables, colors and mixins with `@use '@/styles/variables' as *;` (e.g. the `from($tablet)` breakpoint mixin). Class naming: `c-` for component-scoped classes, `l-` for layout, `is-` for state modifiers. `@/` aliases `src/` (`tsconfig.json`, plus the Vite alias in `astro.config.mjs`).
 
 ## CI
 
