@@ -13,10 +13,12 @@ export default defineConfig({
   },
   vite: {
     resolve: {
-      // Lets SCSS '@use "@/styles/..."' resolve; the tsconfig 'paths' alias does not reach Sass.
-      alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
-      // Without a package.json, Astro leaves @astrojs/vue external in the server build,
-      // and its 'virtual:' import then fails at runtime.
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url)),
+      },
+      // Makes the build include the code of @astrojs/vue in its output instead of loading the package separately.
+      // This used to happen automatically with npm. Since we replaced package.json with deno.json it no longer does,
+      // and the build fails with an error about a "virtual:" import.
       noExternal: ['@astrojs/vue']
     },
     // Sass-related options
