@@ -77,7 +77,7 @@ const isContentExpanded = ref(false)
 // computed props
 const formattedPubDate = computed<string>(() => formatPubDate(pubDate))
 const formattedDuration = computed<string>(() => formatDuration(duration))
-const sortedTags = computed<string[]>(() => tags.sort())
+const sortedTags = computed<string[]>(() => [...tags].sort())
 
 // methods
 const getCoverImagePath = (fileName: string): string => {

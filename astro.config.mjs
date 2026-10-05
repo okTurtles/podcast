@@ -11,6 +11,11 @@ export default defineConfig({
     enabled: false
   },
   vite: {
+    ssr: {
+      // Without a package.json, Astro leaves @astrojs/vue external in the server build,
+      // and its 'virtual:@astrojs/vue/app' import then fails at runtime.
+      noExternal: ['@astrojs/vue']
+    },
     // Sass-related options
     css: {
       preprocessorOptions: {

@@ -9,14 +9,17 @@ Static site for the okTurtles Podcast (https://podcast.okturtles.org/), built wi
 ## Commands
 
 ```sh
-npm run dev       # dev server
-npm run build     # static build into dist/
-npm run preview   # serve the built dist/
+deno install        # install dependencies into node_modules/ (after cloning or changing deno.json)
+deno task dev       # dev server
+deno task build     # static build into dist/
+deno task preview   # serve the built dist/
 ```
 
-There is no lint, type-check or test script. `npm run build` is the only automated check; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
+There is no lint, type-check or test script. `deno task build` is the only automated check; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
 
-- `.npmrc` sets `save-exact = true`: dependencies are pinned to exact versions.
+- The project runs on Deno, with no `package.json`. Dependencies are npm packages pinned to exact versions in the `imports` map of `deno.json` and locked in `deno.lock`. The Astro version appears in both the `imports` map and the three task commands; keep them in sync.
+- Tasks run Astro with an explicit permission list rather than `--allow-all` (network is limited to localhost) and set `ASTRO_TELEMETRY_DISABLED=1`; without it Astro tries to write its telemetry config outside the project, which the write permission denies.
+- `vite.ssr.noExternal: ['@astrojs/vue']` in `astro.config.mjs` is required for the build: without a `package.json`, `@astrojs/vue` is otherwise left external and its `virtual:` import fails at runtime.
 - Episode MP3s (`public/media/audios/episodes/*.mp3`) are stored in Git LFS (`.gitattributes`); `git lfs` is needed to fetch or add them.
 
 ## Architecture

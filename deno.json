@@ -1,0 +1,20 @@
+{
+  "nodeModulesDir": "auto",
+  "tasks": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1 npm:astro@5.16.4 dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1 npm:astro@5.16.4 build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1 npm:astro@5.16.4 preview"
+  },
+  "imports": {
+    "@astrojs/mdx": "npm:@astrojs/mdx@4.3.1",
+    "@astrojs/rss": "npm:@astrojs/rss@4.0.12",
+    "@astrojs/vue": "npm:@astrojs/vue@5.1.0",
+    "@nanostores/vue": "npm:@nanostores/vue@1.0.1",
+    "astro": "npm:astro@5.16.4",
+    "nanostores": "npm:nanostores@1.0.1",
+    "remove-markdown": "npm:remove-markdown@0.6.2",
+    "sanitize-html": "npm:sanitize-html@2.17.0",
+    "sass": "npm:sass@1.89.2",
+    "vue": "npm:vue@3.5.17"
+  }
+}
