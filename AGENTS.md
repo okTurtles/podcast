@@ -18,12 +18,11 @@ deno task stop-preview   # stop a running preview server
 
 There is no lint, type-check or test script. `deno task build` is the only automated check; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
 
-- The project runs on Deno, with no `package.json`. Dependencies are npm packages pinned to exact versions in the `imports` map of `deno.json` and locked in `deno.lock`. The tasks run `deno run -P astro ...`; `astro` there is resolved through the `imports` map, so the version is set in one place.
-- Tasks run Astro with restricted permissions rather than `--allow-all`. The permissions live in the `permissions` block of `deno.json` and tasks select a set with `-P` (`default` for `build` and `stop-preview`, `serve` for `dev` and `preview`). This Deno feature is experimental and prints a warning on every run. Network access is limited to localhost; `serve` also allows `0.0.0.0` and `[::]`, which Astro probes to check the port is free before listening on `127.0.0.1`.
-- Tasks set `ASTRO_TELEMETRY_DISABLED=1`; without it Astro tries to write its telemetry config outside the project, which the write permission denies.
-- Two `vite.resolve` settings in `astro.config.mjs` are required for the build. `noExternal: ['@astrojs/vue']`: without a `package.json`, `@astrojs/vue` is otherwise left external and its `virtual:` import fails at runtime. `alias` for `@`: the `tsconfig.json` path alias alone does not resolve `@use '@/styles/...'` in SCSS.
-- Astro 7 needs a recent Deno: the build works on Deno 2.9.7 and fails on 2.4.2 (run `deno upgrade`).
-- Episode MP3s (`public/media/audios/episodes/*.mp3`) are stored in Git LFS (`.gitattributes`); `git lfs` is needed to fetch or add them.
+- The project runs on Deno 2.7.0 or newer, with no `package.json`. Dependencies are npm packages pinned to exact versions in the `imports` map of `deno.json`.
+- Tasks run Astro with restricted permissions (the `--allow-*` flags in `deno.json`) rather than `--allow-all`. Network access is limited to localhost.
+- The `ASTRO_TELEMETRY_DISABLED` and `ASTRO_DISABLE_UPDATE_CHECK` variables in the tasks are required: without them Astro attempts things the permissions do not allow.
+- The `noExternal` and `alias` settings under `vite.resolve` in `astro.config.mjs` are required for the build.
+- Episode MP3s are stored in Git LFS.
 
 ## Architecture
 

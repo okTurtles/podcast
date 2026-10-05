@@ -1,30 +1,10 @@
 {
   "nodeModulesDir": "auto",
   "tasks": {
-    "dev": "ASTRO_TELEMETRY_DISABLED=1 deno run -P=serve astro dev",
-    "build": "ASTRO_TELEMETRY_DISABLED=1 deno run -P astro build",
-    "preview": "ASTRO_TELEMETRY_DISABLED=1 deno run -P=serve astro preview",
-    "stop-preview": "ASTRO_TELEMETRY_DISABLED=1 deno run -P astro preview stop"
-  },
-  "permissions": {
-    "default": {
-      "read": true,
-      "write": ["."],
-      "env": true,
-      "sys": true,
-      "ffi": true,
-      "run": true,
-      "net": ["localhost", "127.0.0.1"]
-    },
-    "serve": {
-      "read": true,
-      "write": ["."],
-      "env": true,
-      "sys": true,
-      "ffi": true,
-      "run": true,
-      "net": ["localhost", "127.0.0.1", "0.0.0.0", "[::]"]
-    }
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 ASTRO_DISABLE_UPDATE_CHECK=true deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1,0.0.0.0,[::] astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1,0.0.0.0,[::] astro preview",
+    "stop-preview": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1 astro preview stop"
   },
   "imports": {
     "@astrojs/mdx": "npm:@astrojs/mdx@8.0.2",
