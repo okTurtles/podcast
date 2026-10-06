@@ -12,15 +12,13 @@ Static site for the okTurtles Podcast (https://podcast.okturtles.org/), built wi
 deno install        # install dependencies into node_modules/ (after cloning or changing deno.json)
 deno task dev       # dev server
 deno task build     # static build into dist/
-deno task preview   # serve the built dist/
-deno task stop-preview   # stop a running preview server
-```
+deno task preview   # serve the built dist/```
 
 There is no lint, type-check or test script. `deno task build` is the only automated check; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
 
 - The project runs on Deno 2.7.0 or newer, with no `package.json`. Dependencies are npm packages pinned to exact versions in the `imports` map of `deno.json`.
-- Tasks run Astro with restricted permissions (the `--allow-*` flags in `deno.json`) rather than `--allow-all`. Network access is limited to localhost.
-- The `ASTRO_TELEMETRY_DISABLED` and `ASTRO_DISABLE_UPDATE_CHECK` variables in the tasks are required: without them Astro attempts things the permissions do not allow.
+- Tasks run Astro with the `--allow-*` flags in `deno.json` rather than `--allow-all`. Writes are limited to the project folder and network access to localhost. `--allow-run` and `--allow-ffi` are required by the build tools and are not restricted.
+- The `ASTRO_TELEMETRY_DISABLED` variable (all tasks) and the `ASTRO_DISABLE_UPDATE_CHECK` variable (`dev` only) are required: without them Astro attempts things the permissions do not allow.
 - The `noExternal` and `alias` settings under `vite.resolve` in `astro.config.mjs` are required for the build.
 - Episode MP3s are stored in Git LFS.
 

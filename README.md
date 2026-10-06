@@ -33,8 +33,6 @@ git lfs pull      # download the episode audio files
 | `deno task dev` | Starts the development server at http://localhost:4321 |
 | `deno task build` | Builds the site into the `dist/` folder |
 | `deno task preview` | Serves the built `dist/` folder at http://localhost:4321 |
-| `deno task stop-preview` | Stops a preview server left running in the background |
-
 ## Feed validation services
 
 - https://www.castfeedvalidator.com/
