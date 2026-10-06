@@ -9,5 +9,7 @@ node_modules/
 
 # macOS-specific files
 .DS_Store
+
+# AI tools
 /.crush/
 /.claude/
