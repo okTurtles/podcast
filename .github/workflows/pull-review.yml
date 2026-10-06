@@ -186,6 +186,7 @@ jobs:
             ':!package-lock.json' ':!**/package-lock.json' \
             ':!pnpm-lock.yaml' ':!**/pnpm-lock.yaml' \
             ':!yarn.lock' ':!**/yarn.lock' \
+            ':!deno.lock' ':!**/deno.lock' \
             ':!go.sum' ':!**/go.sum' \
             ':!*.min.js' ':!*.min.css' \
             ':!node_modules/**' ':!**/node_modules/**' \

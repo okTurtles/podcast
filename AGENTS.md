@@ -13,6 +13,7 @@ deno install        # install dependencies into node_modules/ (after cloning or 
 deno task dev       # dev server
 deno task build     # static build into dist/
 deno task preview   # serve the built dist/```
+```
 
 There is no lint, type-check or test script. `deno task build` is the only automated check; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
 
