@@ -37,7 +37,7 @@ const pageTitle = `Tag | ${tag}`
   <div class="c-page-container">
     <div class="c-title-container">
       <h2 class="c-page-title">
-        <span>Episode(s) tagged with:</span>
+        <span class="c-title-tag-label">Episode(s) tagged with:</span>
         <span class="c-title-tag-name">{tag}</span>
       </h2>
 
@@ -75,6 +75,11 @@ const pageTitle = `Tag | ${tag}`
 
 .c-page-title {
   font-size: $font-lg;
+
+  .c-title-tag-label {
+    display: inline-block;
+    margin-right: 0.5rem;
+  }
 
   .c-title-tag-name {
     display: inline-block;

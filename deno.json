@@ -1,0 +1,20 @@
+{
+  "nodeModulesDir": "auto",
+  "minimumDependencyAge": "P3D",
+  "tasks": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 ASTRO_DISABLE_UPDATE_CHECK=true deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1,0.0.0.0,[::] astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1,0.0.0.0,[::] astro preview"
+  },
+  "imports": {
+    "@astrojs/mdx": "npm:@astrojs/mdx@8.0.2",
+    "@astrojs/vue": "npm:@astrojs/vue@7.0.3",
+    "@nanostores/vue": "npm:@nanostores/vue@1.0.1",
+    "astro": "npm:astro@7.3.5",
+    "nanostores": "npm:nanostores@1.0.1",
+    "remove-markdown": "npm:remove-markdown@0.6.2",
+    "sanitize-html": "npm:sanitize-html@2.17.0",
+    "sass": "npm:sass@1.89.2",
+    "vue": "npm:vue@3.5.43"
+  }
+}
