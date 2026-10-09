@@ -17,14 +17,16 @@
         :hide-episode-tags="hideEpisodeTags" />
     </ul>
 
-    <div v-if="showPagination">
-      TODO: Add pagination UI
-    </div>
+    <Paginator v-if="showPagination"
+      :current-page="currentPage"
+      :total-pages="totalPages" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import EpisodeCard from './EpisodeCard.vue'
+import Paginator from './Paginator.vue'
 import { getAllEpisodes } from '@/helpers'
 
 interface ComponentProps {
@@ -38,6 +40,10 @@ const { episodeList, listTitle, paginationCount = 0 } = defineProps<ComponentPro
 const episodes = Array.isArray(episodeList) ? episodeList : await getAllEpisodes()
 const totalEpisodeLen = episodes.length
 const showPagination = paginationCount > 0 && totalEpisodeLen > paginationCount
+const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
+
+// pagination-related state
+const currentPage = ref<number>(1)
 </script>
 
 <style scope lang="scss">
