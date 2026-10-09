@@ -16,23 +16,28 @@
         :episode-details="episode.details"
         :hide-episode-tags="hideEpisodeTags" />
     </ul>
+
+    <div v-if="showPagination">
+      TODO: Add pagination UI
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { getAllEpisodes } from '@/helpers'
 import EpisodeCard from './EpisodeCard.vue'
+import { getAllEpisodes } from '@/helpers'
 
 interface ComponentProps {
   listTitle?: string,
   hideEpisodeTags?: boolean,
-  episodeList?: Array<any>
+  episodeList?: Array<any>,
+  paginationCount?: number
 }
 
-const props = defineProps<ComponentProps>()
-
-const episodes = ref(Array.isArray(props.episodeList) ? props.episodeList : await getAllEpisodes())
+const { episodeList, listTitle, paginationCount = 0 } = defineProps<ComponentProps>()
+const episodes = Array.isArray(episodeList) ? episodeList : await getAllEpisodes()
+const totalEpisodeLen = episodes.length
+const showPagination = paginationCount > 0 && totalEpisodeLen > paginationCount
 </script>
 
 <style scope lang="scss">
