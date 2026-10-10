@@ -3,9 +3,14 @@
     <h2 v-if="listTitle" class="c-ep-section-title">{{ listTitle }}</h2>
 
     <div class="c-toolbar-container">
+      <Paginator v-if="showPagination"
+        class="c-episode-paginator"
+        :current-page="currentPage"
+        :total-pages="totalPages" />
+
       <div class="c-total-num">
         <i class="icon-list"></i>
-        <span>{{ episodes.length }} items</span>
+        <span>{{ epCount }}</span>
       </div>
     </div>
 
@@ -16,15 +21,11 @@
         :episode-details="episode.details"
         :hide-episode-tags="hideEpisodeTags" />
     </ul>
-
-    <Paginator v-if="showPagination"
-      :current-page="currentPage"
-      :total-pages="totalPages" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import EpisodeCard from './EpisodeCard.vue'
 import Paginator from './Paginator.vue'
 import { getAllEpisodes } from '@/helpers'
@@ -44,6 +45,11 @@ const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
 
 // pagination-related state
 const currentPage = ref<number>(1)
+const epCount = computed(() => {
+  const start = 1 + (currentPage.value - 1) * paginationCount
+  const end = Math.min(start + paginationCount - 1, totalEpisodeLen)
+  return `${start} - ${end} of ${totalEpisodeLen} items`
+})
 </script>
 
 <style scope lang="scss">
@@ -69,7 +75,8 @@ const currentPage = ref<number>(1)
 .c-toolbar-container {
   position: relative;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  column-gap: 1rem;
   align-items: baseline;
   margin-bottom: 0.75rem;
 
