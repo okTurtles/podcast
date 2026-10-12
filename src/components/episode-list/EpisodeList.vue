@@ -15,7 +15,7 @@
     </div>
 
     <ul class="c-episode-list">
-      <EpisodeCard v-for="episode in episodes"
+      <EpisodeCard v-for="episode in episodesToShow"
         tag="li"
         :key="episode.frontmatter.permalink"
         :episode-details="episode.details"
@@ -44,12 +44,15 @@ const showPagination = paginationCount > 0 && totalEpisodeLen > paginationCount
 const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
 
 // pagination-related state
-const currentPage = ref<number>(1)
+const currentPage = ref<number>(2)
+const pageStart = computed(() => 1 + (currentPage.value - 1) * paginationCount)
+const pageEnd = computed(() => Math.min(pageStart.value + paginationCount - 1, totalEpisodeLen))
 const epCount = computed(() => {
-  const start = 1 + (currentPage.value - 1) * paginationCount
-  const end = Math.min(start + paginationCount - 1, totalEpisodeLen)
-  return `${start} - ${end} of ${totalEpisodeLen} items`
+  // Current episode range
+  const range = pageStart.value === pageEnd.value ? pageStart.value : `${pageStart.value} - ${pageEnd.value}`
+  return `${range} of ${totalEpisodeLen} items`
 })
+const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEnd.value))
 </script>
 
 <style scope lang="scss">
