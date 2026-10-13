@@ -1,5 +1,5 @@
 <template>
-  <div class="c-ep-list-section-wrapper">
+  <div ref="ep-container" class="c-ep-list-section-wrapper">
     <h2 v-if="listTitle" class="c-ep-section-title">{{ listTitle }}</h2>
 
     <ul class="c-episode-list">
@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, useTemplateRef } from 'vue'
 import EpisodeCard from './EpisodeCard.vue'
 import Paginator from './Paginator.vue'
 import { getAllEpisodes } from '@/helpers'
@@ -40,10 +40,13 @@ interface ComponentProps {
 }
 
 const { episodeList, listTitle, paginationCount = 0 } = defineProps<ComponentProps>()
+
 const episodes = Array.isArray(episodeList) ? episodeList : await getAllEpisodes()
 const totalEpisodeLen = episodes.length
 const showPagination = paginationCount > 0 && totalEpisodeLen > paginationCount
 const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
+
+const containerRef = useTemplateRef<HTMLDivElement>('ep-container')
 
 // pagination-related state
 const currentPage = ref<number>(1)
@@ -53,7 +56,7 @@ const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEn
 
 // methods
 const onPageChange = () => {
-  console.log('TODO: create a ref for .c-ep-list-section-wrapper and scroll to the top of this container element')
+  containerRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 }
 </script>
 
@@ -64,6 +67,7 @@ const onPageChange = () => {
   position: relative;
   width: 100%;
   display: block;
+  scroll-margin-top: 1.5rem;
 }
 
 .c-ep-section-title {

@@ -87,11 +87,11 @@ const goToPage = (page: number) => {
   column-gap: 0.75rem;
 
   .c-paginator-button {
-    @include paginator-btn-common;
     position: relative;
     background-color: $navy;
     border-color: $navy;
     color: $text_white;
+    @include paginator-btn-common;
 
     &:hover,
     &:focus {
@@ -115,11 +115,11 @@ const goToPage = (page: number) => {
     column-gap: 0.25rem;
 
     .c-paginator-num {
-      @include paginator-btn-common;
       border-color: rgba(0, 0, 0, 0);
       color: $navy;
       transition: border-color 120ms ease-in-out;
       font-weight: 400;
+      @include paginator-btn-common;
 
       .num-text {
         display: inline-block;
