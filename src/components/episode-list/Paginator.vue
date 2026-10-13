@@ -4,7 +4,7 @@
       <i class="icon-chevron-left"></i>
     </button>
     <ul class="c-paginator-list">
-      <li v-for="page in totalPages"
+      <li v-for="page in pages"
         :key="page"
         :class="['c-paginator-num', { 'is-active': page === currentPage }]">
         {{ page }}
@@ -17,11 +17,17 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 const props = defineProps<{
-  currentPage: number
   totalPages: number
 }>()
 
+const currentPage = defineModel<number>('currentPage', { required: true })
+const pages = computed(() => {
+  const start = 1 + Math.floor(currentPage.value / 5)
+  const end = Math.min(start + 4, props.totalPages)
+  return Array.from({ length: end - start + 1 }, (_, index) => start + index)
+})
 </script>
 
 <style scoped lang="scss">
@@ -53,6 +59,11 @@ const props = defineProps<{
     .c-paginator-num {
       display: inline-flex;
       cursor: pointer;
+
+      &.is-active {
+        color: $dark_green;
+        font-weight: 600;
+      }
     }
   }
 }

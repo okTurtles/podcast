@@ -5,7 +5,7 @@
     <div class="c-toolbar-container">
       <Paginator v-if="showPagination"
         class="c-episode-paginator"
-        :current-page="currentPage"
+        v-model:current-page="currentPage"
         :total-pages="totalPages" />
 
       <div class="c-total-num">
@@ -44,7 +44,7 @@ const showPagination = paginationCount > 0 && totalEpisodeLen > paginationCount
 const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
 
 // pagination-related state
-const currentPage = ref<number>(2)
+const currentPage = ref<number>(1)
 const pageStart = computed(() => 1 + (currentPage.value - 1) * paginationCount)
 const pageEnd = computed(() => Math.min(pageStart.value + paginationCount - 1, totalEpisodeLen))
 const epCount = computed(() => {
