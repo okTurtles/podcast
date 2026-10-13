@@ -4,6 +4,7 @@
       <i class="icon-chevron-left"></i>
     </button>
     <ul class="c-paginator-list">
+      <!-- TODO: Figure out why a tags here don't get focused by keyboard navigation -->
       <a v-for="page in pages"
         :key="page"
         :class="['c-paginator-num', { 'is-active': page === currentPage }]"
@@ -63,35 +64,39 @@ const goToPage = (page: number) => {
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: $radius;
   border-width: 1px;
   border-style: solid;
   cursor: pointer;
   font-size: $font-sm;
   line-height: 1;
+
+  @include from($mobile) {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
 }
-$column-gap: 0.75rem;
 
 .c-paginator-container {
   position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  column-gap: $column-gap;
+  column-gap: 0.75rem;
 
   .c-paginator-button {
     @include paginator-btn-common;
     position: relative;
-    background-color: $grey_4;
-    border-color: $grey_4;
-    transition: border-color 120ms ease-in-out;
-    color: $text_slight_grey;
+    background-color: $navy;
+    border-color: $navy;
+    color: $text_white;
 
     &:hover,
     &:focus {
-      border-color: $text_slight_grey;
+      background-color: $grey_4;
+      color: $navy;
     }
 
     i {
@@ -107,12 +112,12 @@ $column-gap: 0.75rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: $column-gap;
+    column-gap: 0.25rem;
 
     .c-paginator-num {
       @include paginator-btn-common;
-      border-color: $text_slight_grey;
-      color: $text_slight_grey;
+      border-color: rgba(0, 0, 0, 0);
+      color: $navy;
       transition: border-color 120ms ease-in-out;
       font-weight: 400;
 
@@ -121,14 +126,13 @@ $column-gap: 0.75rem;
         transform: translateY(1px);
       }
 
-      &.is-active {
-        color: $text_white;
-        background-color: $text_slight_grey;
-      }
-
       &:hover,
       &:focus {
-        text-decoration: none;
+        text-decoration: underline;
+      }
+
+      &.is-active {
+        border-color: $navy;
       }
     }
   }

@@ -17,7 +17,11 @@
         :total-pages="totalPages"
         @page-change="onPageChange" />
 
-      <span class="c-page-info">{{ pageInfo }}</span>
+      <span class="c-page-info">
+        <span class="c-page-num">{{ currentPage }}</span>
+        <span class="c-page-of">of</span>
+        <span class="c-page-num">{{ totalPages }}</span>
+      </span>
     </div>
   </div>
 </template>
@@ -45,10 +49,6 @@ const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
 const currentPage = ref<number>(1)
 const pageStart = computed(() => 1 + (currentPage.value - 1) * paginationCount)
 const pageEnd = computed(() => Math.min(pageStart.value + paginationCount - 1, totalEpisodeLen))
-const pageInfo = computed(() => {
-  // Current episode range
-  return `Page ${currentPage.value} of ${totalPages}`
-})
 const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEnd.value))
 
 // methods
@@ -88,14 +88,17 @@ const onPageChange = () => {
     display: inline-flex;
     align-items: center;
     font-size: $font-sm;
-    font-weight: 600;
     column-gap: 0.325rem;
     color: $grey_0;
-    margin-left: 0.5rem;
+    margin-left: 1rem;
 
     i {
       font-size: 0.85em;
       transform: translateY(0.5px);
+    }
+
+    .c-page-num {
+      font-weight: 600;
     }
   }
 
