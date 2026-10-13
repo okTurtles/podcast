@@ -14,7 +14,8 @@
       <Paginator v-if="showPagination"
         class="c-episode-paginator"
         v-model:current-page="currentPage"
-        :total-pages="totalPages" />
+        :total-pages="totalPages"
+        @page-change="onPageChange" />
 
       <span class="c-page-info">{{ pageInfo }}</span>
     </div>
@@ -49,6 +50,11 @@ const pageInfo = computed(() => {
   return `Page ${currentPage.value} of ${totalPages}`
 })
 const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEnd.value))
+
+// methods
+const onPageChange = () => {
+  console.log('TODO: create a ref for .c-ep-list-section-wrapper and scroll to the top of this container element')
+}
 </script>
 
 <style scope lang="scss">

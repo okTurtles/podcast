@@ -8,7 +8,7 @@
         :key="page"
         :class="['c-paginator-num', { 'is-active': page === currentPage }]"
         @click.stop="goToPage(page)">
-        {{ page }}
+        <span class="num-text">{{ page }}</span>
       </a>
     </ul>
     <button class="c-paginator-button is-next" @click.stop="toNext">
@@ -22,6 +22,9 @@ import { computed } from 'vue'
 const props = defineProps<{
   totalPages: number
 }>()
+const emit = defineEmits<{
+  (e: 'page-change'): void
+}>()
 
 const currentPage = defineModel<number>('currentPage', { required: true })
 const pages = computed(() => {
@@ -34,18 +37,21 @@ const pages = computed(() => {
 const toPrevious = () => {
   if (currentPage.value > 1) {
     currentPage.value--
+    emit('page-change')
   }
 }
 
 const toNext = () => {
   if (currentPage.value < props.totalPages) {
     currentPage.value++
+    emit('page-change')
   }
 }
 
 const goToPage = (page: number) => {
   if (page >= 1 && page <= props.totalPages) {
     currentPage.value = page
+    emit('page-change')
   }
 }
 </script>
@@ -53,20 +59,47 @@ const goToPage = (page: number) => {
 <style scoped lang="scss">
 @use '@/styles/variables' as *;
 
+@mixin paginator-btn-common {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: $radius;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
+  font-size: $font-sm;
+  line-height: 1;
+}
+$column-gap: 0.75rem;
+
 .c-paginator-container {
   position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  column-gap: 0.5rem;
+  column-gap: $column-gap;
 
   .c-paginator-button {
+    @include paginator-btn-common;
     position: relative;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    width: 1.5rem;
-    height: 1.5rem;
+    background-color: $grey_4;
+    border-color: $grey_4;
+    transition: border-color 120ms ease-in-out;
+    color: $text_slight_grey;
+
+    &:hover,
+    &:focus {
+      border-color: $text_slight_grey;
+    }
+
+    i {
+      display: inline-block;
+      line-height: inherit;
+      font-size: inherit;
+      transform: translateY(1px);
+    }
   }
 
   .c-paginator-list {
@@ -74,15 +107,28 @@ const goToPage = (page: number) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 0.5rem;
+    column-gap: $column-gap;
 
     .c-paginator-num {
-      display: inline-flex;
-      cursor: pointer;
+      @include paginator-btn-common;
+      border-color: $text_slight_grey;
+      color: $text_slight_grey;
+      transition: border-color 120ms ease-in-out;
+      font-weight: 400;
+
+      .num-text {
+        display: inline-block;
+        transform: translateY(1px);
+      }
 
       &.is-active {
-        color: $dark_green;
-        font-weight: 600;
+        color: $text_white;
+        background-color: $text_slight_grey;
+      }
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
       }
     }
   }
