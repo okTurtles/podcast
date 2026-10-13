@@ -4,13 +4,15 @@
       <i class="icon-chevron-left"></i>
     </button>
     <ul class="c-paginator-list">
-      <!-- TODO: Figure out why a tags here don't get focused by keyboard navigation -->
-      <a v-for="page in pages"
-        :key="page"
-        :class="['c-paginator-num', { 'is-active': page === currentPage }]"
-        @click.stop="goToPage(page)">
-        <span class="num-text">{{ page }}</span>
-      </a>
+      <li v-for="page in pages" :key="page">
+        <button type="button"
+          :class="['c-paginator-num', { 'is-active': page === currentPage }]"
+          :aria-label="`Go to page ${page}`"
+          :aria-current="page === currentPage ? 'page' : undefined"
+          @click.stop="goToPage(page)">
+          <span class="num-text">{{ page }}</span>
+        </button>
+      </li>
     </ul>
     <button class="c-paginator-button is-next" @click.stop="toNext">
       <i class="icon-chevron-right"></i>
@@ -113,8 +115,10 @@ const goToPage = (page: number) => {
     justify-content: center;
     align-items: center;
     column-gap: 0.25rem;
+    list-style: none;
 
     .c-paginator-num {
+      padding: 0;
       border-color: rgba(0, 0, 0, 0);
       color: $navy;
       transition: border-color 120ms ease-in-out;
