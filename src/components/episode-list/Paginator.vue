@@ -1,16 +1,17 @@
 <template>
   <div class="c-paginator-container">
-    <button class="c-paginator-button is-prev">
+    <button class="c-paginator-button is-prev" @click.stop="toPrevious">
       <i class="icon-chevron-left"></i>
     </button>
     <ul class="c-paginator-list">
-      <li v-for="page in pages"
+      <a v-for="page in pages"
         :key="page"
-        :class="['c-paginator-num', { 'is-active': page === currentPage }]">
+        :class="['c-paginator-num', { 'is-active': page === currentPage }]"
+        @click.stop="goToPage(page)">
         {{ page }}
-      </li>
+      </a>
     </ul>
-    <button class="c-paginator-button is-next">
+    <button class="c-paginator-button is-next" @click.stop="toNext">
       <i class="icon-chevron-right"></i>
     </button>
   </div>
@@ -28,6 +29,25 @@ const pages = computed(() => {
   const end = Math.min(start + 4, props.totalPages)
   return Array.from({ length: end - start + 1 }, (_, index) => start + index)
 })
+
+// methods
+const toPrevious = () => {
+  if (currentPage.value > 1) {
+    currentPage.value--
+  }
+}
+
+const toNext = () => {
+  if (currentPage.value < props.totalPages) {
+    currentPage.value++
+  }
+}
+
+const goToPage = (page: number) => {
+  if (page >= 1 && page <= props.totalPages) {
+    currentPage.value = page
+  }
+}
 </script>
 
 <style scoped lang="scss">
