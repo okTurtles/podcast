@@ -2,18 +2,6 @@
   <div class="c-ep-list-section-wrapper">
     <h2 v-if="listTitle" class="c-ep-section-title">{{ listTitle }}</h2>
 
-    <div class="c-toolbar-container">
-      <Paginator v-if="showPagination"
-        class="c-episode-paginator"
-        v-model:current-page="currentPage"
-        :total-pages="totalPages" />
-
-      <div class="c-total-num">
-        <i class="icon-list"></i>
-        <span>{{ epCount }}</span>
-      </div>
-    </div>
-
     <ul class="c-episode-list">
       <EpisodeCard v-for="episode in episodesToShow"
         tag="li"
@@ -21,6 +9,15 @@
         :episode-details="episode.details"
         :hide-episode-tags="hideEpisodeTags" />
     </ul>
+
+    <div class="c-toolbar-container">
+      <Paginator v-if="showPagination"
+        class="c-episode-paginator"
+        v-model:current-page="currentPage"
+        :total-pages="totalPages" />
+
+      <span class="c-page-info">{{ pageInfo }}</span>
+    </div>
   </div>
 </template>
 
@@ -47,10 +44,9 @@ const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
 const currentPage = ref<number>(1)
 const pageStart = computed(() => 1 + (currentPage.value - 1) * paginationCount)
 const pageEnd = computed(() => Math.min(pageStart.value + paginationCount - 1, totalEpisodeLen))
-const epCount = computed(() => {
+const pageInfo = computed(() => {
   // Current episode range
-  const range = pageStart.value === pageEnd.value ? pageStart.value : `${pageStart.value} - ${pageEnd.value}`
-  return `${range} of ${totalEpisodeLen} items`
+  return `Page ${currentPage.value} of ${totalPages}`
 })
 const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEnd.value))
 </script>
@@ -78,18 +74,18 @@ const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEn
 .c-toolbar-container {
   position: relative;
   display: flex;
-  justify-content: flex-end;
-  column-gap: 1rem;
   align-items: baseline;
-  margin-bottom: 0.75rem;
+  justify-content: center;
+  margin-top: 2rem;
 
-  .c-total-num {
+  .c-page-info {
     display: inline-flex;
     align-items: center;
-    font-size: $font-xs;
-    font-weight: 700;
+    font-size: $font-sm;
+    font-weight: 600;
     column-gap: 0.325rem;
-    color: $grey_2;
+    color: $grey_0;
+    margin-left: 0.5rem;
 
     i {
       font-size: 0.85em;
@@ -97,12 +93,8 @@ const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEn
     }
   }
 
-  @include from($tablet) {
-    margin-bottom: 1rem;
-
-    .c-total-num {
-      font-size: $font-sm;
-    }
+  @include from($mobile) {
+    margin-top: 3rem;
   }
 }
 
