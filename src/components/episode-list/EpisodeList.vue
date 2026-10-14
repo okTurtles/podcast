@@ -10,9 +10,8 @@
         :hide-episode-tags="hideEpisodeTags" />
     </ul>
 
-    <div class="c-toolbar-container">
-      <Paginator v-if="showPagination"
-        class="c-episode-paginator"
+    <div v-if="showPagination" class="c-toolbar-container">
+      <Paginator class="c-episode-paginator"
         v-model:current-page="currentPage"
         :total-pages="totalPages"
         @page-change="onPageChange" />
