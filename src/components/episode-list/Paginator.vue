@@ -97,7 +97,7 @@ const goToPage = (page: number) => {
 
     &:hover,
     &:focus {
-      background-color: $grey_4;
+      background-color: $background_light_grey;
       color: $navy;
     }
 
@@ -114,14 +114,13 @@ const goToPage = (page: number) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 0.25rem;
+    column-gap: 0.375rem;
     list-style: none;
 
     .c-paginator-num {
       padding: 0;
       border-color: rgba(0, 0, 0, 0);
       color: $navy;
-      transition: border-color 120ms ease-in-out;
       font-weight: 400;
       @include paginator-btn-common;
 
@@ -133,10 +132,12 @@ const goToPage = (page: number) => {
       &:hover,
       &:focus {
         text-decoration: underline;
+        border-color: $navy;
       }
 
       &.is-active {
-        border-color: $navy;
+        background-color: $grey_4;
+        text-decoration: underline;
       }
     }
   }
