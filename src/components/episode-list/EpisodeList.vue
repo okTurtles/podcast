@@ -40,8 +40,8 @@ const { episodeList, listTitle } = defineProps<ComponentProps>()
 
 const episodes = Array.isArray(episodeList) ? episodeList : await getAllEpisodes()
 const totalEpisodes = episodes.length
-const showPagination = EPISODE_NUM_PER_PAGE > 0 && totalEpisodes > EPISODE_NUM_PER_PAGE
-const totalPages = Math.ceil(totalEpisodes / EPISODE_NUM_PER_PAGE)
+const showPagination = totalEpisodes > EPISODE_NUM_PER_PAGE
+const totalPages = Math.max(1, Math.ceil(totalEpisodes / EPISODE_NUM_PER_PAGE))
 
 const containerRef = useTemplateRef<HTMLDivElement>('ep-container')
 
