@@ -2,7 +2,9 @@
   <div class="c-paginator-container">
     <button class="c-paginator-button is-prev"
       @click.stop="toPrevious"
-      aria-label="Previous page">
+      type="button"
+      aria-label="Previous page"
+      :disabled="currentPage === 1">
       <i class="icon-chevron-left"></i>
     </button>
     <ul class="c-paginator-list">
@@ -18,7 +20,9 @@
     </ul>
     <button class="c-paginator-button is-next"
       @click.stop="toNext"
-      aria-label="Next page">
+      type="button"
+      aria-label="Next page"
+      :disabled="currentPage === totalPages">
       <i class="icon-chevron-right"></i>
     </button>
   </div>
@@ -98,6 +102,14 @@ const goToPage = (page: number) => {
       color: $navy;
     }
 
+    &:disabled {
+      background-color: $grey_3;
+      border-color: $grey_3;
+      color: $grey_1;
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
     i {
       display: inline-block;
       line-height: inherit;
@@ -129,11 +141,11 @@ const goToPage = (page: number) => {
       &:hover,
       &:focus {
         text-decoration: underline;
-        border-color: $navy;
       }
 
       &.is-active {
-        background-color: $grey_4;
+        background-color: $background_light_grey;
+        border-color: $navy;
         text-decoration: underline;
       }
     }

@@ -17,8 +17,9 @@
 
       <span class="c-page-info">
         <span class="c-page-num">{{ currentPage }}</span>
-        <span class="c-page-of">of</span>
+        <span>of</span>
         <span class="c-page-num">{{ totalPages }}</span>
+        <span>pages</span>
       </span>
     </div>
   </div>
@@ -26,7 +27,7 @@
 
 <script setup lang="ts">
 import { ref, computed, useTemplateRef, watch} from 'vue'
-import { PAGINATION_COUNT } from './pagination-utils'
+import { EPISODE_NUM_PER_PAGE } from './pagination-utils'
 import EpisodeCard from './EpisodeCard.vue'
 import Paginator from './Paginator.vue'
 import { getAllEpisodes } from '@/helpers'
@@ -41,23 +42,25 @@ const { episodeList, listTitle } = defineProps<ComponentProps>()
 
 const episodes = Array.isArray(episodeList) ? episodeList : await getAllEpisodes()
 const totalEpisodeLen = episodes.length
-const showPagination = PAGINATION_COUNT > 0 && totalEpisodeLen > PAGINATION_COUNT
-const totalPages = Math.ceil(totalEpisodeLen / PAGINATION_COUNT)
+const showPagination = EPISODE_NUM_PER_PAGE > 0 && totalEpisodeLen > EPISODE_NUM_PER_PAGE
+const totalPages = Math.ceil(totalEpisodeLen / EPISODE_NUM_PER_PAGE)
 
 const containerRef = useTemplateRef<HTMLDivElement>('ep-container')
 
 // pagination-related state
 const currentPage = ref<number>(1)
-const pageStart = computed(() => 1 + (currentPage.value - 1) * PAGINATION_COUNT)
-const pageEnd = computed(() => Math.min(pageStart.value + PAGINATION_COUNT - 1, totalEpisodeLen))
-const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEnd.value))
+
+const episodesToShow = computed(() => {
+  const start = (currentPage.value - 1) * EPISODE_NUM_PER_PAGE
+  return episodes.slice(start, start + EPISODE_NUM_PER_PAGE)
+})
 
 watch(currentPage, () => {
   containerRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 })
 </script>
 
-<style scope lang="scss">
+<style scoped lang="scss">
 @use '@/styles/variables' as *;
 
 .c-ep-list-section-wrapper {
