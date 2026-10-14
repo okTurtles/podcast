@@ -84,9 +84,10 @@ const onPageChange = () => {
 .c-toolbar-container {
   position: relative;
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
 
   .c-page-info {
     display: inline-flex;
@@ -94,7 +95,7 @@ const onPageChange = () => {
     font-size: $font-sm;
     column-gap: 0.325rem;
     color: $grey_0;
-    margin-left: 1rem;
+    margin-top: 1.25rem;
 
     i {
       font-size: 0.85em;
@@ -107,7 +108,7 @@ const onPageChange = () => {
   }
 
   @include from($mobile) {
-    margin-top: 3rem;
+    margin-top: 4rem;
   }
 }
 
