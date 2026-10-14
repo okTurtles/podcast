@@ -1,6 +1,8 @@
 <template>
   <div class="c-paginator-container">
-    <button class="c-paginator-button is-prev" @click.stop="toPrevious">
+    <button class="c-paginator-button is-prev"
+      @click.stop="toPrevious"
+      aria-label="Previous page">
       <i class="icon-chevron-left"></i>
     </button>
     <ul class="c-paginator-list">
@@ -14,7 +16,9 @@
         </button>
       </li>
     </ul>
-    <button class="c-paginator-button is-next" @click.stop="toNext">
+    <button class="c-paginator-button is-next"
+      @click.stop="toNext"
+      aria-label="Next page">
       <i class="icon-chevron-right"></i>
     </button>
   </div>
@@ -26,9 +30,6 @@ import { getPaginationRange } from './pagination-utils'
 const props = defineProps<{
   totalPages: number
 }>()
-const emit = defineEmits<{
-  (e: 'page-change'): void
-}>()
 
 const currentPage = defineModel<number>('currentPage', { required: true })
 const pages = computed(() => {
@@ -39,21 +40,18 @@ const pages = computed(() => {
 const toPrevious = () => {
   if (currentPage.value > 1) {
     currentPage.value--
-    emit('page-change')
   }
 }
 
 const toNext = () => {
   if (currentPage.value < props.totalPages) {
     currentPage.value++
-    emit('page-change')
   }
 }
 
 const goToPage = (page: number) => {
   if (page >= 1 && page <= props.totalPages) {
     currentPage.value = page
-    emit('page-change')
   }
 }
 </script>

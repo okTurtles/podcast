@@ -10,11 +10,10 @@
         :hide-episode-tags="hideEpisodeTags" />
     </ul>
 
-    <div v-if="showPagination" class="c-toolbar-container">
+    <div v-if="showPagination" class="c-pagination-container">
       <Paginator class="c-episode-paginator"
         v-model:current-page="currentPage"
-        :total-pages="totalPages"
-        @page-change="onPageChange" />
+        :total-pages="totalPages" />
 
       <span class="c-page-info">
         <span class="c-page-num">{{ currentPage }}</span>
@@ -26,8 +25,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref, computed, useTemplateRef, watch} from 'vue'
 import { PAGINATION_COUNT } from './pagination-utils'
-import { ref, computed, useTemplateRef } from 'vue'
 import EpisodeCard from './EpisodeCard.vue'
 import Paginator from './Paginator.vue'
 import { getAllEpisodes } from '@/helpers'
@@ -53,10 +52,9 @@ const pageStart = computed(() => 1 + (currentPage.value - 1) * PAGINATION_COUNT)
 const pageEnd = computed(() => Math.min(pageStart.value + PAGINATION_COUNT - 1, totalEpisodeLen))
 const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEnd.value))
 
-// methods
-const onPageChange = () => {
+watch(currentPage, () => {
   containerRef.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-}
+})
 </script>
 
 <style scope lang="scss">
@@ -80,7 +78,7 @@ const onPageChange = () => {
 	}
 }
 
-.c-toolbar-container {
+.c-pagination-container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -95,11 +93,6 @@ const onPageChange = () => {
     column-gap: 0.325rem;
     color: $grey_0;
     margin-top: 1.25rem;
-
-    i {
-      font-size: 0.85em;
-      transform: translateY(0.5px);
-    }
 
     .c-page-num {
       font-weight: 600;
