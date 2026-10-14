@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { getPaginationRange } from './pagination-utils'
 const props = defineProps<{
   totalPages: number
 }>()
@@ -31,9 +32,7 @@ const emit = defineEmits<{
 
 const currentPage = defineModel<number>('currentPage', { required: true })
 const pages = computed(() => {
-  const start = 1 + Math.floor(currentPage.value / 5)
-  const end = Math.min(start + 4, props.totalPages)
-  return Array.from({ length: end - start + 1 }, (_, index) => start + index)
+  return getPaginationRange(currentPage.value, props.totalPages)
 })
 
 // methods

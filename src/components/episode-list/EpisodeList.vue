@@ -26,6 +26,7 @@
 </template>
 
 <script setup lang="ts">
+import { PAGINATION_COUNT } from './pagination-utils'
 import { ref, computed, useTemplateRef } from 'vue'
 import EpisodeCard from './EpisodeCard.vue'
 import Paginator from './Paginator.vue'
@@ -34,23 +35,22 @@ import { getAllEpisodes } from '@/helpers'
 interface ComponentProps {
   listTitle?: string,
   hideEpisodeTags?: boolean,
-  episodeList?: Array<any>,
-  paginationCount?: number
+  episodeList?: Array<any>
 }
 
-const { episodeList, listTitle, paginationCount = 0 } = defineProps<ComponentProps>()
+const { episodeList, listTitle } = defineProps<ComponentProps>()
 
 const episodes = Array.isArray(episodeList) ? episodeList : await getAllEpisodes()
 const totalEpisodeLen = episodes.length
-const showPagination = paginationCount > 0 && totalEpisodeLen > paginationCount
-const totalPages = Math.ceil(totalEpisodeLen / paginationCount)
+const showPagination = PAGINATION_COUNT > 0 && totalEpisodeLen > PAGINATION_COUNT
+const totalPages = Math.ceil(totalEpisodeLen / PAGINATION_COUNT)
 
 const containerRef = useTemplateRef<HTMLDivElement>('ep-container')
 
 // pagination-related state
 const currentPage = ref<number>(1)
-const pageStart = computed(() => 1 + (currentPage.value - 1) * paginationCount)
-const pageEnd = computed(() => Math.min(pageStart.value + paginationCount - 1, totalEpisodeLen))
+const pageStart = computed(() => 1 + (currentPage.value - 1) * PAGINATION_COUNT)
+const pageEnd = computed(() => Math.min(pageStart.value + PAGINATION_COUNT - 1, totalEpisodeLen))
 const episodesToShow = computed(() => episodes.slice(pageStart.value - 1, pageEnd.value))
 
 // methods
