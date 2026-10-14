@@ -11,9 +11,7 @@
     </ul>
 
     <div v-if="showPagination" class="c-pagination-container">
-      <Paginator class="c-episode-paginator"
-        v-model:current-page="currentPage"
-        :total-pages="totalPages" />
+      <Paginator v-model:current-page="currentPage" :total-pages="totalPages" />
 
       <span class="c-page-info">
         <span class="c-page-num">{{ currentPage }}</span>
@@ -26,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, useTemplateRef, watch} from 'vue'
+import { ref, computed, useTemplateRef, watch } from 'vue'
 import { EPISODE_NUM_PER_PAGE } from './pagination-utils'
 import EpisodeCard from './EpisodeCard.vue'
 import Paginator from './Paginator.vue'
@@ -41,9 +39,9 @@ interface ComponentProps {
 const { episodeList, listTitle } = defineProps<ComponentProps>()
 
 const episodes = Array.isArray(episodeList) ? episodeList : await getAllEpisodes()
-const totalEpisodeLen = episodes.length
-const showPagination = EPISODE_NUM_PER_PAGE > 0 && totalEpisodeLen > EPISODE_NUM_PER_PAGE
-const totalPages = Math.ceil(totalEpisodeLen / EPISODE_NUM_PER_PAGE)
+const totalEpisodes = episodes.length
+const showPagination = EPISODE_NUM_PER_PAGE > 0 && totalEpisodes > EPISODE_NUM_PER_PAGE
+const totalPages = Math.ceil(totalEpisodes / EPISODE_NUM_PER_PAGE)
 
 const containerRef = useTemplateRef<HTMLDivElement>('ep-container')
 

@@ -42,15 +42,11 @@ const pages = computed(() => {
 
 // methods
 const toPrevious = () => {
-  if (currentPage.value > 1) {
-    currentPage.value--
-  }
+  goToPage(currentPage.value - 1)
 }
 
 const toNext = () => {
-  if (currentPage.value < props.totalPages) {
-    currentPage.value++
-  }
+  goToPage(currentPage.value + 1)
 }
 
 const goToPage = (page: number) => {
