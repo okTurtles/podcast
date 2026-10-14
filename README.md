@@ -17,10 +17,6 @@ This project is built with [Astro](https://astro.build/) and runs on [Deno](http
 deno install      # install the dependencies
 ```
 
-Run `deno install` again whenever `deno.json` changes.
-
-Dependencies must be at least 3 days old to be installed (`minimumDependencyAge` in `deno.json`). For an urgent upgrade, run `deno install --minimum-dependency-age=0` once.
-
 The episode audio files are stored in Git LFS. Without it the site still runs and builds, but the audio does not play. You need it to add an episode or to build the site for deployment:
 
 ```sh
