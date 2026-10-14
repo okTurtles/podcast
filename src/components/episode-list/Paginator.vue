@@ -146,7 +146,7 @@ const goToPage = (page: number) => {
       &.is-active {
         background-color: $background_light_grey;
         border-color: $navy;
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
   }
