@@ -7,6 +7,9 @@
     "preview": "ASTRO_TELEMETRY_DISABLED=1 deno run --allow-read --allow-write=. --allow-env --allow-sys --allow-ffi --allow-run --allow-net=localhost,127.0.0.1,0.0.0.0,[::] astro preview"
   },
   "imports": {
+    "@eslint/js": "npm:@eslint/js@10.0.1",
+    "eslint": "npm:eslint@10.12.0",
+    "globals": "npm:globals@17.13.0",
     "@astrojs/mdx": "npm:@astrojs/mdx@8.0.2",
     "@astrojs/vue": "npm:@astrojs/vue@7.0.3",
     "@nanostores/vue": "npm:@nanostores/vue@1.0.1",

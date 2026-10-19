@@ -10,7 +10,7 @@ import {
 // Required tags in RSS feed of a podcast: https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 // Podcast RSS feed requirements for Apple Podcasts: https://podcasters.apple.com/support/823-podcast-requirements
 
-export async function GET (context) {
+export async function GET () {
   const joinWithBaseUrl = (...url) => {
     return new URL(path.join(...url), SITE_URL).toString()
   }
