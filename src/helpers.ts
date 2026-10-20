@@ -85,14 +85,10 @@ export function formatDuration (duration: string): string {
 
   const parts = duration.split(':')
   const len = parts.length
-  let h = 0, m = 0, s = 0
+  const s = parseInt(parts[len - 1])
+  const m = parseInt(parts[len - 2])
+  const h = len === 3 ? parseInt(parts[0]) : 0
 
-  s = parseInt(parts[len - 1])
-  m = parseInt(parts[len - 2])
-
-  if (len === 3) {
-    h = parseInt(parts[0])
-  }
   return `${h ? `${h}h` : ''} ${m}m ${s}s`.trim()
 }
 
