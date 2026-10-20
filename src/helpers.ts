@@ -1,4 +1,8 @@
-import type { TagDictionary } from './types'
+import type { MarkdownInstance } from 'astro'
+import type { Episode, TagDictionary } from './types'
+
+type EpisodeModule = MarkdownInstance<Episode>
+type EpisodeEntry = EpisodeModule & { details: Episode }
 
 export function classNames(
   defaultClasses: string,
@@ -20,24 +24,24 @@ export function classNames(
   return `${defaultClasses} ${filteredClasses}`.trim()
 }
 
-export function uniqArray (arr: Array<any>): Array<any> {
+export function uniqArray<T> (arr: T[]): T[] {
   return Array.from(new Set(arr))
 }
 
-export async function getAllEpisodes ({ sortBy = 'latest' } = {}): Promise<Array<any>> {
-  const allFetched = Object.values(import.meta.glob('./pages/episodes/*.{md,mdx}', { eager: true }))
-  const allPosts = []
+export async function getAllEpisodes ({ sortBy = 'latest' } = {}): Promise<EpisodeEntry[]> {
+  const allFetched = Object.values(import.meta.glob<EpisodeModule>('./pages/episodes/*.{md,mdx}', { eager: true }))
+  const allPosts: EpisodeEntry[] = []
   for (const post of allFetched) {
     allPosts.push({
-      ...(post as any),
+      ...post,
       details: {
-        ...(post as any).frontmatter,
-        epContent: await (post as any).compiledContent(),
+        ...post.frontmatter,
+        epContent: await post.compiledContent(),
       }
     })
   }
 
-  const sorter = (a: any, b: any) => {
+  const sorter = (a: EpisodeEntry, b: EpisodeEntry) => {
     const aEpisode = a.frontmatter.episode
     const bEpisode = b.frontmatter.episode
     return sortBy === 'latest'
@@ -63,7 +67,7 @@ export async function getAllEpisodeTags (asDictionary: boolean = false): Promise
     }
     return dict
   } else {
-    return allEpisodesTags.reduce((allTags, tags) => uniqArray([...allTags, ...tags]), []).sort()
+    return allEpisodesTags.reduce((allTags, tags) => uniqArray([...allTags, ...tags]), [] as string[]).sort()
   }
 }
 
