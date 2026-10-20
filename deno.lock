@@ -6,6 +6,7 @@
     "npm:@eslint/js@10.0.1": "10.0.1_eslint@10.12.0",
     "npm:@nanostores/vue@1.0.1": "1.0.1_nanostores@1.0.1_vue@3.5.43_typescript@6.0.3",
     "npm:astro@7.3.5": "7.3.5_sass@1.89.2",
+    "npm:eslint-plugin-astro@3.2.1": "3.2.1_eslint@10.12.0_typescript-eslint@8.71.1",
     "npm:eslint-plugin-vue@10.11.1": "10.11.1_eslint@10.12.0_vue-eslint-parser@10.4.1",
     "npm:eslint@*": "10.12.0",
     "npm:eslint@10.12.0": "10.12.0",
@@ -1025,6 +1026,9 @@
       ],
       "scripts": true
     },
+    "@pkgr/core@0.3.6": {
+      "integrity": "sha512-SEeaJLb3qBNF/OaXnaR1NmmBbFYk1zC0ZH/52fATcRPLFg/p791YrcyFFy44Bo9sLaGuSuLp5Q6axbb/O+v/RA=="
+    },
     "@polka/url@1.0.0-next.29": {
       "integrity": "sha512-wwQAWhWSuHaag8c4q/KN/vCoeOJYshAIvMQwD4GpSb3OiZklFfvAgmj0VCBBImRpuF/aFgIRzllXlVX93Jevww=="
     },
@@ -1521,6 +1525,20 @@
     "aria-query@5.3.2": {
       "integrity": "sha512-COROpnaoap1E2F000S62r6A60uHZnmlvomhfyT2DlTcrY1OrBKn2UhH7qn5wTC9zMvD0AY7csdPSNwKP+7WiQw=="
     },
+    "astro-eslint-parser@3.2.0": {
+      "integrity": "sha512-WavQUarfgwSbpCq4xsdcIBdX5KArfI2d6DD8EIloJIMthnB1508iNpx4C77EhUyMd03LpEt8HAPzwF/cG0V39g==",
+      "dependencies": [
+        "@astrojs/compiler-rs",
+        "@typescript-eslint/scope-manager",
+        "@typescript-eslint/types",
+        "debug",
+        "eslint-scope",
+        "eslint-visitor-keys@5.0.1",
+        "espree",
+        "semver@7.8.5",
+        "tinyglobby"
+      ]
+    },
     "astro@7.3.5_sass@1.89.2": {
       "integrity": "sha512-1p/ernaq/RuESbM5NMjWzbO6SiebMGrGcYlGjMfBhzzgM+n/X7AUmVyw8BqW2QYCdivpsHwJBcD1fqmlTZjZHg==",
       "dependencies": [
@@ -1870,6 +1888,25 @@
     },
     "escape-string-regexp@4.0.0": {
       "integrity": "sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA=="
+    },
+    "eslint-plugin-astro@3.2.1_eslint@10.12.0_typescript-eslint@8.71.1": {
+      "integrity": "sha512-IgU7LIkpEg0r6bQGwc3Ck5jHgkUk3rOrEfRhUxDtMx/M0GD3SG/turMtvwj989KRR12Wt1l89faZ5ynjvVL7hg==",
+      "dependencies": [
+        "@eslint-community/eslint-utils",
+        "@jridgewell/sourcemap-codec",
+        "@typescript-eslint/types",
+        "astro-eslint-parser",
+        "eslint",
+        "espree",
+        "globals",
+        "postcss",
+        "postcss-selector-parser",
+        "synckit",
+        "typescript-eslint"
+      ],
+      "optionalPeers": [
+        "typescript-eslint"
+      ]
     },
     "eslint-plugin-vue@10.11.1_eslint@10.12.0_vue-eslint-parser@10.4.1": {
       "integrity": "sha512-pasVXhl7wUmIvhujoqs/m0mJ9r59QW1IR9XXYKGR0FETzSM+Hhlf4qKIYgWiDDP+9YKv4YfbwskD7LqIdVcgQw==",
@@ -2809,6 +2846,12 @@
       ],
       "bin": true
     },
+    "synckit@0.11.13": {
+      "integrity": "sha512-eNRKgb3z66Yp3D2CixVujOUvXLFUTij/zVnV8KRyvFdQwpz7I5DS8UfRkTeLzb64u+dkzDSdelE24izu+zSSUg==",
+      "dependencies": [
+        "@pkgr/core"
+      ]
+    },
     "tiny-inflate@1.0.3": {
       "integrity": "sha512-pkY1fj1cKHb2seWDy0B16HeWyczlJA9/WW3u3c4z/NiWDsO3DOU5D7nhTLE9CF0yXv/QZFY7sEJmj24dK+Rrqw=="
     },
@@ -3144,6 +3187,7 @@
       "npm:@eslint/js@10.0.1",
       "npm:@nanostores/vue@1.0.1",
       "npm:astro@7.3.5",
+      "npm:eslint-plugin-astro@3.2.1",
       "npm:eslint-plugin-vue@10.11.1",
       "npm:eslint@10.12.0",
       "npm:globals@17.13.0",

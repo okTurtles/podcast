@@ -12,10 +12,8 @@ interface Props {
 
 const {
   pageTitle = '',
-  pageType = 'default',
   pageDescription = '',
-  image = '/images/show-cover.jpg',
-  epNumber
+  image = '/images/show-cover.jpg'
 } = Astro.props
 const title = pageTitle || SITE_TITLE_COMMON
 const description = pageDescription || SITE_DESCRIPTION_COMMON
