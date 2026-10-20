@@ -6,6 +6,7 @@
     "npm:@eslint/js@10.0.1": "10.0.1_eslint@10.12.0",
     "npm:@nanostores/vue@1.0.1": "1.0.1_nanostores@1.0.1_vue@3.5.43_typescript@6.0.3",
     "npm:astro@7.3.5": "7.3.5_sass@1.89.2",
+    "npm:eslint-plugin-vue@10.11.1": "10.11.1_eslint@10.12.0_vue-eslint-parser@10.4.1",
     "npm:eslint@*": "10.12.0",
     "npm:eslint@10.12.0": "10.12.0",
     "npm:globals@17.13.0": "17.13.0",
@@ -15,6 +16,7 @@
     "npm:sass@1.89.2": "1.89.2",
     "npm:typescript-eslint@8.71.1": "8.71.1_eslint@10.12.0_typescript@6.0.3",
     "npm:typescript@6.0.3": "6.0.3",
+    "npm:vue-eslint-parser@10.4.1": "10.4.1_eslint@10.12.0",
     "npm:vue@3.5.43": "3.5.43_typescript@6.0.3"
   },
   "npm": {
@@ -1725,6 +1727,10 @@
     "css-what@7.0.0": {
       "integrity": "sha512-wD5oz5xibMOPHzy13CyGmogB3phdvcDaB5t0W/Nr5Z2O/agcB8YwOz6e2Lsp10pNDzBoDO9nVa3RGs/2BttpHQ=="
     },
+    "cssesc@3.0.0": {
+      "integrity": "sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==",
+      "bin": true
+    },
     "csso@5.0.5": {
       "integrity": "sha512-0LrrStPOdJj+SPCCrGhzryycLjwcgUSHBtxNA8aIDxf0GLsRh1cKYhB00Gd1lDOS4yGH69+SNn13+TWbVHETFQ==",
       "dependencies": [
@@ -1864,6 +1870,19 @@
     },
     "escape-string-regexp@4.0.0": {
       "integrity": "sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA=="
+    },
+    "eslint-plugin-vue@10.11.1_eslint@10.12.0_vue-eslint-parser@10.4.1": {
+      "integrity": "sha512-pasVXhl7wUmIvhujoqs/m0mJ9r59QW1IR9XXYKGR0FETzSM+Hhlf4qKIYgWiDDP+9YKv4YfbwskD7LqIdVcgQw==",
+      "dependencies": [
+        "@eslint-community/eslint-utils",
+        "eslint",
+        "natural-compare",
+        "nth-check",
+        "postcss-selector-parser",
+        "semver@7.8.5",
+        "vue-eslint-parser",
+        "xml-name-validator"
+      ]
     },
     "eslint-scope@9.1.2": {
       "integrity": "sha512-xS90H51cKw0jltxmvmHy2Iai1LIqrfbw57b79w/J7MfvDfkIkFZ+kj6zC3BjtUwh150HsSSdxXZcsuv72miDFQ==",
@@ -2534,6 +2553,13 @@
     "picomatch@4.0.7": {
       "integrity": "sha512-qcJu88Q2IWqJsDD529JKMdwGm/dvInW4HvQnRwiH9JtihJvzGOscDtHE3x1pBKeUOTysQ8kVmLnJ2kJu7yhcGA=="
     },
+    "postcss-selector-parser@7.1.6": {
+      "integrity": "sha512-7qASPzhKF2l2KLboRZux8CCTRMdGiV08vWmyKzPz22qZ7ZjQBOeY7rNzNoCLSUiftJ7HUq0GERHmxw/t0dCdMw==",
+      "dependencies": [
+        "cssesc",
+        "util-deprecate"
+      ]
+    },
     "postcss@8.5.28": {
       "integrity": "sha512-RRuzqDtt5Y9h3quz5hWhK+TPnsmVs6WwSU6LkJMeY4HstUEDuYTG8UJSdawMRzmzAtV+KEoG8N3Qg2qLy5vM/A==",
       "dependencies": [
@@ -2938,6 +2964,9 @@
         "punycode"
       ]
     },
+    "util-deprecate@1.0.2": {
+      "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
+    },
     "verkit@0.4.1": {
       "integrity": "sha512-mMVzj0TXExtVdlDEq+Mzp0eyOuyznNpFobNM3uAqe3HVm/Ps2c+u17BligMkZjZCA6EiXpoon8iRTer3iu40SQ=="
     },
@@ -3040,6 +3069,18 @@
         "vite"
       ]
     },
+    "vue-eslint-parser@10.4.1_eslint@10.12.0": {
+      "integrity": "sha512-Gk6gRDj0n/fkRa3C3l0bBheoBckUq/Rs0F/TvMWIS6nzzx67amAViMe9CkNgsP2tXyQONvGiHQESHwFtZ3aYDA==",
+      "dependencies": [
+        "debug",
+        "eslint",
+        "eslint-scope",
+        "eslint-visitor-keys@5.0.1",
+        "espree",
+        "esquery",
+        "semver@7.8.5"
+      ]
+    },
     "vue@3.5.43_typescript@6.0.3": {
       "integrity": "sha512-o5qZoksdnjIKvW1srZ3ab7pcDNYAerBjRe54D0LBLfRdCYFrSgBHVXokMas35czQc0//lmx4/tuY4ZNQ+Rf2Ng==",
       "dependencies": [
@@ -3071,6 +3112,9 @@
         "powershell-utils"
       ]
     },
+    "xml-name-validator@5.0.0": {
+      "integrity": "sha512-EvGK8EJ3DhaHfbRlETOWAS5pO9MZITeauHKJyb8wyajUfQUenkIg2MvLDTZ4T/TgIcm3HU0TFBgWWboAZ30UHg=="
+    },
     "xxhash-wasm@1.1.0": {
       "integrity": "sha512-147y/6YNh+tlp6nd/2pWq38i9h6mz/EuQ6njIrmW8D1BS5nCqs0P6DG+m6zTGnNz5I+uhZ0SHxBs9BsPrwcKDA=="
     },
@@ -3100,6 +3144,7 @@
       "npm:@eslint/js@10.0.1",
       "npm:@nanostores/vue@1.0.1",
       "npm:astro@7.3.5",
+      "npm:eslint-plugin-vue@10.11.1",
       "npm:eslint@10.12.0",
       "npm:globals@17.13.0",
       "npm:nanostores@1.0.1",
@@ -3108,6 +3153,7 @@
       "npm:sass@1.89.2",
       "npm:typescript-eslint@8.71.1",
       "npm:typescript@6.0.3",
+      "npm:vue-eslint-parser@10.4.1",
       "npm:vue@3.5.43"
     ]
   }

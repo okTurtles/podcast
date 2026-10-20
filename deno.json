@@ -14,6 +14,8 @@
     "globals": "npm:globals@17.13.0",
     "typescript": "npm:typescript@6.0.3",
     "typescript-eslint": "npm:typescript-eslint@8.71.1",
+    "eslint-plugin-vue": "npm:eslint-plugin-vue@10.11.1",
+    "vue-eslint-parser": "npm:vue-eslint-parser@10.4.1",
     "@astrojs/mdx": "npm:@astrojs/mdx@8.0.2",
     "@astrojs/vue": "npm:@astrojs/vue@7.0.3",
     "@nanostores/vue": "npm:@nanostores/vue@1.0.1",
