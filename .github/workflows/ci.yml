@@ -11,12 +11,15 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        # The minimum version stated in the README, and a recent one.
+        deno-version: [ v2.7.0, v2.9.7 ]
 
     steps:
     - uses: actions/checkout@v4
-    # denoland/setup-deno v2.3.0
-    - uses: denoland/setup-deno@e95548e56dfa95d4e1a28d6f422fafe75c4c26fb
+    - uses: denoland/setup-deno@v2
       with:
-        deno-version: v2.9.5
+        deno-version: ${{ matrix.deno-version }}
     - name: Run linter
       run: deno task lint
