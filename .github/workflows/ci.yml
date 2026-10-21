@@ -21,5 +21,8 @@ jobs:
     - uses: denoland/setup-deno@v2
       with:
         deno-version: ${{ matrix.deno-version }}
+    # Fails if deno.lock doesn't match deno.json.
+    - name: Install dependencies
+      run: deno install --frozen
     - name: Run linter
       run: deno task lint

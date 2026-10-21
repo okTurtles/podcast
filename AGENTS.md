@@ -62,7 +62,7 @@ Global styles are loaded once via `src/styles/main.scss` (imported in `BaseHead.
 
 ## CI
 
-- `.github/workflows/ci.yml` runs `deno task lint` on pushes and pull requests to `main`, once on the minimum supported Deno (2.7.0) and once on a recent version. If the minimum in the README changes, update the workflow too.
+- `.github/workflows/ci.yml` checks that `deno.lock` matches `deno.json` (`deno install --frozen`) and runs `deno task lint` on pushes and pull requests to `main`, once on the minimum supported Deno (2.7.0) and once on a recent version. If the minimum in the README changes, update the workflow too.
 - `.github/workflows/pull-review*.yml` run an AI PR review when a member, owner or collaborator comments `/review` on a pull request.
 
 Nothing builds or deploys from CI.
