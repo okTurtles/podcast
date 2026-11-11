@@ -14,7 +14,7 @@ interface ComponentProps {
   mimeType: string
 }
 
-const props = defineProps<ComponentProps>()
+defineProps<ComponentProps>()
 
 const audioEl = useTemplateRef<HTMLAudioElement>('audio-el')
 const player = ref<any>(null)

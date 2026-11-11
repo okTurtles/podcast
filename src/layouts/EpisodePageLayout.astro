@@ -6,7 +6,7 @@ import { formatPubDate, formatDuration, getTagLink } from '@/helpers'
 import { classNames } from "@/helpers"
 
 const { frontmatter } = Astro.props
-const { title, subtitle, duration, coverImage, pubDate, tags, episode, src, filetype, permalink } = frontmatter
+const { title, subtitle, duration, coverImage, pubDate, tags, episode, src, filetype } = frontmatter
 
 const formattedPubDate = formatPubDate(pubDate)
 const formattedDuration = formatDuration(duration)

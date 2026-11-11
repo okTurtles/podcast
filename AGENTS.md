@@ -12,13 +12,16 @@ Static site for the okTurtles Podcast (https://podcast.okturtles.org/), built wi
 deno install        # install dependencies into node_modules/ (after cloning or changing deno.json)
 deno task dev       # dev server
 deno task build     # static build into dist/
-deno task preview   # serve the built dist/```
+deno task preview   # serve the built dist/
+deno task lint      # ESLint over .js/.mjs/.ts/.vue/.astro
+deno task lint:fix  # same, applying automatic fixes
 ```
 
-There is no lint, type-check or test script. `deno task build` is the only automated check; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
+`deno task lint` and `deno task build` are the automated checks; both must pass. There is no type-check or test script; after touching the feed, inspect `dist/rss.xml` (the README lists external feed validators).
 
+- ESLint is configured in `eslint.config.js`, with one block per file type. `no-explicit-any` is off on purpose, and Vue uses the `flat/essential` preset.
 - The project runs on Deno 2.7.0 or newer, with no `package.json`. Dependencies are npm packages pinned to exact versions in the `imports` map of `deno.json`.
-- Tasks run Astro with the `--allow-*` flags in `deno.json` rather than `--allow-all`. Writes are limited to the project folder and network access to localhost. `--allow-run` and `--allow-ffi` are required by the build tools and are not restricted.
+- Tasks run Astro and ESLint with the `--allow-*` flags in `deno.json` rather than `--allow-all`. Writes are limited to the project folder and network access to localhost. `--allow-run` and `--allow-ffi` are required by the build tools and are not restricted.
 - The `ASTRO_TELEMETRY_DISABLED` variable (all tasks) and the `ASTRO_DISABLE_UPDATE_CHECK` variable (`dev` only) are required: without them Astro attempts things the permissions do not allow.
 - The `noExternal` and `alias` settings under `vite.resolve` in `astro.config.mjs` are required for the build.
 - Episode MP3s are stored in Git LFS.
@@ -59,4 +62,7 @@ Global styles are loaded once via `src/styles/main.scss` (imported in `BaseHead.
 
 ## CI
 
-The only workflows (`.github/workflows/pull-review*.yml`) run an AI PR review when a member, owner or collaborator comments `/review` on a pull request. Nothing builds or deploys from CI.
+- `.github/workflows/ci.yml` checks that `deno.lock` matches `deno.json` (`deno install --frozen`) and runs `deno task lint` on pushes and pull requests to `main`, once on the minimum supported Deno (2.7.0) and once on a recent version. If the minimum in the README changes, update the workflow too.
+- `.github/workflows/pull-review*.yml` run an AI PR review when a member, owner or collaborator comments `/review` on a pull request.
+
+Nothing builds or deploys from CI.

@@ -1,0 +1,28 @@
+name: CI
+permissions:
+  contents: read
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        # The minimum version stated in the README, and a recent one.
+        deno-version: [ v2.7.0, v2.9.7 ]
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: denoland/setup-deno@v2
+      with:
+        deno-version: ${{ matrix.deno-version }}
+    # Fails if deno.lock doesn't match deno.json.
+    - name: Install dependencies
+      run: deno install --frozen
+    - name: Run linter
+      run: deno task lint

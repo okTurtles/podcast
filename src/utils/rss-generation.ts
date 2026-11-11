@@ -1,16 +1,18 @@
 import sanitizeHtml from 'sanitize-html'
 import removeMd from 'remove-markdown'
 
+type XMLAttrs = Record<string, string | number | boolean>
+
 type TagEntry = {
   name: string,
-  attrs?: Record<string, any>,
+  attrs?: XMLAttrs,
   content?: string,
   noEscape?: boolean
 }
 
 type ItunesTagEntry = {
   tagName: string,
-  attrs?: Record<string, any>,
+  attrs?: XMLAttrs,
   value?: string,
   noEscape?: boolean
 }
@@ -26,9 +28,9 @@ const escapeXML = (content: string): string => {
     .replace(/'/g, '&apos;')
 }
 
-const generateXMLTag = (tag: string, attrs: Record<string, any> = {}, content: string = '', noEscape: boolean = false): string => {
+const generateXMLTag = (tag: string, attrs: XMLAttrs = {}, content: string = '', noEscape: boolean = false): string => {
   const attrsStr = Object.entries(attrs)
-    .map(([key, value]) => `${key}="${noEscape ? value : escapeXML(value)}"`)
+    .map(([key, value]) => `${key}="${noEscape ? value : escapeXML(String(value))}"`)
     .join(' ').trim()
 
   // Don't escape content if it contains CDATA
@@ -44,7 +46,7 @@ const generateXMLTags = (tags: TagEntry[]): string => {
   return tags.map(tag => generateXMLTag(tag.name, tag.attrs, tag.content, tag.noEscape)).join('\n')
 }
 
-const writeItunesTag = (tag: string,  attrs: Record<string, any> = {}, value: string = '', noEscape: boolean = false): string => {
+const writeItunesTag = (tag: string,  attrs: XMLAttrs = {}, value: string = '', noEscape: boolean = false): string => {
   return generateXMLTag(`itunes:${tag}`, attrs, value, noEscape)
 }
 
